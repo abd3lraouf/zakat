@@ -7,7 +7,7 @@ const { t } = useI18n()
 const authStore = useAuthStore()
 const { signIn, signOut, isConnected } = useGoogleAuth()
 const { forceSync, syncStatus, lastSyncedAt } = useDriveSync()
-const { showToast } = useToast()
+const { showToast } = useAppToast()
 
 const isSyncing = computed(() => syncStatus.value === 'syncing')
 

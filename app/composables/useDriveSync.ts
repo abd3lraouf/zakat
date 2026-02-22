@@ -1,7 +1,7 @@
 import { useCalculatorStore } from '~~/stores/calculator'
 import { useTrackerStore } from '~~/stores/tracker'
 import { useGoogleAuth } from '~/composables/useGoogleAuth'
-import { useToast } from '~/composables/useToast'
+import { useAppToast } from '~/composables/useToast'
 import type { SyncStatus } from '~~/shared/types'
 import { DEBOUNCE_SYNC } from '~/utils/constants'
 
@@ -15,7 +15,7 @@ const cloudData = ref<any>(null)
 export function useDriveSync() {
   const auth = useGoogleAuth()
   const config = useAppConfig()
-  const { showToast } = useToast()
+  const { showToast } = useAppToast()
 
   // ---------------------------------------------------------------------------
   // Export / Import helpers

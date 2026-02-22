@@ -7,7 +7,7 @@ const { t } = useI18n()
 const calcStore = useCalculatorStore()
 const trackerStore = useTrackerStore()
 const authStore = useAuthStore()
-const { showToast } = useToast()
+const { showToast } = useAppToast()
 
 const showClearModal = ref(false)
 

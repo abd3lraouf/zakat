@@ -1,20 +1,30 @@
-interface Toast {
-  id: number
-  message: string
-  type: 'success' | 'error' | 'warning' | 'info'
+type ToastType = 'success' | 'error' | 'warning' | 'info'
+
+const colorMap: Record<ToastType, string> = {
+  success: 'success',
+  error: 'error',
+  warning: 'warning',
+  info: 'info',
 }
 
-const toasts = ref<Toast[]>([])
-let nextId = 0
+const iconMap: Record<ToastType, string> = {
+  success: 'i-lucide-check-circle',
+  error: 'i-lucide-x-circle',
+  warning: 'i-lucide-triangle-alert',
+  info: 'i-lucide-info',
+}
 
-export function useToast() {
-  function showToast(message: string, type: Toast['type'] = 'success', duration = 3000) {
-    const id = nextId++
-    toasts.value.push({ id, message, type })
-    setTimeout(() => {
-      toasts.value = toasts.value.filter(t => t.id !== id)
-    }, duration)
+export function useAppToast() {
+  const toast = useToast()
+
+  function showToast(message: string, type: ToastType = 'success', duration = 3000) {
+    toast.add({
+      title: message,
+      color: colorMap[type] as any,
+      icon: iconMap[type],
+      duration,
+    })
   }
 
-  return { toasts: readonly(toasts), showToast }
+  return { showToast }
 }
