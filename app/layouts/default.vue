@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { useDriveSync } from '~/composables/useDriveSync'
+
+const { t } = useI18n()
+const { syncConflict, cloudData, resolveUseCloud, resolveKeepLocal } = useDriveSync()
+</script>
+
 <template>
   <div>
     <AppNavbar />
@@ -7,5 +14,100 @@
     </main>
     <AppBottomNav />
     <AppToast />
+
+    <!-- Sync conflict resolution modal -->
+    <AppModal v-model="syncConflict">
+      <div class="sync-conflict-modal">
+        <div class="sync-conflict-icon">
+          <Icon name="lucide:cloud" size="48" />
+        </div>
+        <h3 class="sync-conflict-title">{{ t('sync.conflictTitle') }}</h3>
+        <p class="sync-conflict-hint">{{ t('sync.conflictHint') }}</p>
+        <p v-if="cloudData?.modifiedTime" class="sync-conflict-date">
+          {{ t('sync.cloudDataFrom') }} {{ new Date(cloudData.modifiedTime).toLocaleDateString() }}
+        </p>
+        <div class="sync-conflict-actions">
+          <button class="btn btn-outline" @click="resolveKeepLocal">
+            {{ t('sync.keepLocal') }}
+          </button>
+          <button class="btn btn-primary" @click="resolveUseCloud">
+            {{ t('sync.useCloud') }}
+          </button>
+        </div>
+      </div>
+    </AppModal>
   </div>
 </template>
+
+<style scoped>
+.sync-conflict-modal {
+  text-align: center;
+}
+
+.sync-conflict-icon {
+  margin-bottom: 12px;
+  opacity: 0.8;
+  color: var(--color-parchment-600);
+}
+
+.sync-conflict-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-parchment-800);
+  margin-bottom: 8px;
+}
+
+.sync-conflict-hint {
+  font-size: 14px;
+  color: var(--color-parchment-500);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.sync-conflict-date {
+  font-size: 12px;
+  color: var(--color-parchment-400);
+  margin-bottom: 24px;
+}
+
+.sync-conflict-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 130px;
+}
+
+.btn-outline {
+  background: white;
+  color: var(--color-parchment-600);
+  border: 1.5px solid var(--color-parchment-200);
+}
+.btn-outline:hover {
+  border-color: var(--color-parchment-400);
+  background: var(--color-parchment-50);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-g-600), var(--color-g-700));
+  color: white;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-g-500), var(--color-g-600));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 108, 53, 0.35);
+}
+</style>

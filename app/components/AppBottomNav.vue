@@ -7,10 +7,10 @@ function isActive(path: string): boolean {
 }
 
 const navItems = [
-  { path: '/', icon: '\uD83C\uDFE0', labelKey: 'nav.home' },
-  { path: '/calculator', icon: '\uD83E\uDDEE', labelKey: 'nav.calculator' },
-  { path: '/tracker', icon: '\uD83D\uDCCB', labelKey: 'nav.tracker' },
-  { path: '/profile', icon: '\uD83D\uDC64', labelKey: 'nav.profile' },
+  { path: '/', icon: 'lucide:house', labelKey: 'nav.home' },
+  { path: '/calculator', icon: 'lucide:calculator', labelKey: 'nav.calculator' },
+  { path: '/tracker', icon: 'lucide:clipboard-list', labelKey: 'nav.tracker' },
+  { path: '/profile', icon: 'lucide:settings', labelKey: 'nav.settings' },
 ]
 </script>
 
@@ -23,7 +23,7 @@ const navItems = [
       class="bnav-btn"
       :class="{ active: isActive(item.path) }"
     >
-      <span>{{ item.icon }}</span>
+      <Icon :name="item.icon" size="20" />
       <span>{{ t(item.labelKey) }}</span>
     </NuxtLink>
   </nav>
@@ -34,12 +34,11 @@ const navItems = [
   display: none;
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(36, 61, 50, 0.85);
+  inset-inline: 0;
+  background: rgba(0, 61, 31, 0.92);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-top: 1px solid rgba(184, 148, 63, 0.15);
+  border-top: 1px solid rgba(198, 147, 10, 0.15);
   padding: 8px 20px;
   padding-bottom: max(8px, env(safe-area-inset-bottom));
   z-index: 90;
@@ -72,10 +71,6 @@ const navItems = [
 
 .bnav-btn.active {
   color: var(--color-gold);
-}
-
-.bnav-btn span:first-child {
-  font-size: 20px;
 }
 
 .bnav-btn span:last-child {

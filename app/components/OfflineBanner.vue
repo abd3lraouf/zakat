@@ -27,7 +27,7 @@ onUnmounted(() => {
       role="alert"
       aria-live="assertive"
     >
-      <span aria-hidden="true">&#128225;</span>
+      <Icon name="lucide:wifi-off" size="16" aria-hidden="true" />
       {{ t('sync.offline') }} &mdash; {{ t('offline.saved') }}
     </div>
   </Transition>
@@ -39,8 +39,7 @@ onUnmounted(() => {
   color: #fff;
   position: fixed;
   top: var(--spacing-navbar-h);
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   z-index: 90;
   padding: 8px 20px;
   text-align: center;

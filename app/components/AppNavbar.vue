@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import type { SyncStatus } from '~~/shared/types'
 import { useAuthStore } from '~~/stores/auth'
+import { useDriveSync } from '~/composables/useDriveSync'
+import { useGoogleAuth } from '~/composables/useGoogleAuth'
 
 const { t, locale, setLocale } = useI18n()
 const route = useRoute()
 const authStore = useAuthStore()
+const { syncStatus } = useDriveSync()
+const { isConnected } = useGoogleAuth()
 
-// TODO: Wire up real sync status from a composable when available
-const syncStatus = ref<SyncStatus>('offline')
+const { avatarUrl, showImage, onImgError } = useAvatar(64)
 
 const userInitials = computed(() => {
   const name = authStore.user?.name
@@ -28,10 +30,7 @@ function isActive(path: string): boolean {
   <nav class="navbar" role="navigation" :aria-label="t('nav.home')">
     <!-- Brand -->
     <NuxtLink to="/" class="nav-brand">
-      <div class="nav-logo" aria-hidden="true">&#9770;</div>
-      <span class="nav-title">
-        <span>{{ t('app.name') }}</span>
-      </span>
+      <span class="nav-logo">{{ t('app.name') }}</span>
     </NuxtLink>
 
     <!-- Desktop nav links -->
@@ -50,13 +49,6 @@ function isActive(path: string): boolean {
       >
         {{ t('nav.tracker') }}
       </NuxtLink>
-      <NuxtLink
-        to="/profile"
-        class="nav-link"
-        :class="{ active: isActive('/profile') }"
-      >
-        {{ t('nav.profile') }}
-      </NuxtLink>
     </div>
 
     <!-- Spacer -->
@@ -64,9 +56,9 @@ function isActive(path: string): boolean {
 
     <!-- Actions -->
     <div class="nav-actions">
-      <!-- Sync indicator (shown when authenticated) -->
+      <!-- Sync indicator (shown when connected to Drive) -->
       <SyncIndicator
-        v-if="authStore.isAuthenticated"
+        v-if="isConnected"
         :status="syncStatus"
       />
 
@@ -94,10 +86,28 @@ function isActive(path: string): boolean {
       <NuxtLink
         v-if="authStore.isAuthenticated"
         to="/profile"
-        class="user-initials"
-        :title="t('nav.profile')"
+        class="user-avatar"
+        :title="t('nav.settings')"
       >
-        {{ userInitials }}
+        <img
+          v-if="showImage"
+          :src="avatarUrl!"
+          :alt="authStore.user?.name || ''"
+          class="user-avatar-img"
+          referrerpolicy="no-referrer"
+          @error="onImgError"
+        />
+        <span v-else class="user-avatar-initials">{{ userInitials }}</span>
+      </NuxtLink>
+
+      <!-- Settings (shown when not authenticated) -->
+      <NuxtLink
+        v-else
+        to="/profile"
+        class="nav-settings-btn"
+        :title="t('nav.settings')"
+      >
+        <Icon name="lucide:settings" size="18" />
       </NuxtLink>
     </div>
   </nav>
@@ -107,13 +117,12 @@ function isActive(path: string): boolean {
 .navbar {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline: 0;
   height: var(--spacing-navbar-h);
-  background: rgba(36, 61, 50, 0.85);
+  background: rgba(0, 61, 31, 0.92);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid rgba(184, 148, 63, 0.15);
+  border-bottom: 1px solid rgba(198, 147, 10, 0.15);
   display: flex;
   align-items: center;
   padding: 0 24px;
@@ -132,37 +141,21 @@ function isActive(path: string): boolean {
 }
 
 .nav-logo {
-  width: 36px;
-  height: 36px;
-  background: var(--color-gold);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
+  font-family: 'Aref Ruqaa', 'Amiri', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-gold);
+  line-height: 1;
   flex-shrink: 0;
-  transition: box-shadow 0.3s var(--ease-out);
+  transition: text-shadow 0.3s var(--ease-out);
 }
 
 .nav-brand:hover .nav-logo {
-  box-shadow: 0 0 20px rgba(184, 148, 63, 0.4);
+  text-shadow: 0 0 20px rgba(198, 147, 10, 0.4);
 }
 
-.nav-title {
-  font-family: var(--font-en);
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.3px;
-}
-
-[dir="rtl"] .nav-title {
-  font-family: var(--font-ar);
-  font-size: 22px;
-}
-
-.nav-title span {
-  color: var(--color-gold);
+[dir="rtl"] .nav-logo {
+  font-size: 28px;
 }
 
 /* ── Desktop links ── */
@@ -192,7 +185,7 @@ function isActive(path: string): boolean {
 
 .nav-link.active {
   color: var(--color-gold);
-  background: rgba(184, 148, 63, 0.15);
+  background: rgba(198, 147, 10, 0.15);
 }
 
 /* ── Spacer ── */
@@ -241,13 +234,34 @@ function isActive(path: string): boolean {
 .lang-btn.active {
   background: var(--color-gold);
   color: var(--color-g-800);
-  box-shadow: 0 2px 8px rgba(184, 148, 63, 0.3);
+  box-shadow: 0 2px 8px rgba(198, 147, 10, 0.3);
 }
 
 /* ── User avatar ── */
-.user-initials {
+.user-avatar {
   width: 32px;
   height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+  overflow: hidden;
+}
+
+.user-avatar:hover {
+  box-shadow: 0 0 0 2px rgba(198, 147, 10, 0.4);
+}
+
+.user-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.user-avatar-initials {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   background: var(--color-gold);
   color: var(--color-g-800);
@@ -256,20 +270,32 @@ function isActive(path: string): boolean {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   font-family: var(--font-en);
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: box-shadow 0.2s;
 }
 
-.user-initials:hover {
-  box-shadow: 0 0 0 2px rgba(184, 148, 63, 0.4);
+/* ── Nav settings button (guest) ── */
+.nav-settings-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.nav-settings-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* ── Mobile ── */
 @media (max-width: 640px) {
-  .nav-links {
+  .nav-links,
+  .nav-settings-btn {
     display: none;
   }
 

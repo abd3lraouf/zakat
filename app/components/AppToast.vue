@@ -13,10 +13,10 @@ const { toasts } = useToast()
         role="status"
         aria-live="polite"
       >
-        <span v-if="toast.type === 'success'" aria-hidden="true">&#10003;</span>
-        <span v-else-if="toast.type === 'error'" aria-hidden="true">&#10007;</span>
-        <span v-else-if="toast.type === 'warning'" aria-hidden="true">&#9888;</span>
-        <span v-else aria-hidden="true">&#8505;</span>
+        <Icon v-if="toast.type === 'success'" name="lucide:check" size="16" aria-hidden="true" />
+        <Icon v-else-if="toast.type === 'error'" name="lucide:x" size="16" aria-hidden="true" />
+        <Icon v-else-if="toast.type === 'warning'" name="lucide:triangle-alert" size="16" aria-hidden="true" />
+        <Icon v-else name="lucide:info" size="16" aria-hidden="true" />
         {{ toast.message }}
       </div>
     </TransitionGroup>
@@ -47,22 +47,22 @@ const { toasts } = useToast()
 }
 
 .toast-success {
-  background: linear-gradient(135deg, #2f5244, #3d6b5a);
+  background: linear-gradient(135deg, #005229, #006C35);
   color: #fff;
 }
 
 .toast-error {
-  background: #b5382d;
+  background: #DC2626;
   color: #fff;
 }
 
 .toast-warning {
-  background: #9a6e28;
+  background: #D97706;
   color: #fff;
 }
 
 .toast-info {
-  background: #2e2a25;
+  background: #1F2937;
   color: #fff;
 }
 
