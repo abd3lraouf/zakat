@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Colors, Shadows, Radii, Transitions
+═══════════════════════════════════════════════════════════ */
+:root {
+  /* ── Greens — "Mosque Interior" sage/Ottoman ── */
+  --g-900: #1a2e24;
+  --g-800: #243d32;
+  --g-700: #2f5244;
+  --g-600: #3d6b5a;
+  --g-500: #528c75;
+  --g-400: #6aaa8f;
+  --g-300: #8fc4ad;
+  --g-200: #bddcc9;
+  --g-100: #e2f0e8;
+  --g-50:  #f0f7f3;
+
+  /* ── Gold — antique manuscript ── */
+  --gold:       #b8943f;
+  --gold-dark:  #96762e;
+  --gold-light: #d4b365;
+  --gold-pale:  #faf5e8;
+  --gold-muted: #f0e6c8;
+
+  /* ── Neutrals — warm parchment ── */
+  --white:     #ffffff;
+  --off-white: #f7f4ed;
+  --gray-50:   #f3f1ea;
+  --gray-100:  #e8e5dd;
+  --gray-200:  #d4d0c7;
+  --gray-400:  #8a847a;
+  --gray-500:  #706b62;
+  --gray-600:  #5c574f;
+  --gray-800:  #2e2a25;
+
+  /* ── Semantic ── */
+  --red:       #b5382d;
+  --red-light: #fdf1ef;
+  --red-soft:  #d4534a;
+  --warning:   #9a6e28;
+
+  /* ── Shadows — layered, neutral (no green tint) ── */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 4px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 8px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.12);
+  --shadow-xl: 0 8px 16px rgba(0,0,0,0.1), 0 24px 64px rgba(0,0,0,0.16);
+  --shadow-ring: 0 0 0 3px rgba(82,140,117,0.2);
+  --shadow-gold: 0 0 0 1px rgba(184,148,63,0.08), 0 4px 16px rgba(184,148,63,0.06);
+  --shadow-gold-lg: 0 0 0 1px rgba(184,148,63,0.12), 0 8px 32px rgba(184,148,63,0.1);
+
+  /* ── Border Radius ── */
+  --radius-xs:   6px;
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-pill: 999px;
+
+  /* ── Typography ── */
+  --font-en:   'Playfair Display', Georgia, serif;
+  --font-ar:   'Noto Naskh Arabic', Georgia, serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+
+  /* ── Transitions ── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.15s var(--ease-out);
+  --transition: 0.25s var(--ease-out);
+
+  /* ── Layout ── */
+  --navbar-h: 64px;
+}
+
+/* ── Dark Mode — "Desert Night Sky" ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --white:     #161b20;
+    --off-white: #1a2027;
+    --gray-50:   #1e252d;
+    --gray-100:  #252d36;
+    --gray-200:  #313b46;
+    --gray-400:  #8d99a6;
+    --gray-500:  #9aa5b2;
+    --gray-600:  #b8c0c9;
+    --gray-800:  #e4e8ec;
+
+    --g-50:  #172028;
+    --g-100: #1c2a32;
+    --g-200: #253840;
+    --g-500: #5eb893;
+    --g-600: #4a9e7d;
+
+    --gold:       #d4a93d;
+    --gold-light: #e0bc5a;
+    --gold-pale:  #252018;
+    --gold-muted: #2e2718;
+
+    --red-light: #2d1f1e;
+    --warning: #c9923a;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+    --shadow-md: 0 2px 4px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.2);
+    --shadow-lg: 0 4px 8px rgba(0,0,0,0.25), 0 16px 48px rgba(0,0,0,0.3);
+    --shadow-gold: 0 0 0 1px rgba(212,169,61,0.12), 0 4px 16px rgba(212,169,61,0.08);
+    --shadow-gold-lg: 0 0 0 1px rgba(212,169,61,0.18), 0 8px 32px rgba(212,169,61,0.12);
+  }
+}

@@ -9,7 +9,7 @@ See the [Setup Guide](docs/SETUP.md) for repository setup and deployment. For lo
 ```bash
 git clone https://github.com/abd3lraouf/zakat.git
 cd zakat
-npm install          # dev dependencies for testing
+bun install          # dev dependencies for testing
 python3 -m http.server 8080
 ```
 
@@ -17,7 +17,7 @@ python3 -m http.server 8080
 
 1. Create a feature branch: `git checkout -b feature/my-change`
 2. Make your changes to `index.html`
-3. Run tests: `npm test`
+3. Run tests: `bun test`
 4. Test manually:
    - Switch between EN/AR — verify translations and RTL layout
    - Toggle OS dark mode — verify all colors adapt
@@ -39,9 +39,9 @@ Tests use [Vitest](https://vitest.dev/) with JSDOM. Test files are in `tests/`:
 | `dom.test.js` | Accessibility, security, meta tags |
 
 ```bash
-npm test              # Run all tests once
-npm run test:watch    # Watch mode
-npm run test:coverage # With coverage report
+bun test              # Run all tests once
+bun run test:watch    # Watch mode
+bun run test:coverage # With coverage report
 ```
 
 ### Writing Tests
@@ -72,7 +72,7 @@ it('my test', () => {
 
 ## Pull Request Checklist
 
-- [ ] Tests pass (`npm test`)
+- [ ] Tests pass (`bun test`)
 - [ ] Both EN and AR translations added for new strings
 - [ ] Dark mode works (no hardcoded colors)
 - [ ] RTL layout works (use logical CSS properties)

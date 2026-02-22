@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { createApp, resetState } from './helpers.js';
 
 let win, app;
@@ -172,7 +172,9 @@ describe('localStorage', () => {
   });
 
   it('loadLocal handles corrupted JSON', () => {
+    const spy = vi.spyOn(win.console, 'warn').mockImplementation(() => {});
     win.localStorage.setItem('zakat_app_data', '{not valid json');
     expect(() => win.loadLocal()).not.toThrow();
+    spy.mockRestore();
   });
 });

@@ -20,13 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
+      - uses: oven-sh/setup-bun@v2
 
-      - run: npm install
-      - run: npm test
+      - run: bun install
+      - run: bun test
 
   deploy:
     needs: test
@@ -43,6 +40,7 @@ jobs:
         run: |
           mkdir _site
           cp index.html 404.html _site/
+          cp -r css js _site/
 
       - uses: actions/upload-pages-artifact@v3
         with:

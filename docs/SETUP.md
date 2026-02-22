@@ -114,7 +114,7 @@ Commit and push — Google Sync is now active.
 ### CI — Pull Requests
 
 `.github/workflows/ci.yml` runs on every PR to `main`:
-- Node.js 20 + `npm install` + `npm test`
+- Bun + `bun install` + `bun test`
 
 ### Deploy — Push to main
 

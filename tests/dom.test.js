@@ -1,10 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { createApp } from './helpers.js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { createApp, getAllCss } from './helpers.js';
 
 let win, doc, app;
 
@@ -43,12 +38,6 @@ describe('Accessibility: DOM structure', () => {
     });
   });
 
-  it('more-button has aria-haspopup and aria-expanded', () => {
-    const btn = doc.getElementById('more-btn');
-    expect(btn.getAttribute('aria-haspopup')).toBe('true');
-    expect(btn.getAttribute('aria-expanded')).toBeTruthy();
-  });
-
   it('sync indicator has aria-live', () => {
     const sync = doc.getElementById('sync-indicator');
     expect(sync.getAttribute('aria-live')).toBe('polite');
@@ -70,15 +59,21 @@ describe('Accessibility: DOM structure', () => {
     expect(calcBtn.getAttribute('title')).toContain('Alt+C');
     expect(trackBtn.getAttribute('title')).toContain('Alt+T');
   });
+
+  it('profile view exists', () => {
+    const profileView = doc.getElementById('view-profile');
+    expect(profileView).not.toBeNull();
+  });
+
+  it('bottom nav has profile button', () => {
+    const bnavProfile = doc.getElementById('bnav-profile');
+    expect(bnavProfile).not.toBeNull();
+  });
 });
 
 // ──────────────── CSS checks ───────────────────────────────
 describe('CSS features', () => {
-  const rawCss = (() => {
-    const html = fs.readFileSync(path.resolve(__dirname, '..', 'index.html'), 'utf-8');
-    const match = html.match(/<style>([\s\S]*?)<\/style>/);
-    return match ? match[1] : '';
-  })();
+  const rawCss = getAllCss();
 
   it('has prefers-reduced-motion media query', () => {
     expect(rawCss).toContain('prefers-reduced-motion: reduce');
@@ -138,7 +133,7 @@ describe('Meta tags', () => {
   it('has theme-color meta tag', () => {
     const theme = doc.querySelector('meta[name="theme-color"]');
     expect(theme).not.toBeNull();
-    expect(theme.getAttribute('content')).toBe('#0d3d2b');
+    expect(theme.getAttribute('content')).toBe('#243d32');
   });
 
   it('has Open Graph tags', () => {
@@ -228,6 +223,12 @@ describe('View navigation', () => {
     expect(doc.getElementById('nav-calculator-btn').classList.contains('active')).toBe(true);
     expect(doc.getElementById('nav-tracker-btn').classList.contains('active')).toBe(false);
   });
+
+  it('showView can navigate to profile', () => {
+    win.showView('profile');
+    expect(doc.getElementById('view-profile').classList.contains('active')).toBe(true);
+    expect(doc.getElementById('view-calculator').classList.contains('active')).toBe(false);
+  });
 });
 
 // ──────────────── Toast notifications ──────────────────────
@@ -245,5 +246,23 @@ describe('Toast notifications', () => {
     const container = doc.getElementById('toast-container');
     const toasts = container.querySelectorAll('.toast.error');
     expect(toasts.length).toBeGreaterThan(0);
+  });
+});
+
+// ──────────────── Landing page states ──────────────────────
+describe('Landing page CTA states', () => {
+  it('has guest-cta and user-cta elements', () => {
+    expect(doc.getElementById('guest-cta')).not.toBeNull();
+    expect(doc.getElementById('user-cta')).not.toBeNull();
+  });
+
+  it('user-cta is hidden by default', () => {
+    const userCta = doc.getElementById('user-cta');
+    expect(userCta.classList.contains('hidden')).toBe(true);
+  });
+
+  it('guest-cta is visible by default', () => {
+    const guestCta = doc.getElementById('guest-cta');
+    expect(guestCta.classList.contains('hidden')).toBe(false);
   });
 });

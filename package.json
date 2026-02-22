@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Bilingual Zakat calculator and payment tracker",
   "scripts": {
+    "dev": "echo '\n  Server running at http://localhost:8080\n' && python3 -m http.server 8080",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"

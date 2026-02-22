@@ -1,5 +1,6 @@
 /**
- * Test helper — loads index.html into a JSDOM instance with inline scripts executed.
+ * Test helper — loads index.html into a JSDOM instance.
+ * External JS files (js/*.js) are inlined so JSDOM can execute them.
  * External scripts (Google API) are stripped so tests run offline.
  */
 import { JSDOM } from 'jsdom';
@@ -8,25 +9,58 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const htmlPath = path.resolve(__dirname, '..', 'index.html');
+const rootDir = path.resolve(__dirname, '..');
+
+/** Script load order — matches index.html */
+const JS_FILES = [
+  'js/config.js',
+  'js/state.js',
+  'js/i18n.js',
+  'js/ui.js',
+  'js/calculator.js',
+  'js/tracker.js',
+  'js/google.js',
+  'js/profile.js',
+  'js/app.js',
+];
 
 let cachedHtml;
 
 function getCleanHtml() {
   if (!cachedHtml) {
-    let html = fs.readFileSync(htmlPath, 'utf-8');
-    // Strip external script tags (Google API) to prevent network requests
+    let html = fs.readFileSync(path.resolve(rootDir, 'index.html'), 'utf-8');
+
+    // Strip external CDN script tags (Google API)
     html = html.replace(/<script\s+src="https:\/\/[^"]*"[^>]*><\/script>/g, '');
+
+    // Replace <script src="js/xxx.js"></script> with inline <script>…</script>
+    for (const file of JS_FILES) {
+      const srcPattern = new RegExp(
+        '<script\\s+src="' + file.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"\\s*>\\s*</script>',
+        'g'
+      );
+      const code = fs.readFileSync(path.resolve(rootDir, file), 'utf-8');
+      html = html.replace(srcPattern, '<script>\n' + code + '\n</script>');
+    }
+
     cachedHtml = html;
   }
   return cachedHtml;
 }
 
 /**
+ * Read and concatenate all CSS files for CSS-level tests.
+ */
+export function getAllCss() {
+  const cssFiles = ['css/tokens.css', 'css/base.css', 'css/components.css', 'css/views.css', 'css/utilities.css'];
+  return cssFiles.map(f => fs.readFileSync(path.resolve(rootDir, f), 'utf-8')).join('\n');
+}
+
+/**
  * Create a fresh app instance in JSDOM.
  * Returns { dom, window, document, app } where app contains module-scoped constants.
  *
- * The inline script uses `const` declarations (state, i18n, CONFIG, etc.) which
+ * The scripts use `const` declarations (state, i18n, CONFIG, etc.) which
  * live in the global lexical scope but are NOT properties of `window`. To access
  * them, we inject a tiny script that captures references onto window._app.
  */
