@@ -4,117 +4,139 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Zakat App — a bilingual (Arabic/English) single-page web application for calculating Islamic Zakat and tracking payments. Zero dependencies, no build step, no backend. Optional Google Drive sync. Deployed to GitHub Pages.
+Zakat App — a bilingual (Arabic/English) single-page web application for calculating Islamic Zakat and tracking payments. Built with Nuxt 4, Vue 3, Pinia, Tailwind CSS v4, and @nuxtjs/i18n. Optional Google Drive sync. Deployed to GitHub Pages.
 
 ## Development
 
 ```bash
-# Serve locally
-python3 -m http.server 8080
-# Open http://localhost:8080
+# Install dependencies
+bun install
+
+# Start dev server (opens at http://localhost:3000)
+bun run dev
 
 # Run tests
-bun test
+bun run test
+
+# Build for production
+bun run build
+
+# Preview production build
+bun run preview
 ```
 
-No build tools required. The app uses plain `<script>` tags loaded in dependency order (no ES modules, no bundler). Tests use vitest with JSDOM. Uses bun as the package manager.
-
-Deployment is automatic via GitHub Actions on push to `main` (see `deploy.yml`).
+Uses bun as the package manager. Deployment is automatic via GitHub Actions on push to `main` (see `deploy.yml`).
 
 ## Architecture
 
-**Multi-file SPA** — `index.html` contains only HTML structure, with external CSS and JS files:
+**Nuxt 4 SPA** with `app/` directory convention, TypeScript, Vue 3 Composition API, Pinia stores, Tailwind CSS v4, and @nuxtjs/i18n.
 
 ### File Structure
 
 ```
 zakat/
-├── index.html              # HTML only (views, structure)
-├── 404.html                # SPA redirect for GitHub Pages
-├── css/
-│   ├── tokens.css          # Design tokens (colors, shadows, radii, spacing)
-│   ├── base.css            # Reset, typography, body, background pattern
-│   ├── components.css      # Navbar, cards, buttons, inputs, table, modals, toasts
-│   ├── views.css           # Landing, calculator, tracker, profile view styles
-│   └── utilities.css       # Utility classes, print styles, animations
-├── js/
-│   ├── config.js           # CONFIG object, TRANSLATIONS (EN + AR)
-│   ├── state.js            # State object, saveLocal(), loadLocal(), export/import, utilities
-│   ├── i18n.js             # i18n module, setLang(), apply()
-│   ├── ui.js               # showView(), showToast(), openModal(), closeModal(), export/import UI
-│   ├── calculator.js       # ASSET_DEFS, calcZakat(), updateSummaryPanel(), custom assets
-│   ├── tracker.js          # addTrackerRow(), renderTrackerTable(), updateTrackerSummary()
-│   ├── google.js           # Google Sign-In, Drive sync, online/offline detection
-│   ├── profile.js          # Profile page: updateProfileView(), forceSync(), clearAllData()
-│   └── app.js              # Entry point: init(), DOMContentLoaded, keyboard shortcuts
+├── app/
+│   ├── app.vue                     # Root component
+│   ├── app.config.ts               # App-level configuration
+│   ├── assets/css/
+│   │   ├── main.css                # Tailwind v4 entry + theme tokens
+│   │   └── base.css                # Base styles, typography, patterns
+│   ├── components/
+│   │   ├── AppBottomNav.vue        # Bottom navigation bar
+│   │   ├── AppModal.vue            # Reusable modal dialog
+│   │   ├── AppNavbar.vue           # Top navigation bar
+│   │   ├── AppToast.vue            # Toast notification
+│   │   ├── OfflineBanner.vue       # Offline status indicator
+│   │   ├── SyncIndicator.vue       # Google Drive sync status
+│   │   ├── calculator/             # Calculator-specific components
+│   │   ├── tracker/                # Tracker-specific components
+│   │   └── profile/                # Profile-specific components
+│   ├── composables/
+│   │   ├── useGoogleAuth.ts        # Google Sign-In composable
+│   │   └── useToast.ts             # Toast notification composable
+│   ├── layouts/
+│   │   └── default.vue             # Default layout (navbar + bottom nav)
+│   ├── pages/
+│   │   ├── index.vue               # Landing page
+│   │   ├── calculator.vue          # Zakat calculator page
+│   │   ├── tracker.vue             # Payment tracker page
+│   │   └── profile.vue             # Profile & settings page
+│   ├── plugins/
+│   │   ├── google-sdk.client.ts    # Google SDK loader (client-only)
+│   │   └── pinia-persist.ts        # Pinia persistence plugin
+│   ├── types/
+│   │   └── google.d.ts             # Google API type declarations
+│   └── utils/
+│       ├── constants.ts            # CONFIG, Nisab thresholds, Zakat rate
+│       └── format.ts               # fmtEGP(), fmtPct(), safeNum(), escapeHtml()
+├── stores/
+│   ├── auth.ts                     # Auth store (Google sign-in state)
+│   ├── calculator.ts               # Calculator store (assets, deductions, zakat calc)
+│   └── tracker.ts                  # Tracker store (payment entries, progress)
+├── shared/
+│   └── types/
+│       └── index.ts                # Shared TypeScript types
+├── locales/
+│   ├── en.json                     # English translations
+│   └── ar.json                     # Arabic translations
+├── public/                         # Static assets (favicon, etc.)
 ├── tests/
-│   ├── helpers.js           # JSDOM setup, inlines JS files for testing
-│   ├── calculator.test.js
-│   ├── state.test.js
-│   ├── i18n.test.js
-│   ├── tracker.test.js
-│   ├── utils.test.js
-│   └── dom.test.js
+│   └── unit/                       # Vitest unit tests
+│       ├── calculator.test.ts
+│       ├── format.test.ts
+│       ├── i18n.test.ts
+│       └── tracker.test.ts
+├── nuxt.config.ts                  # Nuxt configuration
+├── vitest.config.ts                # Vitest configuration
+├── tsconfig.json                   # TypeScript configuration
 └── .github/workflows/
-    ├── deploy.yml           # Copies index.html, 404.html, css/, js/ to _site/
-    └── ci.yml
+    ├── deploy.yml                  # Build + deploy to GitHub Pages
+    └── ci.yml                      # PR checks (test + build)
 ```
 
-### JS Load Order
+### Nuxt Modules
 
-Scripts are loaded as plain `<script>` tags in strict dependency order (not ES modules):
+- **@pinia/nuxt** — State management with Pinia stores
+- **@nuxtjs/tailwindcss** — Tailwind CSS v4 integration
+- **@nuxtjs/i18n** — Internationalization (Arabic + English, RTL/LTR)
+- **@nuxtjs/google-fonts** — Google Fonts (Noto Naskh Arabic, DM Mono, Playfair Display)
 
-`config.js` → `state.js` → `i18n.js` → `ui.js` → `calculator.js` → `tracker.js` → `google.js` → `profile.js` → `app.js`
+### Pages / Views
 
-Each file uses global scope — functions and `const` declarations in earlier files are accessible to later files. `var` is used for mutable shared variables (saveTimer, syncTimer, googleAccessToken, etc.).
-
-### Views
-
-Four views toggled via `showView(name)`:
-- **Landing** — Welcome page with guest CTA (sign-in) and user CTA (welcome back)
-- **Calculator** — Zakat calculation with asset inputs, deductions, and live summary
-- **Tracker** — Payment log table with progress tracking
-- **Profile** — Account info, sync controls, data management (export/import/clear), about
+Four pages via Nuxt file-based routing:
+- **`/`** (Landing) — Welcome page with guest CTA (sign-in) and user CTA (welcome back)
+- **`/calculator`** — Zakat calculation with asset inputs, deductions, and live summary
+- **`/tracker`** — Payment log table with progress tracking
+- **`/profile`** — Account info, sync controls, data management (export/import/clear), about
 
 ### State Management
 
-Global `state` object holds all app data:
-- `state.calculator` — prices, assets (9 types), deductions, custom assets
-- `state.tracker` — payment entries array
-- `state.zakatDue` / `state.nisabMet` — computed values
-
-State persists to `localStorage` under key `zakat_app_data` with 500ms debounced saves.
+Pinia stores with localStorage persistence via `pinia-plugin-persistedstate`:
+- **`useCalculatorStore`** — prices, assets (9 types), deductions, custom assets, computed zakat
+- **`useTrackerStore`** — payment entries array, computed totals and progress
+- **`useAuthStore`** — Google sign-in state, user profile
 
 ### Key Architectural Patterns
 
-- **i18n**: Translation keys in `TRANSLATIONS` object (Arabic + English). `i18n.t(key)` for lookups. Auto-detects browser locale. Handles RTL/LTR switching.
-- **Google Drive Sync**: Uses Drive AppData folder (invisible to user). Conflict resolution prompts user when modification timestamps diverge. 3s debounced sync.
-- **Config constants**: `CONFIG` object in `js/config.js` — contains Google Client ID, Nisab thresholds (gold: 87.48g, silver: 612.36g), Zakat rate (2.5%).
-
-### Core Functions
-
-| Area | File | Key Functions |
-|------|------|--------------|
-| Calculation | `calculator.js` | `calcZakat()`, `updateSummaryPanel()`, `renderAssetRows()` |
-| Tracker | `tracker.js` | `addTrackerRow()`, `deleteTrackerRow()`, `renderTrackerTable()`, `updateTrackerSummary()` |
-| Storage | `state.js` | `saveLocal()`, `loadLocal()`, `buildExportData()`, `applyImportData()` |
-| Drive Sync | `google.js` | `startGoogleSignIn()`, `uploadToDrive()`, `downloadFromDrive()`, `checkDriveData()` |
-| UI | `ui.js` | `showView()`, `showToast()`, `openModal()`, `closeModal()` |
-| Profile | `profile.js` | `updateProfileView()`, `forceSync()`, `disconnectGoogle()`, `clearAllData()` |
-| Utilities | `state.js` | `fmtEGP()`, `escapeHtml()`, `safeNum()`, `fmtPct()` |
-
-### External Dependencies
-
-None installed. External services loaded via CDN:
-- Google Sign-In (`accounts.google.com/gsi/client`)
-- Google Drive API v3
-- Google Fonts (Noto Naskh Arabic, DM Mono, Playfair Display)
+- **Composition API**: All components use `<script setup lang="ts">` with Vue 3 Composition API.
+- **i18n**: Translation keys in `locales/en.json` and `locales/ar.json`. Uses `useI18n()` composable with `$t()` for lookups. Auto-detects browser locale. Handles RTL/LTR switching.
+- **Google Drive Sync**: Uses Drive AppData folder (invisible to user). Managed via `useGoogleAuth` composable. Conflict resolution prompts user when modification timestamps diverge.
+- **Config constants**: `CONFIG` object in `app/utils/constants.ts` — contains Google Client ID, Nisab thresholds (gold: 87.48g, silver: 612.36g), Zakat rate (2.5%).
+- **SPA Mode**: `ssr: false` in nuxt.config.ts for GitHub Pages compatibility.
 
 ### Testing
 
-Tests use vitest with JSDOM. The test helper (`tests/helpers.js`) reads `index.html` and replaces external `<script src="js/...">` tags with inlined file contents so JSDOM can execute them. CSS tests read from external CSS files via `getAllCss()`.
+Tests use Vitest with happy-dom. Test files live in `tests/unit/` and use TypeScript.
 
 ```bash
-bun test        # Run all tests
-bunx vitest run # Same thing
+bun run test            # Run all tests
+bun run test:watch      # Watch mode
+bun run test:coverage   # With coverage
 ```
+
+### External Dependencies
+
+External services loaded via plugins:
+- Google Sign-In (`accounts.google.com/gsi/client`) — loaded by `google-sdk.client.ts` plugin
+- Google Drive API v3
+- Google Fonts — managed by `@nuxtjs/google-fonts` module
