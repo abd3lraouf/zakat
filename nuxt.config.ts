@@ -1,3 +1,5 @@
+import tailwindcss from '@tailwindcss/vite'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -5,10 +7,13 @@ export default defineNuxtConfig({
 
   modules: [
     '@pinia/nuxt',
-    '@nuxtjs/tailwindcss',
     '@nuxtjs/i18n',
     '@nuxtjs/google-fonts',
   ],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
 
   css: [
     '~/assets/css/main.css',
@@ -51,10 +56,6 @@ export default defineNuxtConfig({
     },
     lazy: true,
     langDir: '../locales',
-  },
-
-  tailwindcss: {
-    cssPath: '~/assets/css/main.css',
   },
 
   devtools: { enabled: true },

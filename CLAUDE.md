@@ -97,7 +97,7 @@ zakat/
 ### Nuxt Modules
 
 - **@pinia/nuxt** — State management with Pinia stores
-- **@nuxtjs/tailwindcss** — Tailwind CSS v4 integration
+- **@tailwindcss/vite** — Tailwind CSS v4 via Vite plugin
 - **@nuxtjs/i18n** — Internationalization (Arabic + English, RTL/LTR)
 - **@nuxtjs/google-fonts** — Google Fonts (Noto Naskh Arabic, DM Mono, Playfair Display)
 
