@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SyncStatus } from '~~/shared/types'
+import { useAuthStore } from '~~/stores/auth'
 
 const { t, locale, setLocale } = useI18n()
 const route = useRoute()
