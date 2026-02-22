@@ -82,13 +82,13 @@ function addCustomAsset() {
 }
 
 .section-title {
-  font-size: clamp(22px, 4vw, 30px);
+  font-size: var(--text-xl);
   color: var(--color-g-800);
   margin-bottom: 6px;
-  font-family: var(--font-en);
+  font-family: var(--font-en-serif);
 }
 [dir="rtl"] .section-title {
-  font-family: var(--font-ar);
+  font-family: var(--font-ar-serif);
 }
 .section-title::after {
   content: '\25C6';
@@ -99,9 +99,9 @@ function addCustomAsset() {
 }
 
 .section-sub {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-parchment-400);
-  letter-spacing: 0.3px;
+  letter-spacing: var(--tracking-wide);
 }
 
 /* ── Two-column layout ── */
@@ -151,13 +151,9 @@ function addCustomAsset() {
 }
 
 .card-header h3 {
-  font-size: 15px;
+  font-size: var(--text-md);
   color: var(--color-parchment-800);
-  font-weight: 600;
-}
-[dir="rtl"] .card-header h3 {
-  font-family: var(--font-ar);
-  font-size: 17px;
+  font-weight: var(--weight-semi);
 }
 
 .card-body {
@@ -197,7 +193,7 @@ function addCustomAsset() {
 .btn-gold:hover {
   background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(184, 148, 63, 0.35);
+  box-shadow: 0 4px 12px rgba(198, 147, 10, 0.35);
 }
 .btn-gold:active {
   transform: translateY(0) scale(0.97);

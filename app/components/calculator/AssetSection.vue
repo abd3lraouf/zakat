@@ -45,9 +45,9 @@ function setValue(def: AssetDef, value: number) {
 }
 
 .asset-section-title {
-  font-size: 12px;
+  font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: var(--tracking-widest);
   color: var(--color-parchment-400);
   padding: 12px 0 8px;
   border-bottom: 1px solid var(--color-parchment-100);

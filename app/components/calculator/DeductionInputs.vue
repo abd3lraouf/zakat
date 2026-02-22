@@ -61,13 +61,9 @@ const { t } = useI18n()
 }
 
 .card-header h3 {
-  font-size: 15px;
+  font-size: var(--text-md);
   color: var(--color-parchment-800);
-  font-weight: 600;
-}
-[dir="rtl"] .card-header h3 {
-  font-family: var(--font-ar);
-  font-size: 17px;
+  font-weight: var(--weight-semi);
 }
 
 .card-body {

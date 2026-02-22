@@ -59,25 +59,20 @@ function onInput(event: Event) {
 }
 
 .form-label {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-parchment-600);
-  font-family: var(--font-mono);
-}
-[dir="rtl"] .form-label {
-  font-family: var(--font-ar);
-  font-size: 14px;
 }
 
 .form-label strong {
   display: block;
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   color: var(--color-parchment-800);
   margin-bottom: 2px;
 }
 
 .form-input {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: var(--text-base);
   padding: 11px 14px;
   min-height: 44px;
   border: 1.5px solid var(--color-parchment-200);
@@ -97,16 +92,16 @@ function onInput(event: Event) {
 }
 
 .input-unit {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-parchment-400);
   white-space: nowrap;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
 }
 
 .input-value {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semi);
   color: var(--color-g-600);
   white-space: nowrap;
   min-width: 100px;

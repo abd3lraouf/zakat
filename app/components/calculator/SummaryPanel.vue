@@ -204,13 +204,13 @@ const hasAnyValue = computed(() => {
 }
 .summary-panel-header h3 {
   color: #fff;
-  font-size: 16px;
+  font-size: var(--text-md);
   margin-bottom: 4px;
 }
 .summary-panel-header p {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-wider);
 }
 
 /* ── Empty state ── */
@@ -224,8 +224,8 @@ const hasAnyValue = computed(() => {
   color: rgba(255, 255, 255, 0.4);
 }
 .calc-empty p {
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
 }
 
 /* ── Summary lines ── */
@@ -257,10 +257,10 @@ const hasAnyValue = computed(() => {
   color: rgba(255, 255, 255, 0.75);
 }
 .sum-line-value {
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   color: #fff;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-sm);
 }
 .sum-line-value.positive {
   color: var(--color-g-400);
@@ -281,7 +281,7 @@ const hasAnyValue = computed(() => {
 }
 .sum-line.total .sum-line-value {
   color: #fff;
-  font-size: 15px;
+  font-size: var(--text-md);
 }
 
 /* ── Divider ── */
@@ -342,9 +342,9 @@ const hasAnyValue = computed(() => {
   background-size: 40px 40px;
 }
 .zakat-result-label {
-  font-size: 12px;
+  font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: var(--tracking-widest);
   color: var(--color-g-800);
   opacity: 0.85;
   margin-bottom: 6px;
@@ -352,10 +352,10 @@ const hasAnyValue = computed(() => {
 }
 .zakat-result-value {
   font-family: var(--font-en-serif);
-  font-size: 28px;
-  font-weight: 700;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
   color: var(--color-g-800);
-  line-height: 1;
+  line-height: var(--leading-tight);
   position: relative;
 }
 

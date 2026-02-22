@@ -73,19 +73,15 @@ const { t } = useI18n()
 }
 
 .card-header h3 {
-  font-size: 15px;
+  font-size: var(--text-md);
   color: var(--color-parchment-800);
-  font-weight: 600;
-}
-[dir="rtl"] .card-header h3 {
-  font-family: var(--font-ar);
-  font-size: 17px;
+  font-weight: var(--weight-semi);
 }
 
 .price-note {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-parchment-400);
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
 }
 
@@ -94,7 +90,7 @@ const { t } = useI18n()
 }
 
 .price-hint {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-parchment-400);
   margin-bottom: 16px;
 }
@@ -113,16 +109,16 @@ const { t } = useI18n()
 
 .price-item label {
   display: block;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-parchment-400);
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: var(--tracking-wider);
   margin-bottom: 5px;
 }
 
 .price-item input {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: var(--text-base);
   padding: 11px 14px;
   min-height: 44px;
   border: 1.5px solid var(--color-parchment-200);

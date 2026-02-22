@@ -62,9 +62,9 @@ function onAmountInput(index: number, event: Event) {
 }
 
 .asset-section-title {
-  font-size: 12px;
+  font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: var(--tracking-widest);
   color: var(--color-parchment-400);
   padding: 12px 0 8px;
   border-bottom: 1px solid var(--color-parchment-100);
@@ -92,7 +92,7 @@ function onAmountInput(index: number, event: Event) {
 
 .custom-label-input,
 .custom-amount-input {
-  font-size: 14px;
+  font-size: var(--text-base);
   padding: 11px 14px;
   min-height: 44px;
   border: 1.5px solid var(--color-parchment-200);
@@ -119,16 +119,16 @@ function onAmountInput(index: number, event: Event) {
 }
 
 .input-unit {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-parchment-400);
   white-space: nowrap;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
 }
 
 .input-value {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semi);
   color: var(--color-g-600);
   white-space: nowrap;
   min-width: 100px;
@@ -144,7 +144,7 @@ function onAmountInput(index: number, event: Event) {
   background: transparent;
   color: var(--color-parchment-400);
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--text-md);
   display: flex;
   align-items: center;
   justify-content: center;
