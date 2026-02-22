@@ -135,13 +135,12 @@ function clearAllPayments() {
   border-radius: 2px 0 0 2px;
 }
 .card-header h3 {
-  font-size: 15px;
+  font-size: var(--text-md);
   color: var(--color-parchment-800);
-  font-weight: 600;
+  font-weight: var(--weight-semi);
 }
 [dir="rtl"] .card-header h3 {
   font-family: var(--font-ar);
-  font-size: 17px;
 }
 
 .header-actions {
@@ -168,11 +167,11 @@ thead tr {
 thead th {
   padding: 12px 14px;
   text-align: start;
-  font-size: 12px;
-  letter-spacing: 1.2px;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
   color: var(--color-parchment-400);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   white-space: nowrap;
   border-bottom: 1px solid var(--color-parchment-100);
 }
@@ -193,8 +192,8 @@ thead th {
   margin-bottom: 8px;
 }
 .tracker-empty p {
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
 }
 
 /* ── Add row bar ── */
@@ -257,11 +256,11 @@ thead th {
   border-radius: var(--radius-sm);
   border: none;
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0.3px;
+  letter-spacing: var(--tracking-wide);
   white-space: nowrap;
 }
 

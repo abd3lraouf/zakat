@@ -40,13 +40,13 @@ const { t } = useI18n()
 }
 
 .section-title {
-  font-size: clamp(22px, 4vw, 30px);
+  font-size: var(--text-xl);
   color: var(--color-g-800);
   margin-bottom: 6px;
-  font-family: var(--font-en);
+  font-family: var(--font-en-serif);
 }
 [dir="rtl"] .section-title {
-  font-family: var(--font-ar);
+  font-family: var(--font-ar-serif);
 }
 .section-title::after {
   content: '\25C6';
@@ -57,8 +57,8 @@ const { t } = useI18n()
 }
 
 .section-sub {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-parchment-400);
-  letter-spacing: 0.3px;
+  letter-spacing: var(--tracking-wide);
 }
 </style>

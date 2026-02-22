@@ -36,8 +36,8 @@ const { t } = useI18n()
   padding: 16px 24px;
   border-radius: var(--radius-md);
   margin-bottom: 20px;
-  font-weight: 600;
-  font-size: 15px;
+  font-weight: var(--weight-semi);
+  font-size: var(--text-md);
   text-align: center;
   animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }

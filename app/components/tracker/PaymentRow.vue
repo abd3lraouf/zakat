@@ -108,7 +108,7 @@ td {
 
 .td-num {
   color: var(--color-parchment-400);
-  font-size: 12px;
+  font-size: var(--text-xs);
   text-align: center;
   width: 40px;
 }
@@ -119,7 +119,7 @@ td {
   padding: 10px 8px;
   min-height: 44px;
   background: transparent;
-  font-size: 13px;
+  font-size: var(--text-sm);
   min-width: 80px;
   font-family: var(--font-mono);
   color: var(--color-parchment-800);
@@ -138,7 +138,7 @@ td {
 
 .td-amount {
   text-align: end;
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   color: var(--color-g-600);
 }
 
@@ -150,7 +150,7 @@ td {
   background: transparent;
   color: var(--color-parchment-400);
   cursor: pointer;
-  font-size: 16px;
+  font-size: var(--text-md);
   display: flex;
   align-items: center;
   justify-content: center;

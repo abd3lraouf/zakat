@@ -94,21 +94,21 @@ const { t, locale } = useI18n()
 }
 
 .sum-label {
-  font-size: 12px;
+  font-size: var(--text-xs);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: var(--tracking-widest);
   color: var(--color-parchment-400);
   margin-bottom: 8px;
 }
 
 .sum-value {
-  font-family: var(--font-en);
-  font-size: clamp(18px, 3vw, 26px);
-  font-weight: 700;
-  line-height: 1.1;
+  font-family: var(--font-en-serif);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
 }
 .sum-card-gold .sum-value {
-  color: #9a7a2a;
+  color: #A47A08;
 }
 .sum-card-green .sum-value {
   color: var(--color-g-600);
@@ -118,7 +118,7 @@ const { t, locale } = useI18n()
 }
 
 .sum-sub {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-parchment-400);
   margin-top: 6px;
 }
