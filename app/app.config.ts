@@ -3,4 +3,10 @@ export default defineAppConfig({
   driveScope: 'https://www.googleapis.com/auth/drive.appdata',
   driveFileName: 'zakat-app-data.json',
   appVersion: 1,
+  ui: {
+    colors: {
+      primary: 'green',
+      neutral: 'stone',
+    },
+  },
 })

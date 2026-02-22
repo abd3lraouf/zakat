@@ -1,15 +1,13 @@
-import tailwindcss from '@tailwindcss/vite'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   ssr: false, // SPA mode for GitHub Pages
 
   modules: [
+    '@nuxt/ui',
     '@pinia/nuxt',
     '@nuxtjs/i18n',
     '@nuxtjs/google-fonts',
-    '@nuxt/icon',
     '@nuxtjs/seo',
   ],
 
@@ -30,10 +28,6 @@ export default defineNuxtConfig({
       name: 'Zakaty',
       url: 'https://abd3lraouf.github.io/zakat',
     },
-  },
-
-  vite: {
-    plugins: [tailwindcss()],
   },
 
   css: [

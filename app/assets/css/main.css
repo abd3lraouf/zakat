@@ -1,50 +1,90 @@
 @import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  /* Primary Green — softened sage (aged mosque tile) */
+  --color-green-50: #F0F7F4;
+  --color-green-100: #DCEEE5;
+  --color-green-200: #B9DDCB;
+  --color-green-300: #8DC7AA;
+  --color-green-400: #5EAB85;
+  --color-green-500: #3D8B67;
+  --color-green-600: #2E7054;
+  --color-green-700: #265A44;
+  --color-green-800: #1F4837;
+  --color-green-900: #1A3D2C;
+  --color-green-950: #0E2219;
+
+  /* Gold — muted brass (weathered calligraphy) */
+  --color-gold-50: #FBF7EE;
+  --color-gold-100: #F5ECD4;
+  --color-gold-200: #EBDAAB;
+  --color-gold-300: #D4B96A;
+  --color-gold-400: #C4A54A;
+  --color-gold-500: #B8933A;
+  --color-gold-600: #8F7230;
+  --color-gold-700: #6E5827;
+  --color-gold-800: #5A4822;
+  --color-gold-900: #4B3C1F;
+  --color-gold-950: #2A200F;
+
+  /* Neutral — warm stone (marble & limestone) */
+  --color-stone-50: #FAFAF8;
+  --color-stone-100: #F5F3EF;
+  --color-stone-200: #EBE8E2;
+  --color-stone-300: #DDD9D1;
+  --color-stone-400: #B5AFA5;
+  --color-stone-500: #8F887D;
+  --color-stone-600: #6B6560;
+  --color-stone-700: #4E4944;
+  --color-stone-800: #353230;
+  --color-stone-900: #2C2824;
+  --color-stone-950: #1C1A17;
+}
 
 @theme {
-  /* Greens — Saudi Emerald */
-  --color-g-900: #002E17;
-  --color-g-800: #003D1F;
-  --color-g-700: #005229;
-  --color-g-600: #006C35;
-  --color-g-500: #00894A;
-  --color-g-400: #2BA868;
-  --color-g-300: #5DC389;
-  --color-g-200: #A8DFBA;
-  --color-g-100: #D4F0DC;
-  --color-g-50: #EDF8F0;
+  /* Legacy aliases — remove after full migration */
+  --color-g-900: var(--color-green-900);
+  --color-g-800: var(--color-green-800);
+  --color-g-700: var(--color-green-700);
+  --color-g-600: var(--color-green-600);
+  --color-g-500: var(--color-green-500);
+  --color-g-400: var(--color-green-400);
+  --color-g-300: var(--color-green-300);
+  --color-g-200: var(--color-green-200);
+  --color-g-100: var(--color-green-100);
+  --color-g-50: var(--color-green-50);
 
-  /* Gold — Royal Gold */
-  --color-gold: #C6930A;
-  --color-gold-dark: #A47A08;
-  --color-gold-light: #E2B93B;
-  --color-gold-pale: #FDF8EC;
-  --color-gold-muted: #F5EDD2;
+  --color-gold: var(--color-gold-500);
+  --color-gold-dark: var(--color-gold-600);
+  --color-gold-light: var(--color-gold-300);
+  --color-gold-pale: var(--color-gold-50);
+  --color-gold-muted: var(--color-gold-100);
 
-  /* Neutrals — Cool Gray */
-  --color-off-white: #F8F9FA;
-  --color-parchment-50: #F1F3F5;
-  --color-parchment-100: #E5E7EB;
-  --color-parchment-200: #D1D5DB;
-  --color-parchment-400: #6B7280;
-  --color-parchment-500: #4B5563;
-  --color-parchment-600: #374151;
-  --color-parchment-800: #1F2937;
+  --color-off-white: var(--color-stone-50);
+  --color-parchment-50: var(--color-stone-100);
+  --color-parchment-100: var(--color-stone-200);
+  --color-parchment-200: var(--color-stone-300);
+  --color-parchment-400: var(--color-stone-500);
+  --color-parchment-500: var(--color-stone-600);
+  --color-parchment-600: var(--color-stone-700);
+  --color-parchment-800: var(--color-stone-900);
 
   /* Semantic */
-  --color-red: #DC2626;
+  --color-red: #C94A4A;
   --color-red-light: #FEF2F2;
-  --color-red-soft: #EF4444;
-  --color-warning: #D97706;
+  --color-red-soft: #D06060;
+  --color-warning: #C4850A;
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
-  --shadow-md: 0 2px 4px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08);
-  --shadow-lg: 0 4px 8px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.12);
-  --shadow-xl: 0 8px 16px rgba(0,0,0,0.1), 0 24px 64px rgba(0,0,0,0.16);
-  --shadow-ring: 0 0 0 3px rgba(0,137,74,0.25);
-  --shadow-gold: 0 0 0 1px rgba(198,147,10,0.1), 0 4px 16px rgba(198,147,10,0.08);
-  --shadow-gold-lg: 0 0 0 1px rgba(198,147,10,0.15), 0 8px 32px rgba(198,147,10,0.12);
+  /* Shadows — warm tone */
+  --shadow-xs: 0 1px 2px rgba(44, 40, 36, 0.04);
+  --shadow-sm: 0 1px 3px rgba(44, 40, 36, 0.06), 0 4px 12px rgba(44, 40, 36, 0.04);
+  --shadow-md: 0 2px 4px rgba(44, 40, 36, 0.06), 0 8px 24px rgba(44, 40, 36, 0.08);
+  --shadow-lg: 0 4px 8px rgba(44, 40, 36, 0.08), 0 16px 48px rgba(44, 40, 36, 0.12);
+  --shadow-xl: 0 8px 16px rgba(44, 40, 36, 0.1), 0 24px 64px rgba(44, 40, 36, 0.16);
+  --shadow-ring: 0 0 0 3px rgba(61, 139, 103, 0.25);
+  --shadow-gold: 0 0 0 1px rgba(184, 147, 58, 0.1), 0 4px 16px rgba(184, 147, 58, 0.08);
+  --shadow-gold-lg: 0 0 0 1px rgba(184, 147, 58, 0.15), 0 8px 32px rgba(184, 147, 58, 0.12);
 
   /* Radius */
   --radius-xs: 6px;
