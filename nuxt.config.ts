@@ -56,6 +56,9 @@ export default defineNuxtConfig({
     },
     lazy: true,
     langDir: '../locales',
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 
   devtools: { enabled: true },
