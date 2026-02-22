@@ -1,1 +1,66 @@
 @import "tailwindcss";
+
+@theme {
+  /* Greens — "Mosque Interior" sage/Ottoman */
+  --color-g-900: #1a2e24;
+  --color-g-800: #243d32;
+  --color-g-700: #2f5244;
+  --color-g-600: #3d6b5a;
+  --color-g-500: #528c75;
+  --color-g-400: #6aaa8f;
+  --color-g-300: #8fc4ad;
+  --color-g-200: #bddcc9;
+  --color-g-100: #e2f0e8;
+  --color-g-50: #f0f7f3;
+
+  /* Gold — antique manuscript */
+  --color-gold: #b8943f;
+  --color-gold-dark: #96762e;
+  --color-gold-light: #d4b365;
+  --color-gold-pale: #faf5e8;
+  --color-gold-muted: #f0e6c8;
+
+  /* Neutrals — warm parchment */
+  --color-off-white: #f7f4ed;
+  --color-parchment-50: #f3f1ea;
+  --color-parchment-100: #e8e5dd;
+  --color-parchment-200: #d4d0c7;
+  --color-parchment-400: #8a847a;
+  --color-parchment-500: #706b62;
+  --color-parchment-600: #5c574f;
+  --color-parchment-800: #2e2a25;
+
+  /* Semantic */
+  --color-red: #b5382d;
+  --color-red-light: #fdf1ef;
+  --color-red-soft: #d4534a;
+  --color-warning: #9a6e28;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 4px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 8px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.12);
+  --shadow-xl: 0 8px 16px rgba(0,0,0,0.1), 0 24px 64px rgba(0,0,0,0.16);
+  --shadow-ring: 0 0 0 3px rgba(82,140,117,0.2);
+  --shadow-gold: 0 0 0 1px rgba(184,148,63,0.08), 0 4px 16px rgba(184,148,63,0.06);
+  --shadow-gold-lg: 0 0 0 1px rgba(184,148,63,0.12), 0 8px 32px rgba(184,148,63,0.1);
+
+  /* Radius */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Fonts */
+  --font-en: 'Playfair Display', Georgia, serif;
+  --font-ar: 'Noto Naskh Arabic', Georgia, serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --spacing-navbar-h: 64px;
+}
