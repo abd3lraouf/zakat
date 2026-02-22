@@ -1,11 +1,13 @@
 <script setup lang="ts">
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 useSeoMeta({
   title: () => t('seo.profile.title'),
   description: () => t('seo.profile.description'),
   ogTitle: () => t('seo.profile.title'),
   ogDescription: () => t('seo.profile.description'),
+  ogType: 'website',
+  ogLocale: () => locale.value === 'ar' ? 'ar_SA' : 'en_US',
 })
 </script>
 

@@ -152,5 +152,5 @@
   "seo.tracker.title": "Payment Tracker — Zakaty",
   "seo.tracker.description": "Log your Zakat payments and track your progress toward fulfilling your obligation.",
   "seo.profile.title": "Settings — Zakaty",
-  "seo.profile.description": "Manage your account, sync settings, and data."
+  "seo.profile.description": "Manage your account, Google Drive sync settings, and local data. No server storage — all data stays on your device."
 }

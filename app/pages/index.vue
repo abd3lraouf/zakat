@@ -2,7 +2,7 @@
 import { useAuthStore } from '../../stores/auth'
 import { useGoogleAuth } from '~/composables/useGoogleAuth'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const auth = useAuthStore()
 const { signIn } = useGoogleAuth()
 
@@ -12,6 +12,8 @@ useSeoMeta({
   ogTitle: () => t('seo.home.title'),
   ogDescription: () => t('seo.home.description'),
   ogType: 'website',
+  ogLocale: () => locale.value === 'ar' ? 'ar_SA' : 'en_US',
+  ogLocaleAlternate: () => locale.value === 'ar' ? ['en_US'] : ['ar_SA'],
 })
 </script>
 
