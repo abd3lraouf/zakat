@@ -6,3 +6,6 @@ coverage/
 .env.*
 dist/
 _site/
+.worktrees/
+.output/
+.nuxt/
