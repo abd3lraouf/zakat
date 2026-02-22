@@ -15,8 +15,12 @@ describe('i18n translations', () => {
     }
   })
 
+  // landing.verseTranslation is intentionally empty in AR (verse is already in Arabic)
+  const allowedEmptyAR = new Set(['landing.verseTranslation'])
+
   it('no empty values in AR', () => {
     for (const [key, val] of Object.entries(ar)) {
+      if (allowedEmptyAR.has(key)) continue
       expect(val, `AR key "${key}" is empty`).not.toBe('')
     }
   })
