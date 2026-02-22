@@ -22,6 +22,7 @@ export default defineNuxtConfig({
 
   ogImage: { enabled: false },
   linkChecker: { enabled: false },
+  robots: { robotsTxt: false },
 
   schemaOrg: {
     identity: {
