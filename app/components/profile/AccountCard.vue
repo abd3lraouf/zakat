@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from '~~/stores/auth'
+import { useGoogleAuth } from '~/composables/useGoogleAuth'
 
 const { t } = useI18n()
 const authStore = useAuthStore()
+const { signIn, signOut } = useGoogleAuth()
+const { avatarUrl, showImage, onImgError } = useAvatar(112)
 
 const initials = computed(() => {
   const name = authStore.user?.name
@@ -11,12 +14,11 @@ const initials = computed(() => {
 })
 
 function handleSignIn() {
-  // TODO: Wire up Google Sign-In composable
-  console.log('Google Sign-In clicked — not yet implemented')
+  signIn()
 }
 
 function handleSignOut() {
-  authStore.clearUser()
+  signOut()
 }
 </script>
 
@@ -29,8 +31,18 @@ function handleSignOut() {
     <!-- Signed In State -->
     <template v-if="authStore.isAuthenticated">
       <div class="profile-account">
-        <div class="profile-avatar-placeholder">
-          {{ initials }}
+        <div class="profile-avatar">
+          <img
+            v-if="showImage"
+            :src="avatarUrl!"
+            :alt="authStore.user?.name || ''"
+            class="profile-avatar-img"
+            referrerpolicy="no-referrer"
+            @error="onImgError"
+          />
+          <div v-else class="profile-avatar-placeholder">
+            {{ initials }}
+          </div>
         </div>
         <div class="profile-user-info">
           <div class="profile-user-name">{{ authStore.user?.name }}</div>
@@ -70,7 +82,7 @@ function handleSignOut() {
   transition: box-shadow 0.3s, transform 0.3s;
 }
 .profile-card:hover {
-  box-shadow: 0 0 0 1px rgba(184, 148, 63, 0.08), 0 4px 16px rgba(184, 148, 63, 0.06);
+  box-shadow: 0 0 0 1px rgba(198, 147, 10, 0.08), 0 4px 16px rgba(198, 147, 10, 0.06);
   transform: translateY(-1px);
 }
 
@@ -78,11 +90,11 @@ function handleSignOut() {
   padding: 16px 24px;
   background: var(--color-parchment-50);
   border-bottom: 1px solid var(--color-parchment-100);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semi);
   color: var(--color-parchment-600);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--tracking-widest);
   position: relative;
 }
 .profile-card-header::before {
@@ -116,21 +128,33 @@ function handleSignOut() {
   padding: 20px 24px;
 }
 
-.profile-avatar-placeholder {
+.profile-avatar {
   width: 56px;
   height: 56px;
   border-radius: 50%;
+  border: 2.5px solid var(--color-gold);
+  box-shadow: 0 0 0 3px var(--color-gold-pale);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-avatar-placeholder {
+  width: 100%;
+  height: 100%;
   background: linear-gradient(135deg, var(--color-gold-pale), var(--color-gold-muted));
   color: var(--color-gold-dark);
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2.5px solid var(--color-gold);
-  box-shadow: 0 0 0 3px var(--color-gold-pale);
-  font-family: var(--font-en);
-  flex-shrink: 0;
+  font-family: var(--font-en-serif);
 }
 
 .profile-user-info {
@@ -138,15 +162,15 @@ function handleSignOut() {
 }
 
 .profile-user-name {
-  font-family: var(--font-en);
-  font-size: 18px;
-  font-weight: 600;
+  font-family: var(--font-en-serif);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semi);
   color: var(--color-parchment-800);
   margin-bottom: 2px;
 }
 
 .profile-user-email {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-parchment-400);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -159,14 +183,14 @@ function handleSignOut() {
 }
 
 .profile-signed-out-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--text-md);
+  font-weight: var(--weight-semi);
   color: var(--color-parchment-800);
   margin-bottom: 4px;
 }
 
 .profile-signed-out-hint {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-parchment-400);
 }
 
@@ -188,24 +212,24 @@ function handleSignOut() {
   border-radius: var(--radius-sm);
   border: none;
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0.3px;
+  letter-spacing: var(--tracking-wide);
   white-space: nowrap;
 }
 
 .btn-primary {
   background: linear-gradient(135deg, var(--color-g-600), var(--color-g-700));
   color: white;
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   border-radius: var(--radius-sm);
 }
 .btn-primary:hover {
   background: linear-gradient(135deg, var(--color-g-500), var(--color-g-600));
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(61, 107, 90, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 108, 53, 0.35);
 }
 .btn-primary:active {
   transform: translateY(0) scale(0.97);
@@ -214,14 +238,14 @@ function handleSignOut() {
 .btn-destructive {
   background: var(--color-red-light);
   color: var(--color-red);
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   border-radius: var(--radius-sm);
 }
 .btn-destructive:hover {
   background: var(--color-red);
   color: white;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(181, 56, 45, 0.3);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 .btn-destructive:active {
   transform: translateY(0) scale(0.97);

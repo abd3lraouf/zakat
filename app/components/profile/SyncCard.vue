@@ -144,11 +144,11 @@ function handleDisconnect() {
 }
 
 .sync-card-title {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semi);
   color: var(--color-parchment-600);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--tracking-widest);
 }
 
 /* Status badge */
@@ -158,8 +158,8 @@ function handleDisconnect() {
   gap: 6px;
   padding: 4px 12px;
   border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semi);
   transition: all 0.3s var(--ease-out);
 }
 .sync-badge-dot {
@@ -242,14 +242,14 @@ function handleDisconnect() {
 }
 
 .sync-info-primary {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: var(--text-md);
+  font-weight: var(--weight-semi);
   color: var(--color-parchment-800);
   margin-bottom: 2px;
 }
 
 .sync-info-secondary {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-parchment-400);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -257,7 +257,7 @@ function handleDisconnect() {
 }
 
 .sync-info-meta {
-  font-size: 11px;
+  font-size: var(--text-xs);
   color: var(--color-parchment-400);
   margin-top: 6px;
   opacity: 0.8;
@@ -279,8 +279,8 @@ function handleDisconnect() {
   border-radius: var(--radius-sm);
   border: none;
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semi);
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;

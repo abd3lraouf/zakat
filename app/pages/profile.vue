@@ -11,10 +11,20 @@ const { t } = useI18n()
 
     <div class="ornament-divider" aria-hidden="true">&#9830;</div>
 
-    <ProfileAccountCard />
-    <ProfileSyncCard />
-    <ProfileDataManagement />
-    <ProfileAboutCard />
+    <div class="profile-cards">
+      <div class="card-animate" style="--i: 0">
+        <ProfileAccountCard />
+      </div>
+      <div class="card-animate" style="--i: 1">
+        <ProfileSyncCard />
+      </div>
+      <div class="card-animate" style="--i: 2">
+        <ProfileDataManagement />
+      </div>
+      <div class="card-animate" style="--i: 3">
+        <ProfileAboutCard />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,13 +57,13 @@ const { t } = useI18n()
 }
 
 .section-title {
-  font-size: clamp(22px, 4vw, 30px);
+  font-size: var(--text-xl);
   color: var(--color-g-800);
   margin-bottom: 6px;
-  font-family: var(--font-en);
+  font-family: var(--font-en-serif);
 }
 [dir="rtl"] .section-title {
-  font-family: var(--font-ar);
+  font-family: var(--font-ar-serif);
 }
 .section-title::after {
   content: '\25C6';
@@ -64,9 +74,9 @@ const { t } = useI18n()
 }
 
 .section-sub {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--color-parchment-400);
-  letter-spacing: 0.3px;
+  letter-spacing: var(--tracking-wide);
 }
 
 /* Ornamental divider */
@@ -84,5 +94,26 @@ const { t } = useI18n()
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--color-parchment-200), transparent);
+}
+
+/* Staggered card entrance */
+.profile-cards {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-animate {
+  animation: cardSlideUp 0.4s calc(var(--i) * 0.08s) var(--ease-out) both;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

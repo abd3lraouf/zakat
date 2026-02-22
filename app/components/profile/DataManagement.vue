@@ -148,7 +148,7 @@ function confirmClear() {
   transition: box-shadow 0.3s, transform 0.3s;
 }
 .profile-card:hover {
-  box-shadow: 0 0 0 1px rgba(184, 148, 63, 0.08), 0 4px 16px rgba(184, 148, 63, 0.06);
+  box-shadow: 0 0 0 1px rgba(198, 147, 10, 0.08), 0 4px 16px rgba(198, 147, 10, 0.06);
   transform: translateY(-1px);
 }
 
@@ -156,11 +156,11 @@ function confirmClear() {
   padding: 16px 24px;
   background: var(--color-parchment-50);
   border-bottom: 1px solid var(--color-parchment-100);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semi);
   color: var(--color-parchment-600);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: var(--tracking-widest);
   position: relative;
 }
 .profile-card-header::before {
@@ -205,13 +205,13 @@ function confirmClear() {
 }
 
 .profile-data-label {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--text-base);
+  font-weight: var(--weight-semi);
   color: var(--color-parchment-800);
 }
 
 .profile-data-desc {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-parchment-400);
 }
 
@@ -225,11 +225,11 @@ function confirmClear() {
   border-radius: var(--radius-sm);
   border: none;
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0.3px;
+  letter-spacing: var(--tracking-wide);
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -237,7 +237,7 @@ function confirmClear() {
 .btn-outline {
   background: white;
   color: var(--color-g-600);
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   border: 1.5px solid var(--color-g-200);
   border-radius: var(--radius-sm);
 }
@@ -245,7 +245,7 @@ function confirmClear() {
   background: var(--color-g-50);
   border-color: var(--color-g-400);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(61, 107, 90, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 108, 53, 0.15);
 }
 .btn-outline:active {
   transform: translateY(0) scale(0.97);
@@ -254,14 +254,14 @@ function confirmClear() {
 .btn-destructive {
   background: var(--color-red-light);
   color: var(--color-red);
-  font-weight: 600;
+  font-weight: var(--weight-semi);
   border-radius: var(--radius-sm);
 }
 .btn-destructive:hover {
   background: var(--color-red);
   color: white;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(181, 56, 45, 0.3);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 .btn-destructive:active {
   transform: translateY(0) scale(0.97);
@@ -273,20 +273,20 @@ function confirmClear() {
 }
 
 .modal-title {
-  font-family: var(--font-en);
-  font-size: 20px;
-  font-weight: 700;
+  font-family: var(--font-en-serif);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
   color: var(--color-parchment-800);
   margin-bottom: 12px;
 }
 [dir="rtl"] .modal-title {
-  font-family: var(--font-ar);
+  font-family: var(--font-ar-serif);
 }
 
 .modal-message {
-  font-size: 14px;
+  font-size: var(--text-base);
   color: var(--color-parchment-500);
-  line-height: 1.6;
+  line-height: var(--leading-normal);
   margin-bottom: 24px;
 }
 
