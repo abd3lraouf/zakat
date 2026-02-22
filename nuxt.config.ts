@@ -46,6 +46,11 @@ export default defineNuxtConfig({
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'theme-color', content: '#005229' },
+        { property: 'og:image', content: 'https://abd3lraouf.github.io/zakat/og-image.svg' },
+        { property: 'og:image:width', content: '1200' },
+        { property: 'og:image:height', content: '630' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:image', content: 'https://abd3lraouf.github.io/zakat/og-image.svg' },
       ],
     },
   },
