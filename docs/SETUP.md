@@ -1,50 +1,45 @@
 # Setup Guide
 
-Complete guide to configure GitHub Pages deployment, Google OAuth, and secrets for the Zakat App.
+Complete guide to deploy the Zakat App and configure Google Drive sync.
 
 ---
 
-## 1. Repository Setup
+## 1. Deploy to GitHub Pages
+
+### Option A — Fork & Deploy
+
+1. **Fork** this repository
+2. Go to your fork > **Settings** > **Pages**
+3. Under **Source**, select **GitHub Actions**
+4. Push any change to `main` — the site deploys automatically
+
+Your app will be live at `https://YOUR_USERNAME.github.io/zakat/`
+
+### Option B — New Repository
 
 ```bash
-# Clone or init the repo
-git init
-git remote add origin https://github.com/YOUR_USERNAME/zakat.git
-
-# Install dev dependencies (for testing)
-npm install
-
-# Run tests locally
-npm test
-
-# Serve locally
-python3 -m http.server 8080
-# Open http://localhost:8080
+git clone https://github.com/abd3lraouf/zakat.git
+cd zakat
+git remote set-url origin https://github.com/YOUR_USERNAME/zakat.git
+git push -u origin main
 ```
 
-## 2. GitHub Pages Configuration
+Then enable GitHub Pages: **Settings** > **Pages** > Source: **GitHub Actions**.
 
-### Enable Pages in repository settings
+### How Deployment Works
 
-1. Go to **Settings** > **Pages** in your GitHub repository
-2. Under **Source**, select **GitHub Actions**
-3. The deploy workflow (`.github/workflows/deploy.yml`) handles the rest automatically
+- Push to `main` triggers `.github/workflows/deploy.yml`
+- The workflow runs **tests first** — if any fail, deployment is blocked
+- Only `index.html` and `404.html` are deployed
+- Manual deploys: **Actions** > **Deploy to GitHub Pages** > **Run workflow**
 
-### How deployment works
+### Custom Domain (optional)
 
-- **Push to `main`** triggers the deploy workflow
-- The workflow runs **tests first** — if any test fails, deployment is blocked
-- Only `index.html` and `404.html` are deployed (test files, node_modules, etc. are excluded)
-- Manual deploys are also available via **Actions** > **Deploy to GitHub Pages** > **Run workflow**
+1. **Settings** > **Pages** > **Custom domain** > enter your domain
+2. Add a `CNAME` DNS record pointing to `YOUR_USERNAME.github.io`
+3. Check **Enforce HTTPS**
+4. Update the deploy workflow to include a CNAME file:
 
-### Custom domain (optional)
-
-1. Go to **Settings** > **Pages**
-2. Under **Custom domain**, enter your domain (e.g., `zakat.example.com`)
-3. Add a `CNAME` record in your DNS pointing to `YOUR_USERNAME.github.io`
-4. Check **Enforce HTTPS**
-
-If using a custom domain, update the deploy workflow to include the CNAME file:
 ```yaml
       - name: Prepare site files
         run: |
@@ -53,31 +48,47 @@ If using a custom domain, update the deploy workflow to include the CNAME file:
           echo "zakat.example.com" > _site/CNAME
 ```
 
-## 3. Google OAuth Setup (for Drive Sync)
+---
 
-The app supports optional Google Drive sync. To enable it:
+## 2. Google Drive Sync (Optional)
 
-### Create OAuth credentials
+The app works fully **without** Google Sign-In — data is saved in localStorage. Sign-in adds cross-device sync via Google Drive's AppData folder.
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project (or select existing)
-3. Navigate to **APIs & Services** > **OAuth consent screen**
-   - Choose **External** user type
-   - Fill in app name: `Zakat App`
-   - Add scopes: `drive.appdata`, `userinfo.profile`
-   - Add your domain to authorized domains
-4. Navigate to **APIs & Services** > **Credentials**
-5. Click **Create Credentials** > **OAuth 2.0 Client ID**
-   - Application type: **Web application**
-   - Authorized JavaScript origins:
-     - `https://YOUR_USERNAME.github.io` (production)
-     - `http://localhost:8080` (development)
-   - No redirect URIs needed (uses popup flow)
-6. Copy the **Client ID**
+### Step 1 — Create a Google Cloud Project
 
-### Configure the app
+1. Go to [console.cloud.google.com](https://console.cloud.google.com)
+2. **New Project** > name it "Zakat App" > Create
 
-In `index.html`, find the CONFIG section near line ~1697 and replace:
+### Step 2 — Enable APIs
+
+1. Go to **APIs & Services** > **Library**
+2. Enable **Google Drive API**
+3. Enable **Google People API** (for profile info)
+
+### Step 3 — Configure OAuth Consent Screen
+
+1. Go to **APIs & Services** > **OAuth consent screen**
+2. User type: **External** > Create
+3. App name: `Zakat App` | Support email: your email
+4. Click **Add or Remove Scopes** > add `drive.appdata` and `userinfo.profile`
+5. Save — no Google verification needed for personal use
+
+### Step 4 — Create OAuth Credentials
+
+1. Go to **APIs & Services** > **Credentials** > **Create Credentials** > **OAuth 2.0 Client ID**
+2. Application type: **Web application**
+3. Name: "Zakat App Web"
+4. **Authorized JavaScript origins** — add:
+   ```
+   https://YOUR_USERNAME.github.io
+   http://localhost:8080
+   ```
+5. No redirect URIs needed (uses popup flow)
+6. Click **Create** > copy the **Client ID**
+
+### Step 5 — Add Client ID to the App
+
+In `index.html`, find the CONFIG section and replace:
 
 ```js
 GOOGLE_CLIENT_ID: 'YOUR_GOOGLE_CLIENT_ID',
@@ -89,55 +100,46 @@ with your actual Client ID:
 GOOGLE_CLIENT_ID: '123456789-abc.apps.googleusercontent.com',
 ```
 
-### Enable required APIs
+Commit and push — Google Sync is now active.
 
-In Google Cloud Console:
-1. Go to **APIs & Services** > **Library**
-2. Enable **Google Drive API**
-3. Enable **Google People API** (for profile info)
+### Testing Sign-In
 
-### Testing Google Sign-In
+- With the placeholder `'YOUR_GOOGLE_CLIENT_ID'`, the app shows a warning and falls back to offline mode
+- Sign-in works locally at `http://localhost:8080` if that origin is in your OAuth credentials
 
-- The app works without Google Sign-In (offline mode with localStorage)
-- When the Client ID is set to `'YOUR_GOOGLE_CLIENT_ID'`, the app shows a warning and skips to offline mode
-- Sign-in can be tested locally at `http://localhost:8080` if your OAuth credentials include `http://localhost:8080` as an authorized origin
+---
 
-## 4. CI/CD Workflows
+## 3. CI/CD Workflows
 
-### CI (Pull Requests)
+### CI — Pull Requests
 
-`.github/workflows/ci.yml` runs on every pull request to `main`:
-- Installs Node.js 20
-- Runs `npm install`
-- Runs `npm test` (126 unit tests)
+`.github/workflows/ci.yml` runs on every PR to `main`:
+- Node.js 20 + `npm install` + `npm test`
 
-### Deploy (Push to main)
+### Deploy — Push to main
 
-`.github/workflows/deploy.yml` runs on every push to `main`:
+`.github/workflows/deploy.yml`:
 1. **Test job**: runs the full test suite
-2. **Deploy job** (depends on test passing): uploads `index.html` + `404.html` to GitHub Pages
+2. **Deploy job** (depends on tests passing): uploads site files to GitHub Pages
 
-### Required repository permissions
+### Required Permissions
 
-The deploy workflow needs these permissions (already configured in the workflow file):
-- `contents: read` — to checkout the repo
-- `pages: write` — to deploy to Pages
-- `id-token: write` — for OIDC authentication with Pages
+Already configured in the workflow files:
+- `contents: read` — checkout the repo
+- `pages: write` — deploy to Pages
+- `id-token: write` — OIDC authentication with Pages
 
-No repository secrets are needed — the workflow uses GitHub's built-in OIDC tokens.
+No repository secrets are needed.
 
-## 5. Environment Variables & Secrets
+---
 
-This project has **no server-side secrets**. Everything runs client-side.
+## 4. Security Notes
 
 | Item | Where | Notes |
 |------|-------|-------|
-| Google Client ID | `index.html` CONFIG section | Not a secret — visible in browser. Restricted by authorized origins. |
+| Google Client ID | `index.html` CONFIG | Not a secret — designed to be public. Security comes from authorized origins. |
 | User data | Browser `localStorage` | Never leaves the device unless user opts into Drive sync |
-| Drive sync data | Google Drive AppData folder | Invisible to the user, only accessible by the app |
+| Drive sync data | Google Drive AppData | Invisible to user, only accessible by this app |
 
-### Security notes
-
-- The Google Client ID is **not sensitive** — it's designed to be public. Security comes from the authorized origins restriction.
-- Never commit actual API keys or service account credentials.
-- The app has no backend, so there are no server secrets to manage.
+- Never commit actual API keys or service account credentials
+- The app has no backend — there are no server secrets to manage
