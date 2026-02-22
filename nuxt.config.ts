@@ -10,7 +10,26 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/google-fonts',
     '@nuxt/icon',
+    '@nuxtjs/seo',
   ],
+
+  site: {
+    url: 'https://abd3lraouf.github.io',
+    name: 'Zakaty',
+    description: 'Bilingual Zakat calculator and payment tracker',
+    defaultLocale: 'en',
+  },
+
+  ogImage: { enabled: false },
+  linkChecker: { enabled: false },
+
+  schemaOrg: {
+    identity: {
+      type: 'Organization',
+      name: 'Zakaty',
+      url: 'https://abd3lraouf.github.io/zakat',
+    },
+  },
 
   vite: {
     plugins: [tailwindcss()],
@@ -26,9 +45,6 @@ export default defineNuxtConfig({
       htmlAttrs: {},
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Bilingual Zakat calculator and payment tracker' },
-        { property: 'og:title', content: 'Zakat Calculator' },
-        { property: 'og:description', content: 'Calculate and track your Zakat payments' },
         { name: 'theme-color', content: '#005229' },
       ],
     },
