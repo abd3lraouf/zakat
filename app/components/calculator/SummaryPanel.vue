@@ -54,7 +54,9 @@ const hasAnyValue = computed(() => {
 
     <!-- Empty state -->
     <div v-if="!hasAnyValue" class="calc-empty">
-      <div class="ce-icon">&#x1F9EE;</div>
+      <div class="ce-icon">
+        <Icon name="lucide:calculator" size="44" />
+      </div>
       <p>{{ t('calc.empty') }}</p>
     </div>
 
@@ -131,7 +133,7 @@ const hasAnyValue = computed(() => {
 
       <!-- Nisab badge -->
       <div :class="['nisab-badge', store.nisabMet ? 'met' : 'not-met']">
-        <span class="nisab-icon">{{ store.nisabMet ? '&#x2714;' : '&#x2718;' }}</span>
+        <Icon :name="store.nisabMet ? 'lucide:check-circle' : 'lucide:x-circle'" size="18" class="nisab-icon" />
         <span>{{ store.nisabMet ? t('calc.met') : t('calc.notMet') }}</span>
       </div>
 
@@ -175,8 +177,8 @@ const hasAnyValue = computed(() => {
   overflow: hidden;
   position: sticky;
   top: calc(var(--spacing-navbar-h) + 20px);
-  border: 1px solid rgba(184, 148, 63, 0.1);
-  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(184, 148, 63, 0.2);
+  border: 1px solid rgba(198, 147, 10, 0.1);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(198, 147, 10, 0.2);
 }
 /* Subtle geometric pattern overlay */
 .summary-panel::before {
@@ -189,15 +191,15 @@ const hasAnyValue = computed(() => {
     from 0deg at 50% 50%,
     transparent 0deg,
     transparent 44deg,
-    rgba(184, 148, 63, 0.5) 44deg,
-    rgba(184, 148, 63, 0.5) 46deg
+    rgba(198, 147, 10, 0.5) 44deg,
+    rgba(198, 147, 10, 0.5) 46deg
   );
   background-size: 60px 60px;
 }
 
 .summary-panel-header {
   padding: 20px 24px;
-  border-bottom: 1px solid rgba(184, 148, 63, 0.3);
+  border-bottom: 1px solid rgba(198, 147, 10, 0.3);
   position: relative;
 }
 .summary-panel-header h3 {
@@ -218,9 +220,8 @@ const hasAnyValue = computed(() => {
   color: rgba(255, 255, 255, 0.5);
 }
 .calc-empty .ce-icon {
-  font-size: 44px;
   margin-bottom: 14px;
-  filter: grayscale(0.3);
+  color: rgba(255, 255, 255, 0.4);
 }
 .calc-empty p {
   font-size: 13px;
@@ -237,7 +238,7 @@ const hasAnyValue = computed(() => {
 }
 
 .nisab-section {
-  border-top: 1px solid rgba(184, 148, 63, 0.2);
+  border-top: 1px solid rgba(198, 147, 10, 0.2);
 }
 
 .sum-line {
@@ -265,12 +266,12 @@ const hasAnyValue = computed(() => {
   color: var(--color-g-400);
 }
 .sum-line-value.negative {
-  color: #e87070;
+  color: #F87171;
 }
 
 .sum-line.total {
   padding: 14px 0 6px;
-  border-top: 1px solid rgba(184, 148, 63, 0.3);
+  border-top: 1px solid rgba(198, 147, 10, 0.3);
   border-bottom: none;
   margin-top: 4px;
 }
@@ -285,7 +286,7 @@ const hasAnyValue = computed(() => {
 
 /* ── Divider ── */
 .summary-divider {
-  border-top: 1px solid rgba(184, 148, 63, 0.2);
+  border-top: 1px solid rgba(198, 147, 10, 0.2);
   margin: 8px 0;
 }
 
@@ -302,17 +303,17 @@ const hasAnyValue = computed(() => {
   position: relative;
 }
 .nisab-badge.met {
-  background: rgba(74, 171, 114, 0.15);
-  border: 1px solid rgba(74, 171, 114, 0.3);
+  background: rgba(43, 168, 104, 0.15);
+  border: 1px solid rgba(43, 168, 104, 0.3);
   color: var(--color-g-400);
 }
 .nisab-badge.not-met {
-  background: rgba(181, 56, 45, 0.12);
-  border: 1px solid rgba(181, 56, 45, 0.25);
-  color: #e87070;
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  color: #F87171;
 }
 .nisab-icon {
-  font-size: 18px;
+  flex-shrink: 0;
 }
 
 /* ── Zakat due result — gradient + pattern ── */
@@ -323,7 +324,7 @@ const hasAnyValue = computed(() => {
   border-radius: var(--radius-md);
   position: relative;
   overflow: hidden;
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 2px 8px rgba(184, 148, 63, 0.2);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 2px 8px rgba(198, 147, 10, 0.2);
 }
 .zakat-result::before {
   content: '';
@@ -350,7 +351,7 @@ const hasAnyValue = computed(() => {
   position: relative;
 }
 .zakat-result-value {
-  font-family: var(--font-en);
+  font-family: var(--font-en-serif);
   font-size: 28px;
   font-weight: 700;
   color: var(--color-g-800);
@@ -364,7 +365,7 @@ const hasAnyValue = computed(() => {
   padding: 16px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(184, 148, 63, 0.15);
+  border: 1px solid rgba(198, 147, 10, 0.15);
 }
 
 .progress-wrap {
@@ -431,7 +432,7 @@ const hasAnyValue = computed(() => {
 .tracker-link:hover {
   background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(184, 148, 63, 0.35);
+  box-shadow: 0 4px 12px rgba(198, 147, 10, 0.35);
 }
 .tracker-link:active {
   transform: translateY(0) scale(0.97);

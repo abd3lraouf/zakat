@@ -86,7 +86,7 @@ function onFieldInput(id: string, field: keyof Payment, event: Event) {
         :aria-label="'Delete row ' + (index + 1)"
         @click="emit('delete', payment.id)"
       >
-        &times;
+        <Icon name="lucide:trash-2" size="16" />
       </button>
     </td>
   </tr>
@@ -133,7 +133,7 @@ td {
 .td-input:focus {
   background: white;
   border-color: var(--color-g-400);
-  box-shadow: 0 0 0 2px rgba(82, 140, 117, 0.1);
+  box-shadow: 0 0 0 2px rgba(0, 137, 74, 0.1);
 }
 
 .td-amount {

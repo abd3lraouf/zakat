@@ -14,7 +14,7 @@ const { t } = useI18n()
     class="paid-banner paid-banner-success"
     role="status"
   >
-    &#127881; {{ t('tracker.complete') }} &mdash; {{ t('tracker.barakAllah') }}
+    <Icon name="lucide:party-popper" size="20" /> {{ t('tracker.complete') }} &mdash; {{ t('tracker.barakAllah') }}
   </div>
 
   <!-- No zakat due banner -->
@@ -23,7 +23,7 @@ const { t } = useI18n()
     class="paid-banner paid-banner-muted"
     role="status"
   >
-    &#8505;&#65039; {{ t('tracker.noZakat') }}
+    <Icon name="lucide:info" size="20" /> {{ t('tracker.noZakat') }}
   </div>
 </template>
 

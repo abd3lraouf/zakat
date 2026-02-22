@@ -62,7 +62,9 @@ function clearAllPayments() {
 
       <!-- Empty state -->
       <div v-if="tracker.payments.length === 0" class="tracker-empty">
-        <div class="te-icon">&#127769;</div>
+        <div class="te-icon">
+          <Icon name="lucide:scroll-text" size="44" />
+        </div>
         <h4>{{ t('tracker.empty.title') }}</h4>
         <p>{{ t('tracker.empty.sub') }}</p>
       </div>
@@ -71,7 +73,7 @@ function clearAllPayments() {
     <!-- Add row bar -->
     <div class="add-row-bar">
       <button class="btn btn-primary" @click="tracker.addPayment(1)">
-        <span>+</span> {{ t('tracker.addRow') }}
+        <Icon name="lucide:plus" size="16" /> {{ t('tracker.addRow') }}
       </button>
       <button class="btn btn-outline btn-sm" @click="tracker.addPayment(5)">
         + {{ t('tracker.add5') }}
@@ -182,8 +184,8 @@ thead th {
   color: var(--color-parchment-400);
 }
 .te-icon {
-  font-size: 44px;
   margin-bottom: 14px;
+  color: var(--color-parchment-300);
 }
 .tracker-empty h4 {
   font-size: 16px;
@@ -291,7 +293,7 @@ thead th {
 
 .btn-destructive {
   color: var(--color-red);
-  border-color: rgba(181, 56, 45, 0.25);
+  border-color: rgba(220, 38, 38, 0.25);
 }
 .btn-destructive:hover {
   background: var(--color-red-light);

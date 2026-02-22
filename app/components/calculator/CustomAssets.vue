@@ -50,7 +50,7 @@ function onAmountInput(index: number, event: Event) {
       <span class="input-unit">EGP</span>
       <span class="input-value">{{ fmtEGP(asset.amount, locale) }}</span>
       <button class="btn-del-row" @click="removeCustom(asset.id)">
-        &#x2715;
+        <Icon name="lucide:trash-2" size="16" />
       </button>
     </div>
   </div>
@@ -92,7 +92,6 @@ function onAmountInput(index: number, event: Event) {
 
 .custom-label-input,
 .custom-amount-input {
-  font-family: var(--font-mono);
   font-size: 14px;
   padding: 11px 14px;
   min-height: 44px;
@@ -115,6 +114,7 @@ function onAmountInput(index: number, event: Event) {
 }
 
 .custom-amount-input {
+  font-family: var(--font-mono);
   max-width: 120px;
 }
 
