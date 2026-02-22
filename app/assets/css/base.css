@@ -4,7 +4,9 @@
 
 /* ── Typography ── */
 body {
-  font-family: var(--font-mono);
+  font-family: var(--font-en);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
   background: var(--color-off-white);
   color: var(--color-parchment-800);
   min-height: 100vh;
@@ -18,14 +20,14 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: var(--font-en);
-  line-height: 1.2;
+  font-family: var(--font-en-serif);
+  line-height: var(--leading-snug);
 }
 
 [dir="rtl"] h1,
 [dir="rtl"] h2,
 [dir="rtl"] h3 {
-  font-family: var(--font-ar);
+  font-family: var(--font-ar-serif);
 }
 
 /* ── Islamic geometric background — 8-pointed star SVG ── */
@@ -36,9 +38,9 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background-image:
-    radial-gradient(circle at 20% 20%, rgba(184,148,63,0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(61,107,90,0.06) 0%, transparent 50%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 8l8.5 14.7L63.2 16.8 56.8 31.5 71.5 31.5 60 40l11.5 8.5-14.7 0 6.4 14.7L48.5 57.3 40 72 31.5 57.3 16.8 63.2l6.4-14.7H8.5L20 40 8.5 31.5h14.7L16.8 16.8l14.7 6.4L40 8z' fill='none' stroke='rgba(184,148,63,0.04)' stroke-width='0.5'/%3E%3C/svg%3E");
+    radial-gradient(circle at 20% 20%, rgba(198,147,10,0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0,108,53,0.06) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 8l8.5 14.7L63.2 16.8 56.8 31.5 71.5 31.5 60 40l11.5 8.5-14.7 0 6.4 14.7L48.5 57.3 40 72 31.5 57.3 16.8 63.2l6.4-14.7H8.5L20 40 8.5 31.5h14.7L16.8 16.8l14.7 6.4L40 8z' fill='none' stroke='rgba(198,147,10,0.04)' stroke-width='0.5'/%3E%3C/svg%3E");
   background-size: 100% 100%, 100% 100%, 80px 80px;
 }
 
@@ -108,37 +110,37 @@ body::before {
 @media (prefers-color-scheme: dark) {
   :root {
     /* Neutrals — dark slate */
-    --color-off-white: #1a2027;
-    --color-parchment-50: #1e252d;
-    --color-parchment-100: #252d36;
-    --color-parchment-200: #313b46;
-    --color-parchment-400: #8d99a6;
-    --color-parchment-500: #9aa5b2;
-    --color-parchment-600: #b8c0c9;
-    --color-parchment-800: #e4e8ec;
+    --color-off-white: #111827;
+    --color-parchment-50: #1F2937;
+    --color-parchment-100: #283444;
+    --color-parchment-200: #374151;
+    --color-parchment-400: #9CA3AF;
+    --color-parchment-500: #D1D5DB;
+    --color-parchment-600: #E5E7EB;
+    --color-parchment-800: #F3F4F6;
 
     /* Greens — luminous night */
-    --color-g-50: #172028;
-    --color-g-100: #1c2a32;
-    --color-g-200: #253840;
-    --color-g-500: #5eb893;
-    --color-g-600: #4a9e7d;
+    --color-g-50: #0F1F18;
+    --color-g-100: #142A1E;
+    --color-g-200: #1E3D2B;
+    --color-g-500: #34D399;
+    --color-g-600: #10B981;
 
     /* Gold — warm desert glow */
-    --color-gold: #d4a93d;
-    --color-gold-light: #e0bc5a;
-    --color-gold-pale: #252018;
-    --color-gold-muted: #2e2718;
+    --color-gold: #E2B93B;
+    --color-gold-light: #F0D060;
+    --color-gold-pale: #1F1D14;
+    --color-gold-muted: #28251A;
 
-    /* Semantic — dark-adapted */
-    --color-red-light: #2d1f1e;
-    --color-warning: #c9923a;
+    /* Semantic */
+    --color-red-light: #2D1B1B;
+    --color-warning: #F59E0B;
 
-    /* Shadows — deeper for dark backgrounds */
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
-    --shadow-md: 0 2px 4px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.2);
-    --shadow-lg: 0 4px 8px rgba(0,0,0,0.25), 0 16px 48px rgba(0,0,0,0.3);
-    --shadow-gold: 0 0 0 1px rgba(212,169,61,0.12), 0 4px 16px rgba(212,169,61,0.08);
-    --shadow-gold-lg: 0 0 0 1px rgba(212,169,61,0.18), 0 8px 32px rgba(212,169,61,0.12);
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+    --shadow-md: 0 2px 4px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.25);
+    --shadow-lg: 0 4px 8px rgba(0,0,0,0.35), 0 16px 48px rgba(0,0,0,0.3);
+    --shadow-gold: 0 0 0 1px rgba(226,185,59,0.15), 0 4px 16px rgba(226,185,59,0.1);
+    --shadow-gold-lg: 0 0 0 1px rgba(226,185,59,0.2), 0 8px 32px rgba(226,185,59,0.15);
   }
 }
