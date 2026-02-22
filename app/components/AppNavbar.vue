@@ -142,20 +142,16 @@ function isActive(path: string): boolean {
 
 .nav-logo {
   font-family: 'Aref Ruqaa', 'Amiri', serif;
-  font-size: 26px;
-  font-weight: 700;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
   color: var(--color-gold);
-  line-height: 1;
+  line-height: var(--leading-tight);
   flex-shrink: 0;
   transition: text-shadow 0.3s var(--ease-out);
 }
 
 .nav-brand:hover .nav-logo {
   text-shadow: 0 0 20px rgba(198, 147, 10, 0.4);
-}
-
-[dir="rtl"] .nav-logo {
-  font-size: 28px;
 }
 
 /* ── Desktop links ── */
@@ -170,12 +166,12 @@ function isActive(path: string): boolean {
   padding: 7px 14px;
   border-radius: var(--radius-sm);
   color: rgba(255, 255, 255, 0.85);
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
   cursor: pointer;
   text-decoration: none;
   transition: all 0.2s;
-  letter-spacing: 0.3px;
+  letter-spacing: var(--tracking-wide);
 }
 
 .nav-link:hover {
@@ -215,11 +211,11 @@ function isActive(path: string): boolean {
   border: none;
   background: transparent;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semi);
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--tracking-wider);
 }
 
 .lang-btn-en {
@@ -228,7 +224,7 @@ function isActive(path: string): boolean {
 
 .lang-btn-ar {
   font-family: var(--font-ar);
-  font-size: 15px;
+  font-size: var(--text-md);
 }
 
 .lang-btn.active {
@@ -265,8 +261,8 @@ function isActive(path: string): boolean {
   border-radius: 50%;
   background: var(--color-gold);
   color: var(--color-g-800);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,7 +278,7 @@ function isActive(path: string): boolean {
   height: 32px;
   border-radius: 50%;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 18px;
+  font-size: var(--text-md);
   text-decoration: none;
   transition: all 0.2s;
 }
