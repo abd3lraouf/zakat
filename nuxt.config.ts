@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/i18n',
     '@nuxtjs/google-fonts',
+    '@nuxt/icon',
   ],
 
   vite: {
@@ -22,21 +23,24 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      htmlAttrs: { lang: 'en' },
+      htmlAttrs: {},
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Bilingual Zakat calculator and payment tracker' },
         { property: 'og:title', content: 'Zakat Calculator' },
         { property: 'og:description', content: 'Calculate and track your Zakat payments' },
-        { name: 'theme-color', content: '#2f5244' },
+        { name: 'theme-color', content: '#005229' },
       ],
     },
   },
 
   googleFonts: {
     families: {
+      'Plus Jakarta Sans': [400, 500, 600, 700],
+      'Cairo': [400, 500, 600, 700],
       'Playfair Display': [400, 500, 600, 700],
-      'Noto Naskh Arabic': [400, 500, 600, 700],
+      'Amiri': [400, 700],
+      'Aref Ruqaa': [400, 700],
       'DM Mono': [400, 500],
     },
     display: 'swap',
