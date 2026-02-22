@@ -5,6 +5,14 @@ import { useGoogleAuth } from '~/composables/useGoogleAuth'
 const { t } = useI18n()
 const auth = useAuthStore()
 const { signIn } = useGoogleAuth()
+
+useSeoMeta({
+  title: () => t('seo.home.title'),
+  description: () => t('seo.home.description'),
+  ogTitle: () => t('seo.home.title'),
+  ogDescription: () => t('seo.home.description'),
+  ogType: 'website',
+})
 </script>
 
 <template>

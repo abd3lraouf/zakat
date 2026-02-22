@@ -1,5 +1,12 @@
 <script setup lang="ts">
 const { t } = useI18n()
+
+useSeoMeta({
+  title: () => t('seo.tracker.title'),
+  description: () => t('seo.tracker.description'),
+  ogTitle: () => t('seo.tracker.title'),
+  ogDescription: () => t('seo.tracker.description'),
+})
 </script>
 
 <template>

@@ -5,6 +5,13 @@ import { ASSET_DEFS_GOLD, ASSET_DEFS_OTHER } from '~/utils/constants'
 const store = useCalculatorStore()
 const { t } = useI18n()
 
+useSeoMeta({
+  title: () => t('seo.calculator.title'),
+  description: () => t('seo.calculator.description'),
+  ogTitle: () => t('seo.calculator.title'),
+  ogDescription: () => t('seo.calculator.description'),
+})
+
 function addCustomAsset() {
   store.customAssets.push({
     id: `ca_${Date.now()}_${Math.random().toString(36).slice(2)}`,
