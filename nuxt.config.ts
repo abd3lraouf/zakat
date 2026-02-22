@@ -38,7 +38,7 @@ export default defineNuxtConfig({
     families: {
       'Plus Jakarta Sans': [400, 500, 600, 700],
       'Cairo': [400, 500, 600, 700],
-      'Playfair Display': [400, 500, 600, 700],
+      'Cormorant Garamond': [400, 500, 600, 700],
       'Amiri': [400, 700],
       'Aref Ruqaa': [400, 700],
       'DM Mono': [400, 500],
