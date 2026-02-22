@@ -51,21 +51,21 @@ const { syncConflict, cloudData, resolveUseCloud, resolveKeepLocal } = useDriveS
 }
 
 .sync-conflict-title {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
   color: var(--color-parchment-800);
   margin-bottom: 8px;
 }
 
 .sync-conflict-hint {
-  font-size: 14px;
+  font-size: var(--text-base);
   color: var(--color-parchment-500);
-  line-height: 1.6;
+  line-height: var(--leading-normal);
   margin-bottom: 8px;
 }
 
 .sync-conflict-date {
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: var(--color-parchment-400);
   margin-bottom: 24px;
 }
@@ -84,8 +84,8 @@ const { syncConflict, cloudData, resolveUseCloud, resolveKeepLocal } = useDriveS
   border-radius: var(--radius-sm);
   border: none;
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semi);
   cursor: pointer;
   transition: all 0.2s;
   min-width: 130px;
