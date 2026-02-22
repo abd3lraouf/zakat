@@ -350,6 +350,7 @@ h1, h2, h3 { font-family: var(--font-en); line-height: 1.2; }
   text-align: start;
 }
 .menu-item:hover { background: var(--g-100); color: var(--g-600); }
+a.menu-item { text-decoration: none; color: inherit; }
 .menu-item .mi-icon { font-size: 15px; }
 
 .menu-divider {
@@ -1450,6 +1451,11 @@ td select {
           <span class="mi-icon">🚪</span>
           <span data-i18n="nav.signout">Sign Out</span>
         </button>
+        <div class="menu-divider"></div>
+        <a class="menu-item" href="https://github.com/abd3lraouf/zakat" target="_blank" rel="noopener noreferrer" role="menuitem" onclick="closeMoreMenu();">
+          <span class="mi-icon">⌨</span>
+          <span>GitHub</span>
+        </a>
       </div>
     </div>
 
