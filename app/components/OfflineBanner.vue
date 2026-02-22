@@ -43,7 +43,7 @@ onUnmounted(() => {
   z-index: 90;
   padding: 8px 20px;
   text-align: center;
-  font-size: 13px;
+  font-size: var(--text-sm);
 }
 
 .banner-enter-active {

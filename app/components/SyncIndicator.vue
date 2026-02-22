@@ -31,7 +31,7 @@ const labelKey: Record<SyncStatus, string> = {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
+  font-size: var(--text-xs);
   color: rgba(255, 255, 255, 0.75);
   padding: 4px 10px;
   border-radius: 999px;
@@ -51,7 +51,7 @@ const labelKey: Record<SyncStatus, string> = {
 
 /* Status: synced */
 .sync-indicator.synced .sync-dot {
-  background: #4aab72;
+  background: #2BA868;
 }
 
 /* Status: syncing */

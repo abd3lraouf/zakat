@@ -74,7 +74,7 @@ const navItems = [
 }
 
 .bnav-btn span:last-child {
-  font-size: 12px;
-  letter-spacing: 0.3px;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
 }
 </style>

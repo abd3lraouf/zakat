@@ -41,7 +41,7 @@ const { toasts } = useToast()
   gap: 10px;
   padding: 12px 20px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: var(--text-sm);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 16px 48px rgba(0, 0, 0, 0.12);
   max-width: 320px;
 }
