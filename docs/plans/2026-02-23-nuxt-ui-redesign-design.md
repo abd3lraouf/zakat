@@ -5,7 +5,7 @@
 
 ## Goal
 
-Replace all custom UI components with Nuxt UI v3 equivalents and apply a softened "Serene Mosque Interior" color palette. The result is a calm, elegant Islamic web app with warm stone neutrals, muted sage-green, and brass-gold accents. No ads, no analytics, fully local.
+Replace all custom UI components with Nuxt UI v4 (required for Nuxt 4) equivalents and apply a softened "Serene Mosque Interior" color palette. The result is a calm, elegant Islamic web app with warm stone neutrals, muted sage-green, and brass-gold accents. No ads, no analytics, fully local. Nuxt UI v4 unifies UI + UI Pro into a single free `@nuxt/ui` package with 125+ components and handles Tailwind CSS v4 internally.
 
 ## Color Palette
 
