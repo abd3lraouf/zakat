@@ -424,7 +424,6 @@ a.menu-item { text-decoration: none; color: inherit; }
    LANDING / AUTH VIEW
 ═══════════════════════════════════════════════════════════ */
 #view-landing {
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -2737,19 +2736,20 @@ function showView(name) {
 function skipSignIn() {
   const landing = document.getElementById('view-landing');
   if (landing.classList.contains('active')) {
-    let switched = false;
-    function doSwitch() {
-      if (switched) return;
-      switched = true;
-      landing.classList.remove('view-exit');
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      showView('calculator');
-    }
+    let done = false;
     landing.classList.add('view-exit');
-    landing.addEventListener('animationend', doSwitch, { once: true });
-    setTimeout(doSwitch, 350);
+    function onDone() {
+      if (done) return;
+      done = true;
+      landing.classList.remove('view-exit');
+      showView('calculator');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    landing.addEventListener('animationend', onDone, { once: true });
+    setTimeout(onDone, 350);
   } else {
     showView('calculator');
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 }
 
