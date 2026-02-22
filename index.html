@@ -1,0 +1,3222 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║                    ZAKAT APP — index.html                        ║
+  ║  GitHub Pages · Arabic/English · Google Drive Sync              ║
+  ║                                                                  ║
+  ║  SETUP: Replace YOUR_GOOGLE_CLIENT_ID below with your           ║
+  ║  OAuth 2.0 Client ID from console.cloud.google.com              ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Calculate and track your Zakat — حاسبة الزكاة ومتتبع المدفوعات"/>
+<title>Zakat · زكاة</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🌙</text></svg>"/>
+<meta name="theme-color" content="#0d3d2b"/>
+<meta property="og:title" content="Zakat · زكاة"/>
+<meta property="og:description" content="Calculate and track your Zakat — حاسبة الزكاة ومتتبع المدفوعات"/>
+<meta property="og:type" content="website"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=DM+Mono:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════ */
+:root {
+  --g-900: #061f16;
+  --g-800: #0d3d2b;
+  --g-700: #145237;
+  --g-600: #1a5c3a; /* primary green */
+  --g-500: #2e8b57;
+  --g-400: #4aab72;
+  --g-200: #c0e8d0;
+  --g-100: #e8f5ee;
+  --g-50:  #f2faf5;
+
+  --gold:       #c9a84c;
+  --gold-light: #e8c96e;
+  --gold-pale:  #fdf8ee;
+  --gold-muted: #f5ecd2;
+
+  --warning: #a0732a;
+
+  --white:   #ffffff;
+  --off-white: #f9f6ef;
+  --gray-50:  #f7f8f7;
+  --gray-100: #eeefee;
+  --gray-200: #d8ddd9;
+  --gray-400: #637a68;
+  --gray-600: #5a6b5c;
+  --gray-800: #2d3d2e;
+
+  --red:       #c0392b;
+  --red-light: #fdf0f0;
+  --red-soft:  #e74c3c;
+
+  --shadow-sm: 0 2px 8px rgba(13,61,43,0.08);
+  --shadow:    0 4px 24px rgba(13,61,43,0.12);
+  --shadow-lg: 0 12px 48px rgba(13,61,43,0.18);
+
+  --radius-sm: 8px;
+  --radius:    14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --font-en: 'Playfair Display', Georgia, serif;
+  --font-ar: 'Noto Naskh Arabic', Georgia, serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+
+  --transition: 0.2s ease;
+  --navbar-h: 64px;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --white: #1a2420;
+    --off-white: #1e2b26;
+    --gray-50: #1e2b26;
+    --gray-100: #243329;
+    --gray-200: #2e4038;
+    --gray-400: #8fb898;
+    --gray-600: #9ab8a2;
+    --gray-800: #d0e8d8;
+    --g-50: #162219;
+    --g-100: #1c2e22;
+    --gold-pale: #2a2418;
+    --gold-muted: #332d1a;
+    --warning: #c9923a;
+    --g-500: #38a068;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-mono);
+  background: var(--off-white);
+  color: var(--gray-800);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+[dir="rtl"] body { font-family: var(--font-ar); }
+
+/* ── Islamic geometric background ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(201,168,76,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(26,92,58,0.08) 0%, transparent 50%),
+    repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 44deg, rgba(201,168,76,0.025) 44deg, rgba(201,168,76,0.025) 46deg);
+  background-size: 100% 100%, 100% 100%, 120px 120px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+═══════════════════════════════════════════════════════════ */
+.font-en   { font-family: var(--font-en); }
+.font-ar   { font-family: var(--font-ar); }
+.font-mono { font-family: var(--font-mono); }
+
+h1, h2, h3 { font-family: var(--font-en); line-height: 1.2; }
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 { font-family: var(--font-ar); }
+
+/* ═══════════════════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════════════════ */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--navbar-h);
+  background: var(--g-800);
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-logo {
+  width: 36px;
+  height: 36px;
+  background: var(--gold);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.nav-title {
+  font-family: var(--font-en);
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.3px;
+}
+[dir="rtl"] .nav-title { font-family: var(--font-ar); font-size: 22px; }
+
+.nav-title span { color: var(--gold); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-inline-start: 24px;
+}
+
+.nav-link {
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: var(--transition);
+  font-family: inherit;
+  letter-spacing: 0.3px;
+}
+.nav-link:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.nav-link.active { color: var(--gold); background: rgba(201,168,76,0.15); }
+
+.nav-spacer { flex: 1; }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Sync indicator */
+.sync-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.06);
+  transition: var(--transition);
+  cursor: default;
+}
+.sync-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gray-400);
+  transition: var(--transition);
+}
+.sync-indicator.synced .sync-dot { background: #4aab72; }
+.sync-indicator.syncing .sync-dot {
+  background: var(--gold);
+  animation: pulse 1s infinite;
+}
+.sync-indicator.error .sync-dot { background: var(--red-soft); }
+.sync-indicator.offline .sync-dot { background: var(--gray-400); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Nav icon buttons */
+.nav-icon-btn {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: var(--transition);
+  position: relative;
+}
+.nav-icon-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+/* Language toggle */
+.lang-toggle {
+  display: flex;
+  background: rgba(255,255,255,0.08);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 2px;
+}
+.lang-btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.8);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+}
+#lang-en { font-family: var(--font-en); }
+#lang-ar { font-family: var(--font-ar); font-size: 15px; }
+.lang-btn.active {
+  background: var(--gold);
+  color: var(--g-800);
+}
+
+/* More menu */
+.more-menu-wrap { position: relative; }
+.more-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  inset-inline-end: 0;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 180px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 200;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+.more-dropdown.open { visibility: visible; opacity: 1; transform: translateY(0); }
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--gray-800);
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+  width: 100%;
+  text-align: start;
+}
+.menu-item:hover { background: var(--g-100); color: var(--g-600); }
+.menu-item .mi-icon { font-size: 15px; }
+
+.menu-divider {
+  height: 1px;
+  background: var(--gray-100);
+  margin: 4px 0;
+}
+
+/* User avatar */
+.user-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  object-fit: cover;
+  cursor: pointer;
+}
+.user-initials {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--g-800);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--font-en);
+}
+
+/* Mobile nav */
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  #navbar { padding: 0 16px; }
+  .sync-indicator span { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PAGE LAYOUT
+═══════════════════════════════════════════════════════════ */
+#app {
+  padding-top: var(--navbar-h);
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+.view {
+  display: none;
+  min-height: calc(100vh - var(--navbar-h));
+  padding: 32px 20px 64px;
+  max-width: 1100px;
+  margin: 0 auto;
+  animation: viewIn 0.3s ease both;
+}
+.view.active { display: block; }
+
+@keyframes viewIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.view-exit {
+  animation: viewOut 0.3s ease forwards;
+}
+@keyframes viewOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-20px); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LANDING / AUTH VIEW
+═══════════════════════════════════════════════════════════ */
+#view-landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: calc(100vh - var(--navbar-h));
+  padding: 40px 20px;
+}
+#view-landing.active { display: flex; }
+
+.landing-ornament {
+  font-family: var(--font-ar);
+  font-size: 26px;
+  color: var(--gold);
+  letter-spacing: 8px;
+  margin-bottom: 20px;
+  opacity: 0.9;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.landing-title {
+  font-family: var(--font-en);
+  font-size: clamp(36px, 6vw, 64px);
+  color: var(--g-800);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+[dir="rtl"] .landing-title { font-family: var(--font-ar); }
+.landing-title span { color: var(--g-600); }
+
+.landing-subtitle {
+  font-size: 16px;
+  color: var(--gray-600);
+  max-width: 480px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.landing-features {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 48px;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+
+.feat-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--gray-600);
+  box-shadow: var(--shadow-sm);
+}
+.feat-chip span { font-size: 14px; }
+
+.landing-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  animation: fadeUp 0.6s 0.5s ease both;
+}
+
+/* Google sign-in button */
+.btn-google {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 24px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-800);
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-sm);
+  font-family: inherit;
+}
+.btn-google:hover {
+  border-color: var(--g-400);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+.btn-google svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+.skip-link {
+  font-size: 14px;
+  color: var(--gray-600);
+  cursor: pointer;
+  background: none;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 12px 24px;
+  font-family: inherit;
+  text-decoration: none;
+  transition: var(--transition);
+}
+.skip-link:hover {
+  color: var(--g-600);
+  border-color: var(--g-400);
+  background: var(--g-50);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION HEADER
+═══════════════════════════════════════════════════════════ */
+.section-header {
+  margin-bottom: 28px;
+}
+.section-title {
+  font-size: clamp(22px, 4vw, 30px);
+  color: var(--g-800);
+  margin-bottom: 6px;
+}
+.section-sub {
+  font-size: 13px;
+  color: var(--gray-400);
+  letter-spacing: 0.3px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CARDS & PANELS
+═══════════════════════════════════════════════════════════ */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 18px 24px;
+  background: var(--g-800);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 2px solid var(--gold);
+}
+
+.card-header h3 {
+  font-size: 15px;
+  color: #fff;
+  font-weight: 600;
+}
+[dir="rtl"] .card-header h3 { font-family: var(--font-ar); font-size: 17px; }
+
+.card-body { padding: 24px; }
+.card-footer {
+  padding: 16px 24px;
+  background: var(--gray-50);
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SUMMARY CARDS (top of tracker / results)
+═══════════════════════════════════════════════════════════ */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+@media (max-width: 640px) { .summary-cards { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .summary-cards { grid-template-columns: 1fr 1fr; } }
+
+.sum-card {
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.sum-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+
+.sum-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+.sum-card.gold::after  { background: var(--gold); }
+.sum-card.green::after { background: var(--g-500); }
+.sum-card.red::after   { background: var(--red-soft); }
+
+.sum-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gray-400);
+  margin-bottom: 8px;
+}
+.sum-value {
+  font-family: var(--font-en);
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--gray-800);
+}
+.sum-card.gold  .sum-value { color: #9a7a2a; }
+.sum-card.green .sum-value { color: var(--g-600); }
+.sum-card.red   .sum-value { color: var(--red); }
+
+@media (prefers-color-scheme: dark) {
+  .sum-card.gold  .sum-value { color: var(--gold-light); }
+  .sum-card.green .sum-value { color: var(--g-400); }
+  .sum-card.red   .sum-value { color: #e87070; }
+  td select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239ab8a2'/%3E%3C/svg%3E");
+  }
+}
+
+.sum-sub {
+  font-size: 12px;
+  color: var(--gray-400);
+  margin-top: 6px;
+}
+
+.progress-wrap { margin-top: 10px; }
+.progress-bg {
+  height: 4px;
+  background: var(--gray-100);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--g-500), var(--gold));
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+[dir="rtl"] .progress-fill {
+  background: linear-gradient(270deg, var(--g-500), var(--gold));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FORM ELEMENTS
+═══════════════════════════════════════════════════════════ */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.form-row:last-child { border-bottom: none; }
+
+.form-label {
+  font-size: 13px;
+  color: var(--gray-600);
+  font-family: var(--font-mono);
+}
+[dir="rtl"] .form-label { font-family: var(--font-ar); font-size: 14px; }
+
+.form-label strong {
+  display: block;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 2px;
+}
+
+input[type="number"],
+input[type="text"],
+input[type="date"],
+select {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--gray-800);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+input:focus, select:focus {
+  border-color: var(--g-500);
+  box-shadow: 0 0 0 3px rgba(46,139,87,0.12);
+}
+input::placeholder { color: var(--gray-400); }
+
+.input-unit {
+  font-size: 12px;
+  color: var(--gray-400);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.input-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--g-600);
+  white-space: nowrap;
+  min-width: 100px;
+  text-align: end;
+  font-family: var(--font-mono);
+}
+
+/* Price inputs */
+.price-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+@media (max-width: 480px) { .price-grid { grid-template-columns: 1fr; } }
+
+.price-item label {
+  display: block;
+  font-size: 12px;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 5px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CALCULATOR STYLES
+═══════════════════════════════════════════════════════════ */
+.calc-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 900px) { .calc-layout { grid-template-columns: 1fr; } }
+
+.asset-section {
+  margin-bottom: 20px;
+}
+.asset-section-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gray-400);
+  padding: 12px 0 8px;
+  border-bottom: 1px solid var(--gray-100);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.asset-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gray-100);
+}
+
+/* Deduction rows */
+.deduction-row { background: var(--red-light); }
+
+/* Summary panel */
+.summary-panel {
+  background: var(--g-800);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: sticky;
+  top: calc(var(--navbar-h) + 20px);
+}
+
+.summary-panel-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(201,168,76,0.3);
+}
+.summary-panel-header h3 {
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+.summary-panel-header p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.5px;
+}
+
+.summary-lines {
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sum-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 13px;
+}
+.sum-line:last-child { border-bottom: none; }
+
+.sum-line-label { color: rgba(255,255,255,0.75); }
+.sum-line-value {
+  font-weight: 600;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+.sum-line-value.positive { color: var(--g-400); }
+.sum-line-value.negative { color: #e87070; }
+
+.sum-line.total {
+  padding: 14px 0 6px;
+  border-top: 1px solid rgba(201,168,76,0.3);
+  border-bottom: none;
+  margin-top: 4px;
+}
+.sum-line.total .sum-line-label {
+  color: rgba(255,255,255,0.8);
+  font-weight: 600;
+}
+.sum-line.total .sum-line-value { color: #fff; font-size: 15px; }
+
+/* Nisab indicator */
+.nisab-badge {
+  margin: 0 24px 16px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  transition: var(--transition);
+}
+.nisab-badge.met {
+  background: rgba(74,171,114,0.15);
+  border: 1px solid rgba(74,171,114,0.3);
+  color: var(--g-700);
+}
+.nisab-badge.not-met {
+  background: rgba(231,76,60,0.12);
+  border: 1px solid rgba(231,76,60,0.25);
+  color: var(--red);
+}
+.nisab-icon { font-size: 18px; }
+
+/* Zakat due result */
+.zakat-result {
+  margin: 0 24px 24px;
+  padding: 20px;
+  background: var(--gold);
+  border-radius: var(--radius);
+}
+.zakat-result-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--g-800);
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+.zakat-result-value {
+  font-family: var(--font-en);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--g-800);
+  line-height: 1;
+}
+
+/* Empty states (shared) */
+.calc-empty,
+.tracker-empty {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--gray-400);
+}
+.calc-empty .ce-icon,
+.tracker-empty .te-icon {
+  font-size: 44px;
+  margin-bottom: 14px;
+  filter: grayscale(0.3);
+}
+.calc-empty p,
+.tracker-empty p { font-size: 13px; line-height: 1.6; }
+.tracker-empty h4 { font-size: 16px; color: var(--gray-600); margin-bottom: 8px; }
+
+/* Custom asset row */
+.custom-row {
+  display: grid;
+  grid-template-columns: 1fr auto 120px auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-100);
+  animation: slideDown 0.25s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); max-height: 0; }
+  to   { opacity: 1; transform: translateY(0);     max-height: 80px; }
+}
+
+@keyframes rowDelete {
+  from { opacity: 1; transform: scaleY(1); }
+  to   { opacity: 0; transform: scaleY(0); transform-origin: top; }
+}
+
+.btn-del-row {
+  width: 44px; height: 44px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--gray-400);
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+.btn-del-row:hover { background: var(--red-light); color: var(--red); }
+
+/* ═══════════════════════════════════════════════════════════
+   TRACKER STYLES
+═══════════════════════════════════════════════════════════ */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 700px;
+}
+
+thead tr { background: var(--g-700); }
+thead th {
+  padding: 12px 14px;
+  text-align: start;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+  white-space: nowrap;
+}
+thead th:first-child { padding-inline-start: 20px; width: 44px; }
+thead th:last-child  { width: 44px; text-align: center; }
+
+tbody tr {
+  border-bottom: 1px solid var(--gray-100);
+  transition: background 0.15s;
+}
+tbody tr:hover { background: var(--g-50); }
+tbody tr:nth-child(even) { background: var(--gray-50); }
+tbody tr:nth-child(even):hover { background: var(--g-50); }
+
+td {
+  padding: 8px 14px;
+  vertical-align: middle;
+}
+td:first-child {
+  padding-inline-start: 20px;
+  color: var(--gray-400);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+td input[type="text"],
+td input[type="date"],
+td input[type="number"],
+td select {
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 10px 8px;
+  min-height: 44px;
+  background: transparent;
+  font-size: 13px;
+  min-width: 80px;
+  box-shadow: none;
+}
+td input:focus, td select:focus {
+  background: var(--white);
+  border-color: var(--g-400);
+  box-shadow: 0 0 0 2px rgba(46,139,87,0.1);
+}
+
+td.amount-col input {
+  font-weight: 600;
+  color: var(--g-600);
+  text-align: end;
+  direction: ltr;
+}
+
+td select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238fa392'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-inline-end: 24px;
+  cursor: pointer;
+}
+[dir="rtl"] td select {
+  background-position: left 8px center;
+}
+
+/* Fully paid banner */
+.paid-banner {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, var(--g-100), var(--gold-muted));
+  border: 1px solid var(--g-200);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: var(--g-700);
+  font-size: 15px;
+  text-align: center;
+  animation: fadeUp 0.4s ease;
+}
+.paid-banner.show { display: flex; }
+.paid-banner-muted {
+  background: var(--gray-100);
+  border-color: var(--gray-200);
+  color: var(--gray-600);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--g-600);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--g-500); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,92,58,0.3); }
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--g-800);
+  font-weight: 600;
+}
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(201,168,76,0.35); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--gray-600);
+  border: 1.5px solid var(--gray-200);
+}
+.btn-outline:hover { border-color: var(--g-400); color: var(--g-600); background: var(--g-50); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--gray-600);
+  padding: 8px 14px;
+}
+.btn-ghost:hover { background: var(--gray-100); color: var(--gray-800); }
+
+.btn-danger {
+  background: var(--red-light);
+  color: var(--red);
+}
+.btn-danger:hover { background: var(--red); color: #fff; }
+
+.btn-sm { padding: 7px 14px; font-size: 13px; }
+.btn-lg { padding: 16px 32px; font-size: 15px; }
+
+.btn-icon {
+  width: 44px; height: 44px;
+  padding: 0;
+  border-radius: 8px;
+  justify-content: center;
+  font-size: 15px;
+}
+
+/* Add row area */
+.add-row-bar {
+  padding: 14px 20px;
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.row-count-badge {
+  margin-inline-start: auto;
+  font-size: 12px;
+  color: var(--gray-400);
+  background: var(--gray-100);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODALS
+═══════════════════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 460px;
+  padding: 32px;
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.25s ease;
+}
+.modal-overlay.open .modal {
+  transform: scale(1) translateY(0);
+}
+
+.modal-icon { font-size: 36px; margin-bottom: 16px; }
+.modal h3 {
+  font-size: 20px;
+  color: var(--gray-800);
+  margin-bottom: 10px;
+}
+[dir="rtl"] .modal h3 { font-family: var(--font-ar); }
+.modal p {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.modal-warning {
+  font-size: 13px;
+  color: var(--red);
+  font-weight: 600;
+  margin-bottom: 24px !important;
+}
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+[dir="rtl"] .modal-actions { justify-content: flex-start; }
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST NOTIFICATIONS
+═══════════════════════════════════════════════════════════ */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  inset-inline-end: 24px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: var(--gray-800);
+  color: #fff;
+  border-radius: var(--radius);
+  font-size: 13px;
+  box-shadow: var(--shadow-lg);
+  transform: translateX(120%);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 320px;
+}
+[dir="rtl"] .toast { transform: translateX(-120%); }
+
+.toast.show { transform: translateX(0); opacity: 1; }
+.toast.success { background: var(--g-700); }
+.toast.error   { background: var(--red); }
+.toast.warning { background: var(--warning); }
+
+/* ═══════════════════════════════════════════════════════════
+   OFFLINE BANNER
+═══════════════════════════════════════════════════════════ */
+#offline-banner {
+  display: none;
+  background: var(--warning);
+  color: #fff;
+  text-align: center;
+  padding: 8px 20px;
+  font-size: 13px;
+  position: fixed;
+  top: var(--navbar-h);
+  left: 0; right: 0;
+  z-index: 90;
+}
+#offline-banner.show { display: block; }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE BOTTOM NAV
+═══════════════════════════════════════════════════════════ */
+#bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--g-800);
+  border-top: 1px solid rgba(201,168,76,0.2);
+  padding: 8px 20px;
+  z-index: 90;
+  gap: 4px;
+  justify-content: space-around;
+}
+@media (max-width: 640px) {
+  #bottom-nav { display: flex; }
+  .view { padding-bottom: 80px; }
+}
+
+.bnav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+.bnav-btn.active { color: var(--gold); }
+.bnav-btn span:first-child { font-size: 20px; }
+.bnav-btn span:last-child { font-size: 12px; letter-spacing: 0.3px; }
+
+/* ═══════════════════════════════════════════════════════════
+   PRINT STYLES
+═══════════════════════════════════════════════════════════ */
+@media print {
+  #navbar, #bottom-nav, #toast-container, .btn-gold, .btn-primary,
+  .btn-outline, .add-row-bar, .nav-actions, .more-menu-wrap,
+  .btn-del-row, .skip-to-main { display: none !important; }
+  body { background: white; }
+  .summary-panel { background: #f5f5f5 !important; color: black !important; }
+  .view { padding: 0; }
+  .card { border: 1px solid #ccc; box-shadow: none; }
+  table { border: 1px solid #ccc; }
+  thead th { background: #eee !important; color: #333 !important; border-bottom: 2px solid #999; }
+  tbody tr { border-bottom: 1px solid #ddd; }
+  h2, h3, thead { page-break-after: avoid; }
+  tr { page-break-inside: avoid; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════════════ */
+/* Skip to main content */
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  padding: 12px 24px;
+  background: var(--gold);
+  color: var(--g-800);
+  font-weight: 600;
+  z-index: 200;
+  border-radius: 0 0 var(--radius-sm) 0;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+.skip-to-main:focus { top: 0; }
+
+/* Focus indicators */
+.nav-link:focus-visible,
+.nav-icon-btn:focus-visible,
+.lang-btn:focus-visible,
+.bnav-btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.hidden { display: none !important; }
+.flex   { display: flex; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.gap-8  { gap: 8px; }
+.gap-12 { gap: 12px; }
+.text-gold   { color: var(--gold); }
+.text-green  { color: var(--g-600); }
+.text-muted  { color: var(--gray-400); }
+.text-small  { font-size: 13px; }
+.text-end    { text-align: end; }
+.footer-value {
+  font-family: var(--font-en);
+  font-size: 22px;
+  font-weight: 700;
+}
+.footer-value-green { color: var(--g-600); }
+.footer-value-red   { color: var(--red); }
+.btn-nav-ghost {
+  color: rgba(255,255,255,0.7);
+  border-color: rgba(255,255,255,0.15);
+}
+.btn-card-ghost {
+  color: rgba(255,255,255,0.7);
+  border-color: rgba(255,255,255,0.2);
+}
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.w-full { width: 100%; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════════ -->
+<a href="#app" class="skip-to-main">Skip to main content</a>
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+  <a class="nav-brand" href="#" onclick="showView('landing'); return false;">
+    <div class="nav-logo" aria-hidden="true">☪</div>
+    <span class="nav-title" id="nav-title-text"><span data-i18n="app.name">Zakat</span></span>
+  </a>
+
+  <div class="nav-links" id="nav-links">
+    <button class="nav-link" id="nav-calculator-btn" onclick="showView('calculator')" data-i18n="nav.calculator" title="Calculator (Alt+C)">Calculator</button>
+    <button class="nav-link" id="nav-tracker-btn" onclick="showView('tracker')" data-i18n="nav.tracker" title="Tracker (Alt+T)">Tracker</button>
+  </div>
+
+  <div class="nav-spacer"></div>
+
+  <div class="nav-actions">
+    <!-- Sync indicator -->
+    <div class="sync-indicator hidden" id="sync-indicator" aria-live="polite">
+      <div class="sync-dot"></div>
+      <span id="sync-label" data-i18n="sync.synced">Synced</span>
+    </div>
+
+    <!-- Language toggle -->
+    <div class="lang-toggle" role="group" aria-label="Language selection">
+      <button class="lang-btn" id="lang-en" onclick="setLang('en')" aria-label="English">English</button>
+      <button class="lang-btn" id="lang-ar" onclick="setLang('ar')" aria-label="العربية">العربية</button>
+    </div>
+
+    <!-- More menu -->
+    <div class="more-menu-wrap">
+      <button class="nav-icon-btn" id="more-btn" onclick="toggleMoreMenu()" aria-haspopup="true" aria-expanded="false" aria-label="More options">⋯</button>
+      <div class="more-dropdown" id="more-dropdown" role="menu">
+        <button class="menu-item" onclick="doExport(); closeMoreMenu();" role="menuitem">
+          <span class="mi-icon">⬇</span>
+          <span data-i18n="export.button">Export Data</span>
+        </button>
+        <button class="menu-item" onclick="triggerImport(); closeMoreMenu();" role="menuitem">
+          <span class="mi-icon">⬆</span>
+          <span data-i18n="import.button">Import Data</span>
+        </button>
+        <div class="menu-divider"></div>
+        <button class="menu-item" id="menu-signin" onclick="startGoogleSignIn(); closeMoreMenu();" role="menuitem">
+          <span class="mi-icon">🔑</span>
+          <span data-i18n="nav.signin">Sign in with Google</span>
+        </button>
+        <button class="menu-item hidden" id="menu-signout" onclick="doSignOut(); closeMoreMenu();" role="menuitem">
+          <span class="mi-icon">🚪</span>
+          <span data-i18n="nav.signout">Sign Out</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- User avatar (shown when signed in) -->
+    <div id="user-display" class="hidden">
+      <div class="user-initials" id="user-initials" onclick="toggleMoreMenu()" title="Account"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- Offline banner -->
+<div id="offline-banner" role="alert" aria-live="assertive">
+  📡 <span data-i18n="sync.offline">Offline</span> — <span data-i18n="offline.saved">changes saved locally</span>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     APP VIEWS
+════════════════════════════════════════════════════ -->
+<main id="app">
+
+  <!-- ── LANDING VIEW ─────────────────────────────── -->
+  <section id="view-landing" class="view active" aria-label="Welcome">
+    <div class="landing-ornament" aria-hidden="true">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+    <h1 class="landing-title">
+      <span data-i18n="landing.title1">Calculate &amp; Track</span><br/>
+      <span data-i18n="landing.title2">Your Zakat</span>
+    </h1>
+    <p class="landing-subtitle" data-i18n="landing.subtitle">
+      A private, premium tool to calculate your annual Zakat obligation and track every payment — with optional Google sync across devices.
+    </p>
+    <div class="landing-features">
+      <div class="feat-chip"><span>🧮</span> <span data-i18n="feat.calc">Full Calculator</span></div>
+      <div class="feat-chip"><span>📋</span> <span data-i18n="feat.track">Payment Tracker</span></div>
+      <div class="feat-chip"><span>☁</span> <span data-i18n="feat.sync">Google Sync</span></div>
+      <div class="feat-chip"><span>🌐</span> <span data-i18n="feat.bilingual">Arabic &amp; English</span></div>
+      <div class="feat-chip"><span>🔒</span> <span data-i18n="feat.private">100% Private</span></div>
+    </div>
+    <div class="landing-cta">
+      <button class="btn-google" onclick="startGoogleSignIn()" aria-label="Sign in with Google">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        <span data-i18n="nav.signin">Sign in with Google</span>
+      </button>
+      <button class="skip-link" onclick="skipSignIn()" data-i18n="landing.skip">
+        Continue without signing in →
+      </button>
+    </div>
+  </section>
+
+  <!-- ── CALCULATOR VIEW ──────────────────────────── -->
+  <section id="view-calculator" class="view" aria-label="Zakat Calculator">
+    <div class="section-header">
+      <h2 class="section-title font-en" data-i18n="calc.title">Zakat Calculator</h2>
+      <p class="section-sub" data-i18n="calc.subtitle">Enter your assets to calculate your annual Zakat obligation</p>
+    </div>
+
+    <div class="calc-layout">
+      <!-- Left: Inputs -->
+      <div id="calc-inputs-panel">
+
+        <!-- Price Inputs -->
+        <div class="card mb-24">
+          <div class="card-header">
+            <h3 data-i18n="calc.pricesTitle">Market Prices</h3>
+            <span class="text-small text-gold" data-i18n="calc.pricesNote">Update daily</span>
+          </div>
+          <div class="card-body">
+            <p class="text-small text-muted mb-16" data-i18n="calc.pricesHint">Update prices to today's market rates (EGP)</p>
+            <div class="price-grid">
+              <div class="price-item">
+                <label for="price-gold24" data-i18n="calc.gold24">24K Gold (per gram)</label>
+                <input type="number" id="price-gold24" value="4625" min="0" max="999999" step="0.01"
+                       aria-label="24K gold price per gram in EGP" oninput="calcZakat()"/>
+              </div>
+              <div class="price-item">
+                <label for="price-silver" data-i18n="calc.silver">Silver (per gram)</label>
+                <input type="number" id="price-silver" value="48.50" min="0" max="999999" step="0.01"
+                       aria-label="Silver price per gram in EGP" oninput="calcZakat()"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assets -->
+        <div class="card mb-24">
+          <div class="card-header">
+            <h3 data-i18n="calc.assetsTitle">Your Assets</h3>
+            <button class="btn btn-gold btn-sm" onclick="addCustomAsset()" aria-label="Add custom asset row">
+              + <span data-i18n="calc.addAsset">Add Asset</span>
+            </button>
+          </div>
+          <div class="card-body" style="padding: 0 24px;">
+
+            <div class="asset-section">
+              <div class="asset-section-title"><span data-i18n="calc.sectionGold">Gold</span></div>
+              <div id="asset-gold">
+                <!-- Gold rows injected by JS -->
+              </div>
+            </div>
+
+            <div class="asset-section">
+              <div class="asset-section-title"><span data-i18n="calc.sectionOther">Cash &amp; Other</span></div>
+              <div id="asset-other">
+                <!-- Other asset rows injected by JS -->
+              </div>
+            </div>
+
+            <div class="asset-section" id="custom-assets-section" style="display:none">
+              <div class="asset-section-title"><span data-i18n="calc.sectionCustom">Custom Assets</span></div>
+              <div id="custom-assets-container"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Deductions -->
+        <div class="card mb-24">
+          <div class="card-header">
+            <h3 data-i18n="calc.deductTitle">Deductions</h3>
+          </div>
+          <div class="card-body" style="padding: 0 24px;">
+            <div id="asset-deductions">
+              <!-- Deduction rows injected by JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Summary -->
+      <div class="summary-panel" id="calc-summary-panel" aria-label="Calculation summary" aria-live="polite">
+        <div class="summary-panel-header">
+          <h3 data-i18n="calc.summaryTitle">Calculation Summary</h3>
+          <p data-i18n="calc.summaryNote">Real-time breakdown</p>
+        </div>
+
+        <!-- Asset lines -->
+        <div class="summary-lines" id="summary-lines">
+          <!-- Injected by JS -->
+        </div>
+
+        <!-- Nisab badge -->
+        <div class="nisab-badge not-met" id="nisab-badge" role="status">
+          <span class="nisab-icon" id="nisab-icon">✕</span>
+          <span id="nisab-text" data-i18n="calc.notMet">Below Nisab — no Zakat due</span>
+        </div>
+
+        <!-- Zakat due -->
+        <div class="zakat-result" id="zakat-result-box">
+          <div class="zakat-result-label" data-i18n="calc.zakatDue">Zakat Due (2.5%)</div>
+          <div class="zakat-result-value" id="zakat-due-display">EGP 0.00</div>
+        </div>
+
+        <!-- Go to Tracker button -->
+        <div style="padding: 0 24px 24px;">
+          <button class="btn btn-outline btn-nav-ghost w-full" onclick="showView('tracker')">
+            <span>📋</span> <span data-i18n="calc.goTracker">Track Payments →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TRACKER VIEW ─────────────────────────────── -->
+  <section id="view-tracker" class="view" aria-label="Zakat Tracker">
+    <div class="section-header">
+      <h2 class="section-title font-en" data-i18n="tracker.title">Payment Tracker</h2>
+      <p class="section-sub" data-i18n="tracker.subtitle">Log your Zakat payments and track your progress</p>
+    </div>
+
+    <!-- Fully paid banner -->
+    <div class="paid-banner" id="paid-banner" role="status">
+      🎉 <span data-i18n="tracker.complete">Zakat Fully Paid!</span> — <span data-i18n="tracker.barakAllah">Barak Allahu feek</span>
+    </div>
+
+    <!-- No zakat due banner -->
+    <div class="paid-banner paid-banner-muted hidden" id="no-zakat-banner" role="status">
+      ℹ️ <span data-i18n="tracker.noZakat">No Zakat due this year — below Nisab threshold</span>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="summary-cards">
+      <div class="sum-card gold">
+        <div class="sum-label" data-i18n="tracker.due">Zakat Due</div>
+        <div class="sum-value" id="tr-due">EGP 0.00</div>
+        <div class="sum-sub" data-i18n="tracker.fromCalc">From Calculator</div>
+      </div>
+      <div class="sum-card green">
+        <div class="sum-label" data-i18n="tracker.paid">Paid So Far</div>
+        <div class="sum-value" id="tr-paid">EGP 0.00</div>
+        <div class="progress-wrap">
+          <div class="progress-bg"><div class="progress-fill" id="tr-progress" style="width:0%"></div></div>
+        </div>
+        <div class="sum-sub" id="tr-pct">0%</div>
+      </div>
+      <div class="sum-card red">
+        <div class="sum-label" data-i18n="tracker.remaining">Remaining</div>
+        <div class="sum-value" id="tr-remaining">EGP 0.00</div>
+        <div class="sum-sub" data-i18n="tracker.balance">Outstanding balance</div>
+      </div>
+    </div>
+
+    <!-- Payments table -->
+    <div class="card">
+      <div class="card-header">
+        <h3 data-i18n="tracker.paymentLog">Payment Log</h3>
+        <div class="flex gap-8">
+          <button class="btn btn-outline btn-sm btn-card-ghost" onclick="clearAllPayments()">
+            <span data-i18n="tracker.clearAll">Clear All</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table id="tracker-table" aria-label="Payment log table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col" data-i18n="tracker.date">Date</th>
+              <th scope="col" data-i18n="tracker.recipient">Recipient</th>
+              <th scope="col" data-i18n="tracker.category">Category</th>
+              <th scope="col" data-i18n="tracker.amount">Amount (EGP)</th>
+              <th scope="col" data-i18n="tracker.notes">Notes</th>
+              <th scope="col" aria-label="Delete"></th>
+            </tr>
+          </thead>
+          <tbody id="tracker-body">
+          </tbody>
+        </table>
+
+        <!-- Empty state -->
+        <div class="tracker-empty" id="tracker-empty">
+          <div class="te-icon">🌙</div>
+          <h4 data-i18n="tracker.empty.title">No payments recorded yet</h4>
+          <p data-i18n="tracker.empty.sub">Click "Add Row" below to log your first Zakat payment</p>
+        </div>
+      </div>
+
+      <div class="add-row-bar">
+        <button class="btn btn-primary" onclick="addTrackerRow()">
+          <span>+</span> <span data-i18n="tracker.addRow">Add Row</span>
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="addTrackerRow(5)">
+          + <span data-i18n="tracker.add5">Add 5 Rows</span>
+        </button>
+        <div class="row-count-badge" id="row-count" aria-live="polite">0 payments</div>
+      </div>
+
+      <div class="card-footer">
+        <div>
+          <div class="text-small text-muted" data-i18n="tracker.totalPaid">Total Paid</div>
+          <div class="footer-value footer-value-green" id="footer-paid">EGP 0.00</div>
+        </div>
+        <div class="text-end">
+          <div class="text-small text-muted" data-i18n="tracker.remaining">Remaining</div>
+          <div class="footer-value footer-value-red" id="footer-remaining">EGP 0.00</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ════════════════════════════════════════════════════
+     MOBILE BOTTOM NAV
+════════════════════════════════════════════════════ -->
+<nav id="bottom-nav" aria-label="Bottom navigation">
+  <button class="bnav-btn" id="bnav-landing" onclick="showView('landing')">
+    <span>🏠</span>
+    <span data-i18n="nav.home">Home</span>
+  </button>
+  <button class="bnav-btn" id="bnav-calculator" onclick="showView('calculator')">
+    <span>🧮</span>
+    <span data-i18n="nav.calculator">Calculator</span>
+  </button>
+  <button class="bnav-btn" id="bnav-tracker" onclick="showView('tracker')">
+    <span>📋</span>
+    <span data-i18n="nav.tracker">Tracker</span>
+  </button>
+</nav>
+
+<!-- ════════════════════════════════════════════════════
+     MODALS
+════════════════════════════════════════════════════ -->
+
+<!-- Import confirm modal -->
+<div class="modal-overlay" id="import-modal" role="dialog" aria-modal="true" aria-labelledby="import-modal-title">
+  <div class="modal">
+    <div class="modal-icon">📂</div>
+    <h3 id="import-modal-title" data-i18n="import.confirm">Confirm Import</h3>
+    <p id="import-modal-date"></p>
+    <p class="modal-warning" data-i18n="import.warning">This will REPLACE your current data.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('import-modal')" data-i18n="common.cancel">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmImport()" data-i18n="import.confirm">Confirm Import</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sync conflict modal -->
+<div class="modal-overlay" id="sync-modal" role="dialog" aria-modal="true" aria-labelledby="sync-modal-title">
+  <div class="modal">
+    <div class="modal-icon">☁</div>
+    <h3 id="sync-modal-title" data-i18n="sync.conflictTitle">Cloud Data Found</h3>
+    <p id="sync-modal-date"></p>
+    <p data-i18n="sync.conflictHint">Which data would you like to use?</p>
+    <div class="modal-actions mt-24">
+      <button class="btn btn-outline" onclick="syncResolvLocal()" data-i18n="sync.keepLocal">Keep Local</button>
+      <button class="btn btn-primary" onclick="syncResolveCloud()" data-i18n="sync.useCloud">Use Cloud Data</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+<!-- Hidden file input for import -->
+<input type="file" id="import-file-input" accept=".json" style="display:none" onchange="handleImportFile(event)"/>
+
+<!-- Google API -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   CONFIGURATION
+═══════════════════════════════════════════════════════════ */
+const CONFIG = {
+  GOOGLE_CLIENT_ID: 'YOUR_GOOGLE_CLIENT_ID', // ← Replace with your OAuth 2.0 Client ID
+  DRIVE_SCOPE: 'https://www.googleapis.com/auth/drive.appdata',
+  DRIVE_FILE_NAME: 'zakat-app-data.json',
+  APP_VERSION: 1,
+  NISAB_GOLD_GRAMS: 87.48,
+  NISAB_SILVER_GRAMS: 612.36,
+  ZAKAT_RATE: 0.025,
+  DEBOUNCE_SAVE: 500,
+  DEBOUNCE_SYNC: 3000,
+};
+
+/* ═══════════════════════════════════════════════════════════
+   TRANSLATIONS
+═══════════════════════════════════════════════════════════ */
+const TRANSLATIONS = {
+  en: {
+    'app.name': 'Zakat',
+    'nav.home': 'Home',
+    'nav.calculator': 'Calculator',
+    'nav.tracker': 'Tracker',
+    'nav.signin': 'Sign in with Google',
+    'nav.signout': 'Sign Out',
+    'landing.title1': 'Calculate & Track',
+    'landing.title2': 'Your Zakat',
+    'landing.subtitle': 'A private, premium tool to calculate your annual Zakat obligation and track every payment — with optional Google sync across devices.',
+    'landing.skip': 'Continue without signing in →',
+    'feat.calc': 'Full Calculator',
+    'feat.track': 'Payment Tracker',
+    'feat.sync': 'Google Sync',
+    'feat.bilingual': 'Arabic & English',
+    'feat.private': '100% Private',
+    'calc.title': 'Zakat Calculator',
+    'calc.subtitle': 'Enter your assets to calculate your annual Zakat obligation',
+    'calc.pricesTitle': 'Market Prices',
+    'calc.pricesNote': 'Update daily',
+    'calc.pricesHint': 'Update prices to today\'s market rates (EGP)',
+    'calc.gold24': '24K Gold (per gram)',
+    'calc.gold21': '21K Gold (per gram)',
+    'calc.gold18': '18K Gold (per gram)',
+    'calc.silver': 'Silver (per gram)',
+    'calc.cash': 'Cash & Bank Balance',
+    'calc.inventory': 'Business Inventory',
+    'calc.receivables': 'Receivable Money',
+    'calc.investments': 'Investments & Stocks',
+    'calc.other': 'Other Assets',
+    'calc.debts': 'Immediate Debts',
+    'calc.liabilities': 'Other Liabilities',
+    'calc.assetsTitle': 'Your Assets',
+    'calc.addAsset': 'Add Asset',
+    'calc.sectionGold': 'Gold & Silver',
+    'calc.sectionOther': 'Cash & Other',
+    'calc.sectionCustom': 'Custom Assets',
+    'calc.deductTitle': 'Deductions',
+    'calc.summaryTitle': 'Calculation Summary',
+    'calc.summaryNote': 'Real-time breakdown',
+    'calc.grossAssets': 'Gross Assets',
+    'calc.totalDeductions': 'Total Deductions',
+    'calc.netWealth': 'Net Zakatable Wealth',
+    'calc.nisabThreshold': 'Nisab Threshold',
+    'calc.nisabGold': 'Gold Nisab (87.48g)',
+    'calc.nisabSilver': 'Silver Nisab (612.36g)',
+    'calc.zakatDue': 'Zakat Due (2.5%)',
+    'calc.met': '✓ Nisab met — Zakat is due',
+    'calc.notMet': '✕ Below Nisab — no Zakat due',
+    'calc.goTracker': 'Track Payments →',
+    'calc.empty': 'Enter your assets above to calculate Zakat',
+    'calc.customLabel': 'Custom Asset',
+    'tracker.title': 'Payment Tracker',
+    'tracker.subtitle': 'Log your Zakat payments and track your progress',
+    'tracker.due': 'Zakat Due',
+    'tracker.paid': 'Paid So Far',
+    'tracker.remaining': 'Remaining',
+    'tracker.fromCalc': 'From Calculator',
+    'tracker.balance': 'Outstanding balance',
+    'tracker.paymentLog': 'Payment Log',
+    'tracker.clearAll': 'Clear All',
+    'tracker.date': 'Date',
+    'tracker.recipient': 'Recipient',
+    'tracker.category': 'Category',
+    'tracker.amount': 'Amount (EGP)',
+    'tracker.notes': 'Notes',
+    'tracker.addRow': 'Add Row',
+    'tracker.add5': 'Add 5 Rows',
+    'tracker.totalPaid': 'Total Paid',
+    'tracker.complete': 'Zakat Fully Paid!',
+    'tracker.barakAllah': 'Barak Allahu feek',
+    'tracker.noZakat': 'No Zakat due this year — below Nisab threshold',
+    'tracker.empty.title': 'No payments recorded yet',
+    'tracker.empty.sub': 'Click "Add Row" below to log your first Zakat payment',
+    'tracker.nDue': 'n/a',
+    'sync.synced': 'Synced',
+    'sync.syncing': 'Syncing…',
+    'sync.error': 'Sync error',
+    'sync.offline': 'Offline',
+    'sync.conflictTitle': 'Cloud Data Found',
+    'sync.conflictHint': 'Which data would you like to use?',
+    'sync.keepLocal': 'Keep Local',
+    'sync.useCloud': 'Use Cloud Data',
+    'offline.saved': 'changes saved locally',
+    'export.button': 'Export Data',
+    'import.button': 'Import Data',
+    'import.confirm': 'Confirm Import',
+    'import.warning': 'This will REPLACE your current data.',
+    'import.from': 'Importing data from:',
+    'import.success': 'Data imported successfully',
+    'import.error': 'Invalid file format',
+    'import.versionError': 'Incompatible file version',
+    'export.success': 'Data exported',
+    'common.cancel': 'Cancel',
+    'common.confirm': 'Confirm',
+    'signout.toast': 'Signed out — data saved locally',
+    'signin.toast': 'Signed in & synced',
+    'cat.faqir': 'Faqir (Poor)',
+    'cat.miskin': 'Miskin (Needy)',
+    'cat.amil': 'Amil (Administrator)',
+    'cat.muallaf': 'Muallaf (New Muslim)',
+    'cat.gharim': 'Gharim (Debt relief)',
+    'cat.sabilillah': 'Fi Sabilillah',
+    'cat.ibnsabil': 'Ibn Sabil (Traveler)',
+    'cat.org': 'Zakat Organization',
+    'cat.other': 'Other',
+    'tracker.clearAll.confirm': 'Clear all payments? This cannot be undone.',
+    'sync.cloudDataFrom': 'Cloud data from:',
+    'signin.configError': 'Please configure your Google Client ID to enable sync',
+    'signin.failed': 'Sign-in failed. Continuing without sync.',
+    'signin.failedWith': 'Sign-in failed:',
+    'sync.cloudLoaded': 'Cloud data loaded',
+    'sync.failed': 'Sync failed',
+    'sync.uploaded': 'Local data uploaded to cloud',
+    'save.failed': 'Storage full — could not save data',
+  },
+  ar: {
+    'app.name': 'زكاة',
+    'nav.home': 'الرئيسية',
+    'nav.calculator': 'حساب الزكاة',
+    'nav.tracker': 'متتبع الزكاة',
+    'nav.signin': 'تسجيل الدخول بجوجل',
+    'nav.signout': 'تسجيل الخروج',
+    'landing.title1': 'احسب وتتبع',
+    'landing.title2': 'زكاتك',
+    'landing.subtitle': 'أداة متميزة وخاصة لحساب زكاتك السنوية وتتبع كل مدفوعاتك — مع مزامنة اختيارية عبر جوجل.',
+    'landing.skip': 'المتابعة بدون تسجيل دخول ←',
+    'feat.calc': 'حاسبة كاملة',
+    'feat.track': 'متتبع المدفوعات',
+    'feat.sync': 'مزامنة جوجل',
+    'feat.bilingual': 'عربي وإنجليزي',
+    'feat.private': 'خصوصية تامة',
+    'calc.title': 'حاسبة الزكاة',
+    'calc.subtitle': 'أدخل أصولك لحساب زكاتك السنوية',
+    'calc.pricesTitle': 'أسعار السوق',
+    'calc.pricesNote': 'تحديث يومي',
+    'calc.pricesHint': 'حدّث الأسعار بأسعار السوق الحالية (ج.م)',
+    'calc.gold24': 'ذهب ٢٤ قيراط (للجرام)',
+    'calc.gold21': 'ذهب ٢١ قيراط (للجرام)',
+    'calc.gold18': 'ذهب ١٨ قيراط (للجرام)',
+    'calc.silver': 'فضة (للجرام)',
+    'calc.cash': 'نقد وأرصدة بنكية',
+    'calc.inventory': 'مخزون تجاري',
+    'calc.receivables': 'ديون مستحقة لك',
+    'calc.investments': 'استثمارات وأسهم',
+    'calc.other': 'أصول أخرى',
+    'calc.debts': 'ديون حالّة',
+    'calc.liabilities': 'التزامات أخرى',
+    'calc.assetsTitle': 'أصولك',
+    'calc.addAsset': 'إضافة أصل',
+    'calc.sectionGold': 'ذهب وفضة',
+    'calc.sectionOther': 'نقد وغيره',
+    'calc.sectionCustom': 'أصول مخصصة',
+    'calc.deductTitle': 'الخصومات',
+    'calc.summaryTitle': 'ملخص الحساب',
+    'calc.summaryNote': 'تحديث فوري',
+    'calc.grossAssets': 'إجمالي الأصول',
+    'calc.totalDeductions': 'إجمالي الخصومات',
+    'calc.netWealth': 'صافي الأموال الزكوية',
+    'calc.nisabThreshold': 'حد النصاب',
+    'calc.nisabGold': 'نصاب الذهب (٨٧٫٤٨ جرام)',
+    'calc.nisabSilver': 'نصاب الفضة (٦١٢٫٣٦ جرام)',
+    'calc.zakatDue': 'الزكاة الواجبة (٢٫٥٪)',
+    'calc.met': '✓ بلغ النصاب — الزكاة واجبة',
+    'calc.notMet': '✕ دون النصاب — لا زكاة',
+    'calc.goTracker': 'تتبع المدفوعات ←',
+    'calc.empty': 'أدخل أصولك أعلاه لحساب الزكاة',
+    'calc.customLabel': 'أصل مخصص',
+    'tracker.title': 'متتبع المدفوعات',
+    'tracker.subtitle': 'سجّل مدفوعات زكاتك وتابع تقدمك',
+    'tracker.due': 'الزكاة الواجبة',
+    'tracker.paid': 'المدفوع حتى الآن',
+    'tracker.remaining': 'المتبقي',
+    'tracker.fromCalc': 'من الحاسبة',
+    'tracker.balance': 'الرصيد المستحق',
+    'tracker.paymentLog': 'سجل المدفوعات',
+    'tracker.clearAll': 'مسح الكل',
+    'tracker.date': 'التاريخ',
+    'tracker.recipient': 'المستفيد',
+    'tracker.category': 'الفئة',
+    'tracker.amount': 'المبلغ (ج.م)',
+    'tracker.notes': 'ملاحظات',
+    'tracker.addRow': 'إضافة صف',
+    'tracker.add5': 'إضافة ٥ صفوف',
+    'tracker.totalPaid': 'إجمالي المدفوع',
+    'tracker.complete': 'تمت أداء الزكاة بالكامل!',
+    'tracker.barakAllah': 'بارك الله فيك',
+    'tracker.noZakat': 'لا زكاة هذا العام — دون حد النصاب',
+    'tracker.empty.title': 'لا توجد مدفوعات مسجلة',
+    'tracker.empty.sub': 'انقر "إضافة صف" لتسجيل أول دفعة زكاة',
+    'tracker.nDue': 'لا ينطبق',
+    'sync.synced': 'تمت المزامنة',
+    'sync.syncing': 'جارٍ المزامنة…',
+    'sync.error': 'خطأ في المزامنة',
+    'sync.offline': 'غير متصل',
+    'sync.conflictTitle': 'تم العثور على بيانات سحابية',
+    'sync.conflictHint': 'أي البيانات تريد استخدامها؟',
+    'sync.keepLocal': 'الاحتفاظ بالمحلية',
+    'sync.useCloud': 'استخدام السحابية',
+    'offline.saved': 'تم حفظ التغييرات محلياً',
+    'export.button': 'تصدير البيانات',
+    'import.button': 'استيراد البيانات',
+    'import.confirm': 'تأكيد الاستيراد',
+    'import.warning': 'سيتم استبدال بياناتك الحالية.',
+    'import.from': 'استيراد البيانات من:',
+    'import.success': 'تم الاستيراد بنجاح',
+    'import.error': 'صيغة الملف غير صحيحة',
+    'import.versionError': 'إصدار غير متوافق',
+    'export.success': 'تم التصدير',
+    'common.cancel': 'إلغاء',
+    'common.confirm': 'تأكيد',
+    'signout.toast': 'تم تسجيل الخروج — البيانات محفوظة محلياً',
+    'signin.toast': 'تم تسجيل الدخول والمزامنة',
+    'cat.faqir': 'الفقير',
+    'cat.miskin': 'المسكين',
+    'cat.amil': 'العامل على الزكاة',
+    'cat.muallaf': 'المؤلفة قلوبهم',
+    'cat.gharim': 'الغارم',
+    'cat.sabilillah': 'في سبيل الله',
+    'cat.ibnsabil': 'ابن السبيل',
+    'cat.org': 'مؤسسة زكاة',
+    'cat.other': 'أخرى',
+    'tracker.clearAll.confirm': 'هل تريد مسح جميع المدفوعات؟ لا يمكن التراجع عن هذا.',
+    'sync.cloudDataFrom': 'بيانات سحابية من:',
+    'signin.configError': 'يرجى تكوين معرف عميل جوجل لتفعيل المزامنة',
+    'signin.failed': 'فشل تسجيل الدخول. المتابعة بدون مزامنة.',
+    'signin.failedWith': 'فشل تسجيل الدخول:',
+    'sync.cloudLoaded': 'تم تحميل البيانات السحابية',
+    'sync.failed': 'فشلت المزامنة',
+    'sync.uploaded': 'تم رفع البيانات المحلية إلى السحابة',
+    'save.failed': 'التخزين ممتلئ — تعذر حفظ البيانات',
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   i18n MODULE
+═══════════════════════════════════════════════════════════ */
+const i18n = {
+  lang: 'en',
+
+  init() {
+    const saved = localStorage.getItem('zakat_lang');
+    if (saved) {
+      this.lang = saved;
+    } else {
+      const nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+      this.lang = nav.startsWith('ar') ? 'ar' : 'en';
+    }
+    this.apply();
+  },
+
+  t(key) {
+    return (TRANSLATIONS[this.lang] && TRANSLATIONS[this.lang][key]) ||
+           (TRANSLATIONS['en'][key]) ||
+           key;
+  },
+
+  apply() {
+    const html = document.documentElement;
+    if (this.lang === 'ar') {
+      html.setAttribute('lang', 'ar');
+      html.setAttribute('dir', 'rtl');
+    } else {
+      html.setAttribute('lang', 'en');
+      html.setAttribute('dir', 'ltr');
+    }
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      el.textContent = this.t(key);
+    });
+
+    // Update lang toggle buttons
+    document.getElementById('lang-en').classList.toggle('active', this.lang === 'en');
+    document.getElementById('lang-ar').classList.toggle('active', this.lang === 'ar');
+
+    // Rebuild dynamic content with new language
+    renderAssetRows();
+    renderTrackerTable();
+    updateTrackerSummary();
+    calcZakat();
+  }
+};
+
+function setLang(lang) {
+  i18n.lang = lang;
+  localStorage.setItem('zakat_lang', lang);
+  i18n.apply();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   APP STATE
+═══════════════════════════════════════════════════════════ */
+const state = {
+  calculator: {
+    prices: { gold24PerGram: 4625, silverPerGram: 48.50 },
+    assets: {
+      gold24g: 0, gold21g: 0, gold18g: 0, silverG: 0,
+      cash: 0, inventory: 0, receivables: 0, investments: 0, otherAssets: 0
+    },
+    deductions: { immediateDebts: 0, otherLiabilities: 0 },
+    customAssets: [] // [{id, label, amount}]
+  },
+  tracker: {
+    payments: []
+  },
+  zakatDue: 0,
+  nisabMet: false,
+};
+
+window.zakatState = { get totalDue() { return state.zakatDue; } };
+
+/* ═══════════════════════════════════════════════════════════
+   STORAGE / PERSISTENCE
+═══════════════════════════════════════════════════════════ */
+let saveTimer = null;
+let syncTimer = null;
+
+function saveLocal() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    const data = buildExportData();
+    try {
+      localStorage.setItem('zakat_app_data', JSON.stringify(data));
+    } catch (e) {
+      showToast('⚠ ' + i18n.t('save.failed'), 'error');
+      return;
+    }
+    if (!googleAccessToken) flashSaveIndicator();
+    scheduleSync();
+  }, CONFIG.DEBOUNCE_SAVE);
+}
+
+function loadLocal() {
+  try {
+    const raw = localStorage.getItem('zakat_app_data');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    applyImportData(data, false);
+  } catch (e) {
+    console.warn('Failed to load local data:', e);
+  }
+}
+
+function buildExportData() {
+  return {
+    version: CONFIG.APP_VERSION,
+    exportedAt: new Date().toISOString(),
+    lastModified: new Date().toISOString(),
+    language: i18n.lang,
+    calculator: JSON.parse(JSON.stringify(state.calculator)),
+    tracker: JSON.parse(JSON.stringify(state.tracker)),
+  };
+}
+
+function applyImportData(data, rerender = true) {
+  if (data.calculator && typeof data.calculator === 'object') {
+    if (data.calculator.prices && typeof data.calculator.prices === 'object')
+      Object.assign(state.calculator.prices, data.calculator.prices);
+    if (data.calculator.assets && typeof data.calculator.assets === 'object')
+      Object.assign(state.calculator.assets, data.calculator.assets);
+    if (data.calculator.deductions && typeof data.calculator.deductions === 'object')
+      Object.assign(state.calculator.deductions, data.calculator.deductions);
+    if (Array.isArray(data.calculator.customAssets))
+      state.calculator.customAssets = data.calculator.customAssets;
+  }
+  if (data.tracker && typeof data.tracker === 'object') {
+    if (Array.isArray(data.tracker.payments))
+      state.tracker.payments = data.tracker.payments;
+  }
+  if (rerender) {
+    syncInputsFromState();
+    renderAssetRows();
+    renderTrackerTable();
+    calcZakat();
+    updateTrackerSummary();
+  }
+}
+
+function syncInputsFromState() {
+  const p = state.calculator.prices;
+  const a = state.calculator.assets;
+  const d = state.calculator.deductions;
+
+  setInputVal('price-gold24', p.gold24PerGram);
+  setInputVal('price-silver', p.silverPerGram);
+  setInputVal('asset-gold24g', a.gold24g);
+  setInputVal('asset-gold21g', a.gold21g);
+  setInputVal('asset-gold18g', a.gold18g);
+  setInputVal('asset-silverg', a.silverG);
+  setInputVal('asset-cash', a.cash);
+  setInputVal('asset-inventory', a.inventory);
+  setInputVal('asset-receivables', a.receivables);
+  setInputVal('asset-investments', a.investments);
+  setInputVal('asset-otherassets', a.otherAssets);
+  setInputVal('asset-immediatedebts', d.immediateDebts);
+  setInputVal('asset-otherliabilities', d.otherLiabilities);
+}
+
+function setInputVal(id, val) {
+  const el = document.getElementById(id);
+  if (el && val !== undefined && val !== null) el.value = val || '';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CALCULATOR — ASSET ROW DEFINITIONS
+═══════════════════════════════════════════════════════════ */
+const ASSET_DEFS = {
+  gold: [
+    { id: 'gold24g',    key: 'calc.gold24',  unit: 'g', stateKey: 'gold24g',   formula: (v, p) => v * p.gold24PerGram },
+    { id: 'gold21g',    key: 'calc.gold21',  unit: 'g', stateKey: 'gold21g',   formula: (v, p) => v * p.gold24PerGram * (21/24) },
+    { id: 'gold18g',    key: 'calc.gold18',  unit: 'g', stateKey: 'gold18g',   formula: (v, p) => v * p.gold24PerGram * (18/24) },
+    { id: 'silverg',    key: 'calc.silver',  unit: 'g', stateKey: 'silverG',   formula: (v, p) => v * p.silverPerGram },
+  ],
+  other: [
+    { id: 'cash',        key: 'calc.cash',        unit: 'EGP', stateKey: 'cash',        formula: (v) => v },
+    { id: 'inventory',   key: 'calc.inventory',   unit: 'EGP', stateKey: 'inventory',   formula: (v) => v },
+    { id: 'receivables', key: 'calc.receivables', unit: 'EGP', stateKey: 'receivables', formula: (v) => v },
+    { id: 'investments', key: 'calc.investments', unit: 'EGP', stateKey: 'investments', formula: (v) => v },
+    { id: 'otherassets', key: 'calc.other',       unit: 'EGP', stateKey: 'otherAssets', formula: (v) => v },
+  ],
+  deductions: [
+    { id: 'immediatedebts',    key: 'calc.debts',       unit: 'EGP', stateKey: 'immediateDebts',    formula: (v) => v },
+    { id: 'otherliabilities',  key: 'calc.liabilities', unit: 'EGP', stateKey: 'otherLiabilities',  formula: (v) => v },
+  ]
+};
+
+function renderAssetRows() {
+  renderRowGroup('asset-gold', ASSET_DEFS.gold, 'assets');
+  renderRowGroup('asset-other', ASSET_DEFS.other, 'assets');
+  renderRowGroup('asset-deductions', ASSET_DEFS.deductions, 'deductions');
+  renderCustomAssets();
+  syncInputsFromState();
+}
+
+function renderRowGroup(containerId, defs, stateGroup) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+
+  defs.forEach(def => {
+    const row = document.createElement('div');
+    row.className = 'form-row';
+    if (stateGroup === 'deductions') row.style.background = 'rgba(192,57,43,0.04)';
+
+    const inputId = `asset-${def.id}`;
+    const valueId = `val-${def.id}`;
+
+    const isWeight = def.unit === 'g';
+    const stepVal = isWeight ? '0.001' : '0.01';
+    const maxVal = isWeight ? '999999' : '999999999';
+    row.innerHTML = `
+      <label class="form-label" for="${inputId}"><strong>${i18n.t(def.key)}</strong></label>
+      <input type="number" id="${inputId}" min="0" max="${maxVal}" step="${stepVal}"
+             placeholder="0" value="${getStateVal(stateGroup, def.stateKey)}"
+             aria-label="${i18n.t(def.key)}"
+             oninput="onAssetInput('${stateGroup}','${def.stateKey}',this.value)"
+             style="width:140px; flex-shrink:0;"/>
+      <span class="input-unit">${def.unit}</span>
+      <span class="input-value" id="${valueId}">EGP 0.00</span>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function getStateVal(group, key) {
+  const src = group === 'deductions' ? state.calculator.deductions : state.calculator.assets;
+  const v = src[key];
+  return v ? v : '';
+}
+
+function onAssetInput(group, key, rawVal) {
+  const val = safeNum(rawVal);
+  if (group === 'deductions') {
+    state.calculator.deductions[key] = val;
+  } else {
+    state.calculator.assets[key] = val;
+  }
+  calcZakat();
+  saveLocal();
+}
+
+function onPriceInput(key, rawVal) {
+  state.calculator.prices[key] = safeNum(rawVal);
+  calcZakat();
+  saveLocal();
+}
+
+// Wire price inputs
+document.getElementById('price-gold24').addEventListener('input', function() {
+  onPriceInput('gold24PerGram', this.value);
+});
+document.getElementById('price-silver').addEventListener('input', function() {
+  onPriceInput('silverPerGram', this.value);
+});
+
+/* ═══════════════════════════════════════════════════════════
+   CUSTOM ASSETS
+═══════════════════════════════════════════════════════════ */
+function addCustomAsset() {
+  const id = 'custom_' + Date.now();
+  state.calculator.customAssets.push({ id, label: '', amount: 0 });
+  renderCustomAssets();
+  saveLocal();
+  // focus the new label input
+  setTimeout(() => {
+    const el = document.getElementById(`custom-label-${id}`);
+    if (el) el.focus();
+  }, 50);
+}
+
+function renderCustomAssets() {
+  const container = document.getElementById('custom-assets-container');
+  const section = document.getElementById('custom-assets-section');
+  if (!container) return;
+
+  container.innerHTML = '';
+  const assets = state.calculator.customAssets;
+  section.style.display = assets.length ? '' : 'none';
+
+  assets.forEach((asset, idx) => {
+    const row = document.createElement('div');
+    row.className = 'custom-row';
+    row.id = `custom-row-${asset.id}`;
+    row.innerHTML = `
+      <input type="text" id="custom-label-${asset.id}" placeholder="${i18n.t('calc.customLabel')}"
+             value="${escapeHtml(asset.label)}" style="width:100%;"
+             oninput="updateCustomLabel('${asset.id}', this.value)"
+             aria-label="Custom asset name"/>
+      <span class="input-unit">EGP</span>
+      <input type="number" id="custom-val-${asset.id}" placeholder="0"
+             value="${asset.amount || ''}" min="0" max="999999999" step="0.01"
+             oninput="updateCustomAmount('${asset.id}', this.value)"
+             style="width:120px;" aria-label="Custom asset amount"/>
+      <span class="input-value" id="custom-display-${asset.id}">${fmtEGP(asset.amount)}</span>
+      <button class="btn-del-row" onclick="removeCustomAsset('${asset.id}')"
+              aria-label="Remove this asset">×</button>
+    `;
+    container.appendChild(row);
+  });
+}
+
+function updateCustomLabel(id, label) {
+  const a = state.calculator.customAssets.find(a => a.id === id);
+  if (a) { a.label = label; saveLocal(); calcZakat(); }
+}
+
+function updateCustomAmount(id, rawVal) {
+  const a = state.calculator.customAssets.find(a => a.id === id);
+  if (a) {
+    a.amount = safeNum(rawVal);
+    const disp = document.getElementById(`custom-display-${id}`);
+    if (disp) disp.textContent = fmtEGP(a.amount);
+    calcZakat(); saveLocal();
+  }
+}
+
+function removeCustomAsset(id) {
+  const row = document.getElementById(`custom-row-${id}`);
+  if (row) {
+    row.style.animation = 'rowDelete 0.2s ease forwards';
+    setTimeout(() => {
+      state.calculator.customAssets = state.calculator.customAssets.filter(a => a.id !== id);
+      renderCustomAssets(); calcZakat(); saveLocal();
+    }, 200);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CALCULATOR ENGINE
+═══════════════════════════════════════════════════════════ */
+function calcZakat() {
+  const p = state.calculator.prices;
+  const a = state.calculator.assets;
+  const d = state.calculator.deductions;
+
+  // Calculate individual values
+  const values = {
+    gold24: a.gold24g * p.gold24PerGram,
+    gold21: a.gold21g * p.gold24PerGram * (21/24),
+    gold18: a.gold18g * p.gold24PerGram * (18/24),
+    silver: a.silverG * p.silverPerGram,
+    cash:        a.cash,
+    inventory:   a.inventory,
+    receivables: a.receivables,
+    investments: a.investments,
+    otherAssets: a.otherAssets,
+  };
+
+  // Map stateKey to calculated value for display
+  const valueByStateKey = {
+    gold24g: values.gold24, gold21g: values.gold21, gold18g: values.gold18,
+    silverG: values.silver, cash: values.cash, inventory: values.inventory,
+    receivables: values.receivables, investments: values.investments, otherAssets: values.otherAssets,
+  };
+
+  // Update row value displays
+  const allDefs = [...ASSET_DEFS.gold, ...ASSET_DEFS.other];
+  allDefs.forEach(def => {
+    const el = document.getElementById(`val-${def.id}`);
+    if (el) el.textContent = fmtEGP(valueByStateKey[def.stateKey] || 0);
+  });
+
+  // Custom asset displays
+  state.calculator.customAssets.forEach(ca => {
+    const el = document.getElementById(`custom-display-${ca.id}`);
+    if (el) el.textContent = fmtEGP(ca.amount);
+  });
+
+  const customTotal = state.calculator.customAssets.reduce((s, a) => s + safeNum(a.amount), 0);
+
+  const grossAssets = Object.values(values).reduce((s, v) => s + v, 0) + customTotal;
+
+  const deductVals = {
+    immediateDebts:   d.immediateDebts,
+    otherLiabilities: d.otherLiabilities,
+  };
+  const el1 = document.getElementById('val-immediatedebts');
+  const el2 = document.getElementById('val-otherliabilities');
+  if (el1) el1.textContent = fmtEGP(d.immediateDebts);
+  if (el2) el2.textContent = fmtEGP(d.otherLiabilities);
+
+  const totalDeductions = Object.values(deductVals).reduce((s, v) => s + v, 0);
+  const netWealth = Math.max(grossAssets - totalDeductions, 0);
+
+  // Nisab
+  const nisabGold   = CONFIG.NISAB_GOLD_GRAMS   * p.gold24PerGram;
+  const nisabSilver = CONFIG.NISAB_SILVER_GRAMS  * p.silverPerGram;
+  const nisab       = Math.min(nisabGold, nisabSilver);
+  const nisabMet    = netWealth >= nisab;
+
+  const zakatDue = nisabMet ? netWealth * CONFIG.ZAKAT_RATE : 0;
+
+  state.zakatDue  = zakatDue;
+  state.nisabMet  = nisabMet;
+  window.zakatState.nisabMet = nisabMet;
+
+  // Update summary panel
+  updateSummaryPanel({
+    values, customTotal, grossAssets, totalDeductions, netWealth,
+    nisabGold, nisabSilver, nisab, nisabMet, zakatDue
+  });
+
+  // Update tracker
+  updateTrackerSummary();
+}
+
+function updateSummaryPanel(r) {
+  const lines = document.getElementById('summary-lines');
+  if (!lines) return;
+
+  const allAssetDefs = [
+    ...ASSET_DEFS.gold.map(d => ({ ...d, group: 'assets' })),
+    ...ASSET_DEFS.other.map(d => ({ ...d, group: 'assets' })),
+  ];
+
+  let html = '';
+
+  // Individual assets with value > 0
+  let hasAssets = false;
+  const valueByKey2 = {
+    gold24g: r.values.gold24, gold21g: r.values.gold21, gold18g: r.values.gold18,
+    silverG: r.values.silver, cash: r.values.cash, inventory: r.values.inventory,
+    receivables: r.values.receivables, investments: r.values.investments, otherAssets: r.values.otherAssets,
+  };
+  allAssetDefs.forEach(def => {
+    const val = valueByKey2[def.stateKey] || 0;
+    if (val > 0) {
+      hasAssets = true;
+      html += sumLine(i18n.t(def.key), fmtEGP(val), 'positive');
+    }
+  });
+
+  // Custom assets
+  state.calculator.customAssets.forEach(ca => {
+    if (ca.amount > 0) {
+      hasAssets = true;
+      html += sumLine(escapeHtml(ca.label) || i18n.t('calc.customLabel'), fmtEGP(ca.amount), 'positive');
+    }
+  });
+
+  if (!hasAssets) {
+    html += `<div class="calc-empty"><div class="ce-icon">🏦</div><p>${i18n.t('calc.empty')}</p></div>`;
+  }
+
+  // Totals
+  html += `<div class="menu-divider" style="border-top:1px solid rgba(255,255,255,0.08); margin:8px 0;"></div>`;
+  html += sumLine(i18n.t('calc.grossAssets'), fmtEGP(r.grossAssets), 'positive');
+  if (r.totalDeductions > 0) {
+    html += sumLine(i18n.t('calc.totalDeductions'), '- ' + fmtEGP(r.totalDeductions), 'negative');
+  }
+  html += sumLine(i18n.t('calc.netWealth'), fmtEGP(r.netWealth), '', true);
+
+  // Nisab
+  html += `<div class="menu-divider" style="border-top:1px solid rgba(255,255,255,0.08); margin:8px 0;"></div>`;
+  html += sumLine(i18n.t('calc.nisabGold'),   fmtEGP(r.nisabGold),   '');
+  html += sumLine(i18n.t('calc.nisabSilver'), fmtEGP(r.nisabSilver), '');
+  html += sumLine(i18n.t('calc.nisabThreshold'), fmtEGP(r.nisab), '', true);
+
+  lines.innerHTML = html;
+
+  // Nisab badge
+  const badge = document.getElementById('nisab-badge');
+  const nisabText = document.getElementById('nisab-text');
+  if (r.nisabMet) {
+    badge.className = 'nisab-badge met';
+    nisabText.textContent = i18n.t('calc.met');
+  } else {
+    badge.className = 'nisab-badge not-met';
+    nisabText.textContent = i18n.t('calc.notMet');
+  }
+
+  // Zakat result
+  document.getElementById('zakat-due-display').textContent = fmtEGP(r.zakatDue);
+}
+
+function sumLine(label, value, cls = '', bold = false) {
+  return `<div class="sum-line${bold ? ' total' : ''}">
+    <span class="sum-line-label">${label}</span>
+    <span class="sum-line-value ${cls}">${value}</span>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TRACKER MODULE
+═══════════════════════════════════════════════════════════ */
+const CATEGORIES = [
+  'cat.faqir', 'cat.miskin', 'cat.amil', 'cat.muallaf',
+  'cat.gharim', 'cat.sabilillah', 'cat.ibnsabil', 'cat.org', 'cat.other'
+];
+
+function addTrackerRow(count = 1) {
+  for (let i = 0; i < count; i++) {
+    state.tracker.payments.push({
+      id: 'pay_' + Date.now() + '_' + Math.random().toString(36).slice(2),
+      date: '', recipient: '', category: '', amount: 0, notes: ''
+    });
+  }
+  renderTrackerTable();
+  updateTrackerSummary();
+  saveLocal();
+
+  // Scroll & focus new row
+  setTimeout(() => {
+    const rows = document.querySelectorAll('#tracker-body tr');
+    if (rows.length > 0) {
+      const last = rows[rows.length - 1];
+      last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const inp = last.querySelector('input');
+      if (inp) inp.focus();
+    }
+  }, 60);
+
+  if (count === 1) showToast(i18n.t('tracker.addRow') + ' ✓', 'success');
+}
+
+function deleteTrackerRow(id) {
+  const row = document.getElementById(`trow-${id}`);
+  if (row) {
+    row.style.transition = 'opacity 0.2s, transform 0.2s';
+    row.style.opacity = '0';
+    row.style.transform = 'translateX(20px)';
+    setTimeout(() => {
+      state.tracker.payments = state.tracker.payments.filter(p => p.id !== id);
+      renderTrackerTable();
+      updateTrackerSummary();
+      saveLocal();
+    }, 200);
+  }
+}
+
+function updatePaymentField(id, field, value) {
+  const pay = state.tracker.payments.find(p => p.id === id);
+  if (pay) {
+    pay[field] = field === 'amount' ? safeNum(value) : value;
+    if (field === 'amount') updateTrackerSummary();
+    saveLocal();
+  }
+}
+
+function renderTrackerTable() {
+  const tbody = document.getElementById('tracker-body');
+  const empty = document.getElementById('tracker-empty');
+  const rowCount = document.getElementById('row-count');
+  if (!tbody) return;
+
+  const payments = state.tracker.payments;
+
+  if (payments.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = '';
+    rowCount.textContent = i18n.t('tracker.empty.title').includes('No') ? '0 payments' : '٠ مدفوعات';
+    return;
+  }
+
+  empty.style.display = 'none';
+  const count = payments.length;
+  rowCount.textContent = i18n.lang === 'ar'
+    ? `${count.toLocaleString('ar-EG')} ${count === 1 ? 'دفعة' : 'دفعات'}`
+    : `${count} payment${count !== 1 ? 's' : ''}`;
+
+  const catOptions = CATEGORIES.map(k =>
+    `<option value="${k}">${i18n.t(k)}</option>`
+  ).join('');
+
+  const todayStr = new Date().toISOString().slice(0, 10);
+  tbody.innerHTML = payments.map((pay, idx) => `
+    <tr id="trow-${pay.id}" style="animation: slideDown 0.2s ease both; animation-delay: ${Math.min(idx * 0.02, 0.3)}s">
+      <td>${i18n.lang === 'ar' ? (idx+1).toLocaleString('ar-EG') : idx+1}</td>
+      <td>
+        <input type="date" value="${pay.date || ''}" max="${todayStr}"
+               onchange="updatePaymentField('${pay.id}','date',this.value)"
+               aria-label="${i18n.t('tracker.date')}"/>
+      </td>
+      <td>
+        <input type="text" value="${escapeHtml(pay.recipient || '')}"
+               placeholder="${i18n.t('tracker.recipient')}…"
+               onchange="updatePaymentField('${pay.id}','recipient',this.value)"
+               style="min-width:140px;"
+               aria-label="${i18n.t('tracker.recipient')}"/>
+      </td>
+      <td>
+        <select onchange="updatePaymentField('${pay.id}','category',this.value)"
+                aria-label="${i18n.t('tracker.category')}">
+          <option value="">${i18n.t('tracker.category')}…</option>
+          ${CATEGORIES.map(k => `<option value="${k}" ${pay.category === k ? 'selected' : ''}>${i18n.t(k)}</option>`).join('')}
+        </select>
+      </td>
+      <td class="amount-col">
+        <input type="number" value="${pay.amount || ''}"
+               placeholder="0" min="0" max="999999999" step="0.01"
+               oninput="updatePaymentField('${pay.id}','amount',this.value)"
+               style="min-width:110px; text-align:end;"
+               aria-label="${i18n.t('tracker.amount')}"/>
+      </td>
+      <td>
+        <input type="text" value="${escapeHtml(pay.notes || '')}"
+               placeholder="${i18n.t('tracker.notes')}…"
+               onchange="updatePaymentField('${pay.id}','notes',this.value)"
+               style="min-width:140px;"
+               aria-label="${i18n.t('tracker.notes')}"/>
+      </td>
+      <td style="text-align:center;">
+        <button class="btn-del-row" onclick="deleteTrackerRow('${pay.id}')"
+                aria-label="Delete payment row" title="Delete">×</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function updateTrackerSummary() {
+  const due  = state.zakatDue;
+  const paid = state.tracker.payments.reduce((s, p) => s + safeNum(p.amount), 0);
+  const remaining = Math.max(due - paid, 0);
+  const pct  = due > 0 ? Math.min((paid / due) * 100, 100) : 0;
+
+  setElem('tr-due',       fmtEGP(due));
+  setElem('tr-paid',      fmtEGP(paid));
+  setElem('tr-remaining', fmtEGP(remaining));
+  setElem('footer-paid',      fmtEGP(paid));
+  setElem('footer-remaining', fmtEGP(remaining));
+
+  const pctEl = document.getElementById('tr-pct');
+  if (pctEl) {
+    pctEl.textContent = i18n.lang === 'ar'
+      ? pct.toFixed(1).toLocaleString('ar-EG') + '%'
+      : pct.toFixed(1) + '%';
+  }
+
+  requestAnimationFrame(() => {
+    const bar = document.getElementById('tr-progress');
+    if (bar) bar.style.width = pct + '%';
+  });
+
+  // Banners
+  const paidBanner    = document.getElementById('paid-banner');
+  const noZakatBanner = document.getElementById('no-zakat-banner');
+  const footerRem     = document.getElementById('footer-remaining');
+
+  if (!state.nisabMet && due === 0) {
+    paidBanner.classList.remove('show');
+    noZakatBanner.classList.remove('hidden');
+  } else if (due > 0 && remaining <= 0 && paid > 0) {
+    paidBanner.classList.add('show');
+    noZakatBanner.classList.add('hidden');
+    if (footerRem) { footerRem.textContent = fmtEGP(0); footerRem.classList.remove('footer-value-red'); footerRem.classList.add('footer-value-green'); }
+  } else {
+    paidBanner.classList.remove('show');
+    noZakatBanner.classList.add('hidden');
+    if (footerRem) { footerRem.classList.remove('footer-value-green'); footerRem.classList.add('footer-value-red'); }
+  }
+
+  // Remaining card color
+  const remCard = document.querySelector('.sum-card.red .sum-value');
+  if (remCard) {
+    remCard.style.color = remaining <= 0 ? 'var(--g-600)' : '';
+  }
+}
+
+function clearAllPayments() {
+  if (!state.tracker.payments.length) return;
+  if (!confirm(i18n.t('tracker.clearAll.confirm'))) return;
+  state.tracker.payments = [];
+  renderTrackerTable();
+  updateTrackerSummary();
+  saveLocal();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════ */
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+
+  const view = document.getElementById(`view-${name}`);
+  if (view) view.classList.add('active');
+
+  const navBtn = document.getElementById(`nav-${name}-btn`);
+  if (navBtn) navBtn.classList.add('active');
+
+  const bnavBtn = document.getElementById(`bnav-${name}`);
+  if (bnavBtn) bnavBtn.classList.add('active');
+
+  // Recalc when switching to tracker
+  if (name === 'tracker') updateTrackerSummary();
+  if (name === 'calculator') calcZakat();
+
+  closeMoreMenu();
+}
+
+function skipSignIn() {
+  const landing = document.getElementById('view-landing');
+  if (landing.classList.contains('active')) {
+    let switched = false;
+    function doSwitch() {
+      if (switched) return;
+      switched = true;
+      landing.classList.remove('view-exit');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      showView('calculator');
+    }
+    landing.classList.add('view-exit');
+    landing.addEventListener('animationend', doSwitch, { once: true });
+    setTimeout(doSwitch, 350);
+  } else {
+    showView('calculator');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MORE MENU
+═══════════════════════════════════════════════════════════ */
+function toggleMoreMenu() {
+  const dd = document.getElementById('more-dropdown');
+  const btn = document.getElementById('more-btn');
+  const isOpen = dd.classList.contains('open');
+  dd.classList.toggle('open');
+  btn.setAttribute('aria-expanded', !isOpen);
+}
+
+function closeMoreMenu() {
+  const dd = document.getElementById('more-dropdown');
+  if (dd) dd.classList.remove('open');
+  const btn = document.getElementById('more-btn');
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.more-menu-wrap') && !e.target.closest('#user-display')) {
+    closeMoreMenu();
+  }
+});
+
+/* ═══════════════════════════════════════════════════════════
+   EXPORT / IMPORT
+═══════════════════════════════════════════════════════════ */
+function doExport() {
+  const data = buildExportData();
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const date = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `zakat-data-${date}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('⬇ ' + i18n.t('export.success'), 'success');
+}
+
+function triggerImport() {
+  document.getElementById('import-file-input').click();
+}
+
+let pendingImportData = null;
+
+function handleImportFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  event.target.value = '';
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.version) throw new Error('missing version');
+      if (data.version !== CONFIG.APP_VERSION) {
+        showToast('⚠ ' + i18n.t('import.versionError'), 'warning'); return;
+      }
+      pendingImportData = data;
+      const dateStr = data.exportedAt
+        ? new Date(data.exportedAt).toLocaleString(i18n.lang === 'ar' ? 'ar-EG' : 'en-GB')
+        : '?';
+      document.getElementById('import-modal-date').textContent = i18n.t('import.from') + ' ' + dateStr;
+      openModal('import-modal');
+    } catch (err) {
+      showToast('✕ ' + i18n.t('import.error'), 'error');
+    }
+  };
+  reader.onerror = () => {
+    showToast('✕ ' + i18n.t('import.error'), 'error');
+  };
+  reader.readAsText(file);
+}
+
+function confirmImport() {
+  if (!pendingImportData) return;
+  applyImportData(pendingImportData, true);
+  saveLocal();
+  closeModal('import-modal');
+  pendingImportData = null;
+  showToast('✓ ' + i18n.t('import.success'), 'success');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODALS
+═══════════════════════════════════════════════════════════ */
+let previousFocusEl = null;
+
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  previousFocusEl = document.activeElement;
+  el.classList.add('open');
+  trapFocus(el);
+}
+
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('open');
+  if (previousFocusEl) {
+    previousFocusEl.focus();
+    previousFocusEl = null;
+  }
+}
+
+function trapFocus(modal) {
+  const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  first.focus();
+
+  modal._trapHandler = (e) => {
+    if (e.key !== 'Tab') return;
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  };
+  modal.addEventListener('keydown', modal._trapHandler);
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal(overlay.id);
+  });
+});
+
+// Close on Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      if (m._trapHandler) { m.removeEventListener('keydown', m._trapHandler); m._trapHandler = null; }
+      closeModal(m.id);
+    });
+    closeMoreMenu();
+  }
+});
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST NOTIFICATIONS
+═══════════════════════════════════════════════════════════ */
+function showToast(msg, type = '', duration = 2500) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = msg;
+  container.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => toast.classList.add('show'));
+  });
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, duration);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GOOGLE SIGN-IN & DRIVE SYNC
+═══════════════════════════════════════════════════════════ */
+let googleAccessToken = null;
+let driveFileId = null;
+let googleUser = null;
+
+function startGoogleSignIn() {
+  if (CONFIG.GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+    showToast('⚠ ' + i18n.t('signin.configError'), 'warning', 4000);
+    skipSignIn();
+    return;
+  }
+
+  try {
+    const client = google.accounts.oauth2.initTokenClient({
+      client_id: CONFIG.GOOGLE_CLIENT_ID,
+      scope: CONFIG.DRIVE_SCOPE + ' https://www.googleapis.com/auth/userinfo.profile',
+      callback: handleGoogleToken,
+    });
+    client.requestAccessToken({ prompt: '' });
+  } catch (e) {
+    console.warn('Google Sign-In error:', e);
+    showToast(i18n.t('signin.failed'), 'error');
+    skipSignIn();
+  }
+}
+
+async function handleGoogleToken(tokenResponse) {
+  if (tokenResponse.error) {
+    showToast(i18n.t('signin.failedWith') + ' ' + tokenResponse.error, 'error');
+    skipSignIn();
+    return;
+  }
+
+  googleAccessToken = tokenResponse.access_token;
+
+  // Fetch user profile
+  try {
+    const profileRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+      headers: { Authorization: `Bearer ${googleAccessToken}` }
+    });
+    googleUser = await profileRes.json();
+    showUserInNav(googleUser);
+  } catch(e) { /* profile fetch failed, continue */ }
+
+  showView('calculator');
+  setSyncStatus('syncing');
+  showToast('✓ ' + i18n.t('signin.toast'), 'success');
+
+  // Check for existing cloud data
+  await checkDriveData();
+}
+
+function showUserInNav(user) {
+  document.getElementById('user-display').classList.remove('hidden');
+  document.getElementById('menu-signin').classList.add('hidden');
+  document.getElementById('menu-signout').classList.remove('hidden');
+  document.getElementById('sync-indicator').classList.remove('hidden');
+
+  const initials = document.getElementById('user-initials');
+  const name = user.name || user.email || '?';
+  initials.textContent = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  initials.title = name;
+}
+
+async function checkDriveData() {
+  try {
+    // Search for existing file
+    const searchRes = await driveRequest(
+      `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=name='${CONFIG.DRIVE_FILE_NAME}'&fields=files(id,modifiedTime)`
+    );
+    const files = searchRes.files || [];
+
+    if (files.length > 0) {
+      driveFileId = files[0].id;
+      const cloudModified = new Date(files[0].modifiedTime);
+
+      // Get local last modified
+      let localModified = null;
+      try {
+        const local = JSON.parse(localStorage.getItem('zakat_app_data') || '{}');
+        if (local.lastModified) localModified = new Date(local.lastModified);
+      } catch(e) {}
+
+      if (!localModified || cloudModified > localModified) {
+        // Cloud is newer — ask user
+        const dateStr = cloudModified.toLocaleString(i18n.lang === 'ar' ? 'ar-EG' : 'en-GB');
+        document.getElementById('sync-modal-date').textContent =
+          i18n.t('sync.cloudDataFrom') + ' ' + dateStr;
+        openModal('sync-modal');
+      } else {
+        // Local is newer — upload
+        await uploadToDrive();
+        setSyncStatus('synced');
+      }
+    } else {
+      // No cloud file — upload current data
+      await uploadToDrive();
+      setSyncStatus('synced');
+    }
+  } catch(e) {
+    console.warn('Drive check error:', e);
+    setSyncStatus('error');
+  }
+}
+
+async function syncResolveCloud() {
+  closeModal('sync-modal');
+  setSyncStatus('syncing');
+  try {
+    const data = await downloadFromDrive();
+    if (data) {
+      applyImportData(data, true);
+      saveLocal();
+      showToast('☁ ' + i18n.t('sync.cloudLoaded'), 'success');
+    }
+    setSyncStatus('synced');
+  } catch(e) {
+    setSyncStatus('error');
+    showToast(i18n.t('sync.failed'), 'error');
+  }
+}
+
+async function syncResolvLocal() {
+  closeModal('sync-modal');
+  setSyncStatus('syncing');
+  try {
+    await uploadToDrive();
+    setSyncStatus('synced');
+    showToast('✓ ' + i18n.t('sync.uploaded'), 'success');
+  } catch(e) {
+    setSyncStatus('error');
+  }
+}
+
+async function downloadFromDrive() {
+  if (!driveFileId || !googleAccessToken) return null;
+  const res = await driveRequest(
+    `https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`
+  );
+  return res;
+}
+
+async function uploadToDrive() {
+  if (!googleAccessToken) return;
+  const data = buildExportData();
+  const json = JSON.stringify(data);
+  const blob = new Blob([json], { type: 'application/json' });
+
+  if (driveFileId) {
+    // Update existing
+    const patchRes = await fetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${googleAccessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: blob,
+    });
+    if (!patchRes.ok) throw new Error(`Drive upload failed: ${patchRes.status}`);
+  } else {
+    // Create new
+    const meta = { name: CONFIG.DRIVE_FILE_NAME, parents: ['appDataFolder'] };
+    const form = new FormData();
+    form.append('metadata', new Blob([JSON.stringify(meta)], { type: 'application/json' }));
+    form.append('file', blob);
+
+    const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${googleAccessToken}` },
+      body: form,
+    });
+    if (!res.ok) throw new Error(`Drive create failed: ${res.status}`);
+    const created = await res.json();
+    driveFileId = created.id;
+  }
+}
+
+async function driveRequest(url) {
+  const res = await fetch(url, {
+    headers: { 'Authorization': `Bearer ${googleAccessToken}` }
+  });
+  if (!res.ok) throw new Error(`Drive API error: ${res.status}`);
+  return res.json();
+}
+
+function scheduleSync() {
+  if (!googleAccessToken) return;
+  clearTimeout(syncTimer);
+  setSyncStatus('syncing');
+  syncTimer = setTimeout(async () => {
+    try {
+      await uploadToDrive();
+      setSyncStatus('synced');
+    } catch(e) {
+      setSyncStatus('error');
+    }
+  }, CONFIG.DEBOUNCE_SYNC);
+}
+
+function flashSaveIndicator() {
+  const indicator = document.getElementById('sync-indicator');
+  const label = document.getElementById('sync-label');
+  if (!indicator || !label) return;
+  indicator.classList.remove('hidden');
+  indicator.className = 'sync-indicator synced';
+  label.textContent = '✓';
+  clearTimeout(flashSaveIndicator._timer);
+  flashSaveIndicator._timer = setTimeout(() => {
+    indicator.classList.add('hidden');
+  }, 1200);
+}
+
+function setSyncStatus(status) {
+  const indicator = document.getElementById('sync-indicator');
+  const label = document.getElementById('sync-label');
+  if (!indicator || !label) return;
+  indicator.className = 'sync-indicator ' + status;
+  label.textContent = i18n.t('sync.' + status);
+  indicator.classList.remove('hidden');
+}
+
+function doSignOut() {
+  googleAccessToken = null;
+  driveFileId = null;
+  googleUser = null;
+
+  document.getElementById('user-display').classList.add('hidden');
+  document.getElementById('menu-signin').classList.remove('hidden');
+  document.getElementById('menu-signout').classList.add('hidden');
+  document.getElementById('sync-indicator').classList.add('hidden');
+
+  if (typeof google !== 'undefined' && google.accounts) {
+    google.accounts.oauth2.revoke(googleAccessToken, () => {});
+  }
+
+  showToast(i18n.t('signout.toast'), 'success');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   OFFLINE DETECTION
+═══════════════════════════════════════════════════════════ */
+function updateOnlineStatus() {
+  const banner = document.getElementById('offline-banner');
+  if (navigator.onLine) {
+    banner.classList.remove('show');
+    if (googleAccessToken) scheduleSync();
+  } else {
+    banner.classList.add('show');
+    setSyncStatus('offline');
+  }
+}
+window.addEventListener('online',  updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+
+/* ═══════════════════════════════════════════════════════════
+   FORMATTING UTILITIES
+═══════════════════════════════════════════════════════════ */
+function fmtEGP(val) {
+  const n = safeNum(val);
+  if (i18n.lang === 'ar') {
+    return 'ج.م ' + n.toLocaleString('ar-EG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  return 'EGP ' + n.toLocaleString('en-EG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function fmtPct(n) {
+  return (i18n.lang === 'ar')
+    ? n.toFixed(1).toLocaleString('ar-EG') + '%'
+    : n.toFixed(1) + '%';
+}
+
+function setElem(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+function safeNum(val) {
+  const n = Number(val);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function escapeHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INITIALIZATION
+═══════════════════════════════════════════════════════════ */
+function init() {
+  i18n.init();
+  renderAssetRows();
+  loadLocal();
+  renderTrackerTable();
+  calcZakat();
+  updateTrackerSummary();
+  updateOnlineStatus();
+
+  // Keyboard shortcut: Alt+C = Calculator, Alt+T = Tracker
+  document.addEventListener('keydown', (e) => {
+    if (e.altKey && e.key === 'c') showView('calculator');
+    if (e.altKey && e.key === 't') showView('tracker');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
