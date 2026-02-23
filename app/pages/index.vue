@@ -41,9 +41,9 @@ useSeoMeta({
 
       <!-- 4. Primary CTA -->
       <div class="landing-cta">
-        <button class="btn-cta" @click="navigateTo('/calculator')">
+        <UButton size="lg" color="neutral" variant="solid" class="cta-btn" @click="navigateTo('/calculator')">
           {{ auth.isAuthenticated ? t('landing.ctaAuth') : t('landing.cta') }}
-        </button>
+        </UButton>
         <NuxtLink
           v-if="auth.isAuthenticated"
           to="/tracker"
@@ -55,12 +55,10 @@ useSeoMeta({
 
       <!-- 5. Sign-in section (guests only) -->
       <div v-if="!auth.isAuthenticated" class="landing-signin" aria-label="Sign in">
-        <!-- Divider with hint text -->
         <div class="signin-divider">
           <span>{{ t('landing.syncHint') }}</span>
         </div>
-        <!-- Google Sign-In button -->
-        <button class="btn-google" @click="signIn">
+        <UButton variant="outline" color="neutral" class="google-btn" @click="signIn">
           <svg class="google-icon" viewBox="0 0 48 48" aria-hidden="true">
             <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
             <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -68,7 +66,7 @@ useSeoMeta({
             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
           </svg>
           {{ t('landing.signInBtn') }}
-        </button>
+        </UButton>
         <p class="signin-benefit">{{ t('landing.signInBenefit') }}</p>
       </div>
 
@@ -100,17 +98,17 @@ useSeoMeta({
 .landing-bismillah {
   font-family: var(--font-ar-serif);
   font-size: var(--text-2xl);
-  color: var(--color-gold);
+  color: var(--color-gold-500);
   letter-spacing: var(--tracking-widest);
   opacity: 0.9;
-  text-shadow: 0 0 30px rgba(198, 147, 10, 0.25);
+  text-shadow: 0 0 30px rgba(184, 147, 58, 0.25);
   animation: fadeUp 0.6s 0.1s var(--ease-out) both;
 }
 
 .landing-separator {
   width: 60px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-gold-500), transparent);
   margin: 16px 0 28px;
   opacity: 0.6;
   animation: fadeIn 0.6s 0.2s var(--ease-out) both;
@@ -125,20 +123,20 @@ useSeoMeta({
 .verse-arabic {
   font-family: var(--font-ar-serif);
   font-size: var(--text-xl);
-  color: var(--color-g-800);
+  color: var(--color-green-800);
   line-height: var(--leading-relaxed);
   margin-bottom: 12px;
 }
 
 .verse-arabic-2 {
   font-size: var(--text-lg);
-  color: var(--color-g-700);
+  color: var(--color-green-700);
 }
 
 .verse-translation {
   font-family: var(--font-en);
   font-size: var(--text-base);
-  color: var(--color-parchment-500);
+  color: var(--color-stone-500);
   line-height: var(--leading-normal);
   font-style: italic;
   margin-bottom: 8px;
@@ -151,7 +149,7 @@ useSeoMeta({
 .verse-ref {
   font-family: var(--font-en);
   font-size: var(--text-sm);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   font-style: normal;
   letter-spacing: var(--tracking-wider);
 }
@@ -162,7 +160,7 @@ useSeoMeta({
 /* 3. Message */
 .landing-message {
   font-size: var(--text-md);
-  color: var(--color-parchment-600);
+  color: var(--color-stone-600);
   line-height: var(--leading-normal);
   margin-bottom: 32px;
   animation: fadeUp 0.6s 0.4s var(--ease-out) both;
@@ -180,42 +178,18 @@ useSeoMeta({
   animation: fadeUp 0.6s 0.5s var(--ease-out) both;
 }
 
-.btn-cta {
-  padding: 14px 48px;
-  background: var(--color-gold);
-  color: white;
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: var(--text-md);
-  font-weight: var(--weight-semi);
-  font-family: var(--font-en);
-  cursor: pointer;
-  transition: all 0.25s var(--ease-out);
-  box-shadow: var(--shadow-gold);
-  letter-spacing: var(--tracking-wider);
-}
-[dir="rtl"] .btn-cta {
-  font-family: var(--font-ar);
-}
-.btn-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-gold-lg);
-  background: var(--color-gold-dark);
+.cta-btn {
+  padding-inline: 48px;
 }
 
 .cta-secondary {
   font-size: var(--text-base);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  font-family: inherit;
   transition: color 0.2s;
 }
 .cta-secondary:hover {
-  color: var(--color-g-600);
+  color: var(--color-green-600);
 }
 
 /* 5. Sign-in section */
@@ -234,7 +208,7 @@ useSeoMeta({
   gap: 14px;
   width: 100%;
   margin-top: 28px;
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   font-size: var(--text-sm);
 }
 .signin-divider::before,
@@ -242,42 +216,14 @@ useSeoMeta({
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-parchment-200), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-stone-300), transparent);
 }
 .signin-divider span {
   white-space: nowrap;
 }
 
-.btn-google {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 24px;
-  background: #fff;
-  color: #3c4043;
-  border: 1px solid #dadce0;
-  border-radius: 999px;
-  font-size: var(--text-base);
-  font-weight: var(--weight-semi);
-  font-family: var(--font-en);
-  cursor: pointer;
-  transition: all 0.2s var(--ease-out);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-[dir="rtl"] .btn-google {
-  font-family: var(--font-ar);
-}
-.btn-google:hover {
-  background: #f8f9fa;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-}
-.dark .btn-google {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.9);
-  border-color: rgba(255, 255, 255, 0.15);
-}
-.dark .btn-google:hover {
-  background: rgba(255, 255, 255, 0.14);
+.google-btn {
+  border-radius: 999px !important;
 }
 
 .google-icon {
@@ -288,7 +234,7 @@ useSeoMeta({
 
 .signin-benefit {
   font-size: var(--text-sm);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   margin: 0;
 }
 
@@ -297,7 +243,7 @@ useSeoMeta({
   display: flex;
   align-items: center;
   gap: 16px;
-  color: var(--color-gold);
+  color: var(--color-gold-500);
   font-size: 8px;
   margin-top: 40px;
   width: 100%;
@@ -308,6 +254,6 @@ useSeoMeta({
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-parchment-200), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-stone-300), transparent);
 }
 </style>
