@@ -14,6 +14,11 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
+const categoryOptions = CATEGORIES.map(cat => ({
+  label: t(cat),
+  value: cat,
+}))
+
 function onFieldInput(id: string, field: keyof Payment, event: Event) {
   const target = event.target as HTMLInputElement | HTMLSelectElement
   if (field === 'amount') {
@@ -28,142 +33,82 @@ function onFieldInput(id: string, field: keyof Payment, event: Event) {
   <tr class="payment-row">
     <td class="td-num">{{ index + 1 }}</td>
     <td>
-      <input
+      <UInput
         type="date"
-        :value="payment.date"
-        class="td-input"
-        @input="onFieldInput(payment.id, 'date', $event)"
+        :model-value="payment.date"
+        size="sm"
+        @update:model-value="emit('update:field', payment.id, 'date', String($event))"
       />
     </td>
     <td>
-      <input
-        type="text"
-        :value="payment.recipient"
+      <UInput
+        :model-value="payment.recipient"
         :placeholder="t('tracker.recipient')"
-        class="td-input"
-        @input="onFieldInput(payment.id, 'recipient', $event)"
+        size="sm"
+        @update:model-value="emit('update:field', payment.id, 'recipient', String($event))"
       />
     </td>
     <td>
-      <select
-        :value="payment.category"
-        class="td-input"
-        @change="onFieldInput(payment.id, 'category', $event)"
-      >
-        <option value="" disabled>{{ t('tracker.category') }}</option>
-        <option
-          v-for="cat in CATEGORIES"
-          :key="cat"
-          :value="cat"
-        >
-          {{ t(cat) }}
-        </option>
-      </select>
+      <USelect
+        :model-value="payment.category"
+        :items="categoryOptions"
+        value-key="value"
+        :placeholder="t('tracker.category')"
+        size="sm"
+        @update:model-value="emit('update:field', payment.id, 'category', String($event))"
+      />
     </td>
     <td>
-      <input
+      <UInput
         type="number"
-        :value="payment.amount || undefined"
+        :model-value="payment.amount || undefined"
         placeholder="0"
-        min="0"
+        :min="0"
         step="0.01"
-        class="td-input td-amount"
-        @input="onFieldInput(payment.id, 'amount', $event)"
+        size="sm"
+        class="font-mono text-end"
+        @update:model-value="emit('update:field', payment.id, 'amount', Number($event) || 0)"
       />
     </td>
     <td>
-      <input
-        type="text"
-        :value="payment.notes"
+      <UInput
+        :model-value="payment.notes"
         :placeholder="t('tracker.notes')"
-        class="td-input"
-        @input="onFieldInput(payment.id, 'notes', $event)"
+        size="sm"
+        @update:model-value="emit('update:field', payment.id, 'notes', String($event))"
       />
     </td>
     <td>
-      <button
-        class="btn-del-row"
+      <UButton
+        variant="ghost"
+        color="error"
+        icon="i-lucide-trash-2"
+        size="xs"
         :aria-label="'Delete row ' + (index + 1)"
         @click="emit('delete', payment.id)"
-      >
-        <Icon name="lucide:trash-2" size="16" />
-      </button>
+      />
     </td>
   </tr>
 </template>
 
 <style scoped>
 .payment-row {
-  border-bottom: 1px solid var(--color-parchment-100);
+  border-bottom: 1px solid var(--color-stone-200);
   transition: background 0.15s;
 }
 .payment-row:hover {
-  background: var(--color-gold-pale);
+  background: var(--color-gold-50);
 }
 
 td {
-  padding: 8px 14px;
+  padding: 6px 10px;
   vertical-align: middle;
 }
 
 .td-num {
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   font-size: var(--text-xs);
   text-align: center;
   width: 40px;
-}
-
-.td-input {
-  border: 1px solid transparent;
-  border-radius: var(--radius-xs);
-  padding: 10px 8px;
-  min-height: 44px;
-  background: transparent;
-  font-size: var(--text-sm);
-  min-width: 80px;
-  font-family: var(--font-mono);
-  color: var(--color-parchment-800);
-  outline: none;
-  width: 100%;
-  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
-}
-[dir="rtl"] .td-input {
-  font-family: var(--font-ar);
-}
-.td-input:focus {
-  background: white;
-  border-color: var(--color-g-400);
-  box-shadow: 0 0 0 2px rgba(0, 137, 74, 0.1);
-}
-
-.td-amount {
-  text-align: end;
-  font-weight: var(--weight-bold);
-  color: var(--color-g-600);
-}
-
-.btn-del-row {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-xs);
-  border: none;
-  background: transparent;
-  color: var(--color-parchment-400);
-  cursor: pointer;
-  font-size: var(--text-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s, color 0.15s;
-}
-.btn-del-row:hover {
-  background: var(--color-red-light);
-  color: var(--color-red);
-}
-
-@media (prefers-color-scheme: dark) {
-  .td-input:focus {
-    background: var(--color-parchment-100);
-  }
 }
 </style>
