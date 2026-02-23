@@ -22,15 +22,18 @@ useSeoMeta({
 
     <div class="profile-cards">
       <div class="card-animate" style="--i: 0">
-        <ProfileAccountCard />
+        <ProfileAppSettings />
       </div>
       <div class="card-animate" style="--i: 1">
-        <ProfileSyncCard />
+        <ProfileAccountCard />
       </div>
       <div class="card-animate" style="--i: 2">
-        <ProfileDataManagement />
+        <ProfileSyncCard />
       </div>
       <div class="card-animate" style="--i: 3">
+        <ProfileDataManagement />
+      </div>
+      <div class="card-animate" style="--i: 4">
         <ProfileAboutCard />
       </div>
     </div>
@@ -59,6 +62,9 @@ useSeoMeta({
   color: var(--color-green-800);
   margin-bottom: 6px;
   font-family: var(--font-en-serif);
+}
+.dark .section-title {
+  color: var(--color-green-300);
 }
 [dir="rtl"] .section-title {
   font-family: var(--font-ar-serif);
@@ -91,6 +97,10 @@ useSeoMeta({
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--color-stone-300), transparent);
+}
+.dark .ornament-divider::before,
+.dark .ornament-divider::after {
+  background: linear-gradient(90deg, transparent, var(--color-stone-700), transparent);
 }
 
 .profile-cards {
