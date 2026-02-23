@@ -11,6 +11,11 @@ const { isConnected } = useGoogleAuth()
 
 const { avatarUrl, showImage, onImgError } = useAvatar(64)
 
+const isArabic = computed({
+  get: () => locale.value === 'ar',
+  set: (val: boolean) => setLocale(val ? 'ar' : 'en'),
+})
+
 const userInitials = computed(() => {
   const name = authStore.user?.name
   if (!name) return '?'
@@ -63,23 +68,26 @@ function isActive(path: string): boolean {
       />
 
       <!-- Language toggle -->
-      <div class="lang-toggle" role="group" :aria-label="t('feat.bilingual')">
-        <button
-          class="lang-btn lang-btn-en"
+      <div class="lang-toggle" :aria-label="t('feat.bilingual')">
+        <span
+          class="lang-label"
           :class="{ active: locale === 'en' }"
-          aria-label="English"
           @click="setLocale('en')"
-        >
-          English
-        </button>
-        <button
-          class="lang-btn lang-btn-ar"
+        >English</span>
+        <USwitch
+          v-model="isArabic"
+          size="sm"
+          :aria-label="t('feat.bilingual')"
+          :ui="{
+            base: 'bg-white/10 data-[state=checked]:bg-white/10 cursor-pointer',
+            thumb: 'bg-(--color-gold-400) shadow-[0_1px_6px_rgba(184,147,58,0.5)]',
+          }"
+        />
+        <span
+          class="lang-label lang-label-ar"
           :class="{ active: locale === 'ar' }"
-          aria-label="العربية"
           @click="setLocale('ar')"
-        >
-          العربية
-        </button>
+        >العربية</span>
       </div>
 
       <!-- User avatar (authenticated) -->
@@ -132,6 +140,10 @@ function isActive(path: string): boolean {
   gap: 16px;
   z-index: 100;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+}
+.dark .navbar {
+  background: rgba(20, 20, 18, 0.92);
+  border-bottom-color: rgba(184, 147, 58, 0.1);
 }
 
 /* ── Brand ── */
@@ -190,38 +202,28 @@ function isActive(path: string): boolean {
 /* ── Language toggle ── */
 .lang-toggle {
   display: flex;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 999px;
-  padding: 3px;
-  gap: 2px;
+  align-items: center;
+  gap: 6px;
 }
 
-.lang-btn {
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: var(--text-sm);
+.lang-label {
+  font-size: var(--text-xs);
   font-weight: var(--weight-semi);
+  color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: var(--tracking-wider);
+  transition: color 0.25s, text-shadow 0.25s;
+  user-select: none;
+  letter-spacing: var(--tracking-wide);
 }
 
-.lang-btn-en {
-  font-family: var(--font-en);
+.lang-label.active {
+  color: var(--color-gold-400);
+  text-shadow: 0 0 12px rgba(184, 147, 58, 0.3);
 }
 
-.lang-btn-ar {
+.lang-label-ar {
   font-family: var(--font-ar);
-  font-size: var(--text-md);
-}
-
-.lang-btn.active {
-  background: var(--color-gold-500);
-  color: var(--color-green-800);
-  box-shadow: 0 2px 8px rgba(184, 147, 58, 0.3);
+  font-size: var(--text-sm);
 }
 
 /* ── Nav settings button (guest) ── */
