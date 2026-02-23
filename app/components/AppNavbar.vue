@@ -144,7 +144,7 @@ function isActive(path: string): boolean {
 }
 
 .nav-logo {
-  font-family: 'Aref Ruqaa', 'Amiri', serif;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
   color: var(--color-gold-400);

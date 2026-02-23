@@ -11,6 +11,7 @@ const { syncConflict, cloudData, resolveUseCloud, resolveKeepLocal } = useDriveS
     <OfflineBanner />
     <main class="pt-[var(--spacing-navbar-h)] relative z-[1] min-h-screen">
       <slot />
+      <AppFooter />
     </main>
     <AppBottomNav />
 

@@ -67,10 +67,11 @@
   --radius-pill: 999px;
 
   /* Fonts */
-  --font-en: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-ar: 'Cairo', 'Noto Sans Arabic', sans-serif;
-  --font-en-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-ar-serif: 'Amiri', 'Noto Naskh Arabic', Georgia, serif;
+  --font-en: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+  --font-ar: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', sans-serif;
+  --font-en-serif: 'IBM Plex Sans Arabic', system-ui, -apple-system, sans-serif;
+  --font-ar-serif: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', sans-serif;
+  --font-quran: 'Amiri', serif;
   --font-mono: 'DM Mono', 'Courier New', monospace;
 
   /* Transitions */

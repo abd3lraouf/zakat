@@ -48,7 +48,7 @@ function onKeydown(event: KeyboardEvent) {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(30, 26, 22, 0.5);
+  background: rgba(17, 24, 39, 0.5);
   backdrop-filter: blur(8px) saturate(150%);
   -webkit-backdrop-filter: blur(8px) saturate(150%);
   z-index: 500;

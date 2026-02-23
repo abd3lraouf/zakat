@@ -96,7 +96,7 @@ useSeoMeta({
 
 /* 1. Bismillah */
 .landing-bismillah {
-  font-family: var(--font-ar-serif);
+  font-family: var(--font-quran);
   font-size: var(--text-2xl);
   color: var(--color-gold-500);
   letter-spacing: var(--tracking-widest);
@@ -121,7 +121,7 @@ useSeoMeta({
 }
 
 .verse-arabic {
-  font-family: var(--font-ar-serif);
+  font-family: var(--font-quran);
   font-size: var(--text-xl);
   color: var(--color-green-800);
   line-height: var(--leading-relaxed);
