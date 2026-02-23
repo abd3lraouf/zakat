@@ -40,6 +40,17 @@ const activeDeductions = computed(() => {
 const hasAnyValue = computed(() => {
   return store.grossAssets > 0
 })
+
+// Animated display values — only used for formatted currency text, not logic
+const animatedGrossAssets = useAnimatedNumber(computed(() => store.grossAssets))
+const animatedTotalDeductions = useAnimatedNumber(computed(() => store.totalDeductions))
+const animatedNetWealth = useAnimatedNumber(computed(() => store.netWealth))
+const animatedNisabGold = useAnimatedNumber(computed(() => store.nisabGold))
+const animatedNisabSilver = useAnimatedNumber(computed(() => store.nisabSilver))
+const animatedNisabThreshold = useAnimatedNumber(computed(() => store.nisabThreshold))
+const animatedZakatDue = useAnimatedNumber(computed(() => store.zakatDue))
+const animatedTotalPaid = useAnimatedNumber(computed(() => trackerStore.totalPaid))
+const animatedRemaining = useAnimatedNumber(computed(() => trackerStore.remaining))
 </script>
 
 <template>
@@ -74,7 +85,7 @@ const hasAnyValue = computed(() => {
 
         <div class="sum-line total">
           <span class="sum-line-label">{{ t('calc.grossAssets') }}</span>
-          <span class="sum-line-value">{{ fmtCurrency(store.grossAssets, locale, prefs.currency) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(animatedGrossAssets, locale, prefs.currency) }}</span>
         </div>
 
         <div v-for="ded in activeDeductions" :key="ded.label" class="sum-line">
@@ -84,12 +95,12 @@ const hasAnyValue = computed(() => {
 
         <div v-if="store.totalDeductions > 0" class="sum-line total">
           <span class="sum-line-label">{{ t('calc.totalDeductions') }}</span>
-          <span class="sum-line-value negative">&minus; {{ fmtCurrency(store.totalDeductions, locale, prefs.currency) }}</span>
+          <span class="sum-line-value negative">&minus; {{ fmtCurrency(animatedTotalDeductions, locale, prefs.currency) }}</span>
         </div>
 
         <div class="sum-line total">
           <span class="sum-line-label">{{ t('calc.netWealth') }}</span>
-          <span class="sum-line-value">{{ fmtCurrency(store.netWealth, locale, prefs.currency) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(animatedNetWealth, locale, prefs.currency) }}</span>
         </div>
       </div>
 
@@ -97,15 +108,15 @@ const hasAnyValue = computed(() => {
       <div class="summary-lines nisab-section">
         <div class="sum-line">
           <span class="sum-line-label">{{ t('calc.nisabGold') }}</span>
-          <span class="sum-line-value">{{ fmtCurrency(store.nisabGold, locale, prefs.currency) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(animatedNisabGold, locale, prefs.currency) }}</span>
         </div>
         <div class="sum-line">
           <span class="sum-line-label">{{ t('calc.nisabSilver') }}</span>
-          <span class="sum-line-value">{{ fmtCurrency(store.nisabSilver, locale, prefs.currency) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(animatedNisabSilver, locale, prefs.currency) }}</span>
         </div>
         <div class="sum-line">
           <span class="sum-line-label">{{ t('calc.nisabThreshold') }}</span>
-          <span class="sum-line-value">{{ fmtCurrency(store.nisabThreshold, locale, prefs.currency) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(animatedNisabThreshold, locale, prefs.currency) }}</span>
         </div>
       </div>
 
@@ -125,18 +136,18 @@ const hasAnyValue = computed(() => {
       <!-- Zakat Due result -->
       <div class="zakat-result">
         <div class="zakat-result-label">{{ t('calc.zakatDue') }}</div>
-        <div class="zakat-result-value">{{ fmtCurrency(store.zakatDue, locale, prefs.currency) }}</div>
+        <div class="zakat-result-value">{{ fmtCurrency(animatedZakatDue, locale, prefs.currency) }}</div>
       </div>
 
       <!-- Payment progress from tracker -->
       <div v-if="store.zakatDue > 0" class="calc-payment-progress">
         <div class="sum-line">
           <span class="sum-line-label">{{ t('tracker.paid') }}</span>
-          <span class="sum-line-value positive">{{ fmtCurrency(trackerStore.totalPaid, locale, prefs.currency) }}</span>
+          <span class="sum-line-value positive">{{ fmtCurrency(animatedTotalPaid, locale, prefs.currency) }}</span>
         </div>
         <div class="sum-line">
           <span class="sum-line-label">{{ t('tracker.remaining') }}</span>
-          <span class="sum-line-value">{{ fmtCurrency(trackerStore.remaining, locale, prefs.currency) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(animatedRemaining, locale, prefs.currency) }}</span>
         </div>
         <div class="progress-wrap">
           <div class="progress-bg">

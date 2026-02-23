@@ -8,6 +8,10 @@ const tracker = useTrackerStore()
 const calculator = useCalculatorStore()
 const { t, locale } = useI18n()
 const prefs = usePreferencesStore()
+
+const animatedDue = useAnimatedNumber(computed(() => calculator.zakatDue))
+const animatedPaid = useAnimatedNumber(computed(() => tracker.totalPaid))
+const animatedRemaining = useAnimatedNumber(computed(() => tracker.remaining))
 </script>
 
 <template>
@@ -15,14 +19,14 @@ const prefs = usePreferencesStore()
     <!-- Zakat Due -->
     <UCard class="sum-card sum-card-gold">
       <div class="sum-label">{{ t('tracker.due') }}</div>
-      <div class="sum-value text-(--color-gold-600)">{{ fmtCurrency(calculator.zakatDue, locale, prefs.currency) }}</div>
+      <div class="sum-value text-(--color-gold-600)">{{ fmtCurrency(animatedDue.value, locale, prefs.currency) }}</div>
       <div class="sum-sub">{{ t('tracker.fromCalc') }}</div>
     </UCard>
 
     <!-- Paid So Far -->
     <UCard class="sum-card sum-card-green">
       <div class="sum-label">{{ t('tracker.paid') }}</div>
-      <div class="sum-value text-(--color-green-600)">{{ fmtCurrency(tracker.totalPaid, locale, prefs.currency) }}</div>
+      <div class="sum-value text-(--color-green-600)">{{ fmtCurrency(animatedPaid.value, locale, prefs.currency) }}</div>
       <div class="progress-wrap">
         <div class="progress-bg">
           <div class="progress-fill" :style="{ width: tracker.progress + '%' }" />
@@ -34,7 +38,7 @@ const prefs = usePreferencesStore()
     <!-- Remaining -->
     <UCard class="sum-card sum-card-red">
       <div class="sum-label">{{ t('tracker.remaining') }}</div>
-      <div class="sum-value text-(--color-red)">{{ fmtCurrency(tracker.remaining, locale, prefs.currency) }}</div>
+      <div class="sum-value text-(--color-red)">{{ fmtCurrency(animatedRemaining.value, locale, prefs.currency) }}</div>
       <div class="sum-sub">{{ t('tracker.balance') }}</div>
     </UCard>
   </div>
