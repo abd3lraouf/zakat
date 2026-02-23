@@ -5,6 +5,11 @@ import { ASSET_DEFS_GOLD, ASSET_DEFS_OTHER } from '~/utils/constants'
 const store = useCalculatorStore()
 const { t, locale } = useI18n()
 
+const breadcrumbs = computed(() => [
+  { label: t('nav.home'), to: '/', icon: 'i-lucide-home' },
+  { label: t('nav.calculator') },
+])
+
 useSeoMeta({
   title: () => t('seo.calculator.title'),
   description: () => t('seo.calculator.description'),
@@ -25,6 +30,8 @@ function addCustomAsset() {
 
 <template>
   <div class="view-content">
+    <UBreadcrumb :items="breadcrumbs" class="page-breadcrumb" />
+
     <div class="section-header">
       <h2 class="section-title">{{ t('calc.title') }}</h2>
       <p class="section-sub">{{ t('calc.subtitle') }}</p>
@@ -38,7 +45,7 @@ function addCustomAsset() {
         <UCard class="mb-6">
           <template #header>
             <div class="flex items-center justify-between gap-3">
-              <h3 class="text-(--text-md) font-semibold text-(--color-stone-800)">{{ t('calc.assetsTitle') }}</h3>
+              <h3 class="text-(--text-md) font-semibold text-(--color-stone-800) dark:text-(--color-stone-100)">{{ t('calc.assetsTitle') }}</h3>
               <UButton variant="outline" size="xs" @click="addCustomAsset">
                 + {{ t('calc.addAsset') }}
               </UButton>
@@ -76,6 +83,10 @@ function addCustomAsset() {
   animation: viewIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.page-breadcrumb {
+  margin-bottom: 16px;
+}
+
 .section-header {
   margin-bottom: 28px;
 }
@@ -85,6 +96,9 @@ function addCustomAsset() {
   color: var(--color-green-800);
   margin-bottom: 6px;
   font-family: var(--font-en-serif);
+}
+.dark .section-title {
+  color: var(--color-green-300);
 }
 [dir="rtl"] .section-title {
   font-family: var(--font-ar-serif);

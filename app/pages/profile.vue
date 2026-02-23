@@ -1,6 +1,11 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 
+const breadcrumbs = computed(() => [
+  { label: t('nav.home'), to: '/', icon: 'i-lucide-home' },
+  { label: t('nav.settings') },
+])
+
 useSeoMeta({
   title: () => t('seo.profile.title'),
   description: () => t('seo.profile.description'),
@@ -13,6 +18,8 @@ useSeoMeta({
 
 <template>
   <div class="view-content profile-view">
+    <UBreadcrumb :items="breadcrumbs" class="page-breadcrumb" />
+
     <div class="section-header">
       <h2 class="section-title">{{ t('profile.title') }}</h2>
       <p class="section-sub">{{ t('profile.subtitle') }}</p>
@@ -51,6 +58,10 @@ useSeoMeta({
 
 .profile-view {
   max-width: 600px;
+}
+
+.page-breadcrumb {
+  margin-bottom: 16px;
 }
 
 .section-header {
