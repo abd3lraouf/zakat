@@ -82,220 +82,59 @@ function confirmClear() {
 </script>
 
 <template>
-  <div class="profile-card">
-    <div class="profile-card-header">
-      {{ t('profile.data') }}
-    </div>
+  <UCard>
+    <template #header>
+      <span class="text-xs font-semibold text-(--color-stone-500) uppercase tracking-widest">{{ t('profile.data') }}</span>
+    </template>
 
-    <div class="profile-action-rows">
-      <div class="profile-data-row">
-        <div class="profile-data-info">
-          <span class="profile-data-label">{{ t('export.button') }}</span>
-          <span class="profile-data-desc">{{ t('profile.exportDesc') }}</span>
+    <div class="flex flex-col divide-y divide-(--color-stone-200)">
+      <div class="flex items-center justify-between gap-4 py-4 first:pt-0">
+        <div class="min-w-0">
+          <div class="text-base font-semibold text-(--color-stone-800)">{{ t('export.button') }}</div>
+          <div class="text-xs text-(--color-stone-400)">{{ t('profile.exportDesc') }}</div>
         </div>
-        <button class="btn btn-outline" @click="doExport">
+        <UButton variant="outline" color="neutral" @click="doExport">
           {{ t('export.button') }}
-        </button>
+        </UButton>
       </div>
 
-      <div class="profile-data-row">
-        <div class="profile-data-info">
-          <span class="profile-data-label">{{ t('import.button') }}</span>
-          <span class="profile-data-desc">{{ t('profile.importDesc') }}</span>
+      <div class="flex items-center justify-between gap-4 py-4">
+        <div class="min-w-0">
+          <div class="text-base font-semibold text-(--color-stone-800)">{{ t('import.button') }}</div>
+          <div class="text-xs text-(--color-stone-400)">{{ t('profile.importDesc') }}</div>
         </div>
-        <button class="btn btn-outline" @click="doImport">
+        <UButton variant="outline" color="neutral" @click="doImport">
           {{ t('import.button') }}
-        </button>
+        </UButton>
       </div>
 
-      <div class="profile-data-row">
-        <div class="profile-data-info">
-          <span class="profile-data-label">{{ t('profile.clearAll') }}</span>
-          <span class="profile-data-desc">{{ t('profile.clearAllDesc') }}</span>
+      <div class="flex items-center justify-between gap-4 py-4 last:pb-0">
+        <div class="min-w-0">
+          <div class="text-base font-semibold text-(--color-stone-800)">{{ t('profile.clearAll') }}</div>
+          <div class="text-xs text-(--color-stone-400)">{{ t('profile.clearAllDesc') }}</div>
         </div>
-        <button class="btn btn-destructive" @click="showClearModal = true">
+        <UButton variant="outline" color="error" @click="showClearModal = true">
           {{ t('profile.clearAll') }}
-        </button>
+        </UButton>
       </div>
     </div>
 
     <!-- Clear All Confirmation Modal -->
-    <AppModal v-model="showClearModal">
-      <div class="modal-content">
-        <h3 class="modal-title">{{ t('profile.clearAll') }}</h3>
-        <p class="modal-message">{{ t('profile.clearAllConfirm') }}</p>
-        <div class="modal-actions">
-          <button class="btn btn-outline" @click="showClearModal = false">
-            {{ t('common.cancel') }}
-          </button>
-          <button class="btn btn-destructive" @click="confirmClear">
-            {{ t('common.confirm') }}
-          </button>
+    <UModal v-model:open="showClearModal">
+      <template #content>
+        <div class="p-6 text-center">
+          <h3 class="text-lg font-bold text-(--color-stone-800) mb-3">{{ t('profile.clearAll') }}</h3>
+          <p class="text-base text-(--color-stone-500) leading-normal mb-6">{{ t('profile.clearAllConfirm') }}</p>
+          <div class="flex gap-3 justify-center">
+            <UButton variant="outline" color="neutral" @click="showClearModal = false">
+              {{ t('common.cancel') }}
+            </UButton>
+            <UButton color="error" @click="confirmClear">
+              {{ t('common.confirm') }}
+            </UButton>
+          </div>
         </div>
-      </div>
-    </AppModal>
-  </div>
+      </template>
+    </UModal>
+  </UCard>
 </template>
-
-<style scoped>
-.profile-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
-  border: 1px solid var(--color-parchment-100);
-  overflow: hidden;
-  margin-bottom: 16px;
-  transition: box-shadow 0.3s, transform 0.3s;
-}
-.profile-card:hover {
-  box-shadow: 0 0 0 1px rgba(198, 147, 10, 0.08), 0 4px 16px rgba(198, 147, 10, 0.06);
-  transform: translateY(-1px);
-}
-
-.profile-card-header {
-  padding: 16px 24px;
-  background: var(--color-parchment-50);
-  border-bottom: 1px solid var(--color-parchment-100);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semi);
-  color: var(--color-parchment-600);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-widest);
-  position: relative;
-}
-.profile-card-header::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 3px;
-  background: linear-gradient(180deg, var(--color-gold), var(--color-g-500));
-  border-radius: 0 2px 2px 0;
-}
-[dir="rtl"] .profile-card-header::before {
-  border-radius: 2px 0 0 2px;
-}
-
-/* Action rows */
-.profile-action-rows {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding: 0;
-}
-
-.profile-data-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--color-parchment-100);
-}
-.profile-data-row:last-child {
-  border-bottom: none;
-}
-
-.profile-data-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.profile-data-label {
-  font-size: var(--text-base);
-  font-weight: var(--weight-semi);
-  color: var(--color-parchment-800);
-}
-
-.profile-data-desc {
-  font-size: var(--text-xs);
-  color: var(--color-parchment-400);
-}
-
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 18px;
-  border-radius: var(--radius-sm);
-  border: none;
-  font-family: inherit;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: var(--tracking-wide);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.btn-outline {
-  background: white;
-  color: var(--color-g-600);
-  font-weight: var(--weight-semi);
-  border: 1.5px solid var(--color-g-200);
-  border-radius: var(--radius-sm);
-}
-.btn-outline:hover {
-  background: var(--color-g-50);
-  border-color: var(--color-g-400);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 108, 53, 0.15);
-}
-.btn-outline:active {
-  transform: translateY(0) scale(0.97);
-}
-
-.btn-destructive {
-  background: var(--color-red-light);
-  color: var(--color-red);
-  font-weight: var(--weight-semi);
-  border-radius: var(--radius-sm);
-}
-.btn-destructive:hover {
-  background: var(--color-red);
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
-}
-.btn-destructive:active {
-  transform: translateY(0) scale(0.97);
-}
-
-/* Modal content */
-.modal-content {
-  text-align: center;
-}
-
-.modal-title {
-  font-family: var(--font-en-serif);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
-  color: var(--color-parchment-800);
-  margin-bottom: 12px;
-}
-[dir="rtl"] .modal-title {
-  font-family: var(--font-ar-serif);
-}
-
-.modal-message {
-  font-size: var(--text-base);
-  color: var(--color-parchment-500);
-  line-height: var(--leading-normal);
-  margin-bottom: 24px;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-.modal-actions .btn {
-  min-width: 120px;
-}
-</style>
