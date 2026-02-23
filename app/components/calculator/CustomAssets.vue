@@ -28,34 +28,36 @@ function onAmountInput(index: number, value: string | number) {
 <template>
   <div v-if="store.customAssets.length > 0" class="mb-5">
     <div class="section-title">{{ t('calc.sectionCustom') }}</div>
-    <div
-      v-for="(asset, index) in store.customAssets"
-      :key="asset.id"
-      class="custom-row"
-    >
-      <UInput
-        v-model="asset.label"
-        :placeholder="t('calc.customLabel')"
-      />
-      <UInput
-        type="number"
-        :model-value="asset.amount || undefined"
-        :min="0"
-        step="0.01"
-        placeholder="0"
-        class="font-mono max-w-[120px] max-sm:max-w-full"
-        @update:model-value="onAmountInput(index, $event)"
-      />
-      <span class="text-xs text-(--color-stone-400) whitespace-nowrap tracking-widest uppercase">{{ fmtUnit('currency', locale, prefs.currency) }}</span>
-      <span class="text-sm font-semibold text-(--color-green-600) whitespace-nowrap min-w-[100px] text-end font-mono">{{ fmtCurrency(asset.amount, locale, prefs.currency) }}</span>
-      <UButton
-        variant="ghost"
-        color="error"
-        icon="i-lucide-trash-2"
-        size="sm"
-        @click="removeCustom(asset.id)"
-      />
-    </div>
+    <TransitionGroup name="asset-row">
+      <div
+        v-for="(asset, index) in store.customAssets"
+        :key="asset.id"
+        class="custom-row"
+      >
+        <UInput
+          v-model="asset.label"
+          :placeholder="t('calc.customLabel')"
+        />
+        <UInput
+          type="number"
+          :model-value="asset.amount || undefined"
+          :min="0"
+          step="0.01"
+          placeholder="0"
+          class="font-mono max-w-[120px] max-sm:max-w-full"
+          @update:model-value="onAmountInput(index, $event)"
+        />
+        <span class="text-xs text-(--color-stone-400) whitespace-nowrap tracking-widest uppercase">{{ fmtUnit('currency', locale, prefs.currency) }}</span>
+        <span class="text-sm font-semibold text-(--color-green-600) whitespace-nowrap min-w-[100px] text-end font-mono">{{ fmtCurrency(asset.amount, locale, prefs.currency) }}</span>
+        <UButton
+          variant="ghost"
+          color="error"
+          icon="i-lucide-trash-2"
+          size="sm"
+          @click="removeCustom(asset.id)"
+        />
+      </div>
+    </TransitionGroup>
   </div>
 </template>
 
@@ -95,12 +97,27 @@ function onAmountInput(index: number, value: string | number) {
 }
 .dark .custom-row {
   border-bottom-color: var(--color-stone-800);
-  animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); max-height: 0; }
-  to { opacity: 1; transform: translateY(0); max-height: 80px; }
+/* ── Row transitions ── */
+.asset-row-enter-active {
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.asset-row-leave-active {
+  transition: opacity 0.2s ease,
+              transform 0.2s ease;
+}
+.asset-row-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.asset-row-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.asset-row-move {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (max-width: 640px) {

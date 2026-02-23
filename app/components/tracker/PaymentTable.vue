@@ -52,7 +52,7 @@ function clearAllPayments() {
             <th scope="col" aria-label="Delete" />
           </tr>
         </thead>
-        <tbody v-if="tracker.payments.length > 0">
+        <TransitionGroup name="row" tag="tbody">
           <TrackerPaymentRow
             v-for="(payment, idx) in tracker.payments"
             :key="payment.id"
@@ -61,7 +61,7 @@ function clearAllPayments() {
             @update:field="onUpdateField"
             @delete="onDelete"
           />
-        </tbody>
+        </TransitionGroup>
       </table>
 
       <!-- Empty state -->
@@ -151,5 +151,26 @@ thead th {
 }
 .dark .add-row-bar {
   border-top-color: var(--color-stone-800);
+}
+
+/* ── Row transitions ── */
+.row-enter-active {
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.row-leave-active {
+  transition: opacity 0.2s ease,
+              transform 0.2s ease;
+}
+.row-enter-from {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.row-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.row-move {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 </style>
