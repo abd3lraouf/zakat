@@ -71,16 +71,6 @@ body::before {
 /* ═══════════════════════════════════════════════════════════
    KEYFRAME ANIMATIONS
 ═══════════════════════════════════════════════════════════ */
-@keyframes viewIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes viewOut {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-20px); }
-}
-
 /* ── Page transitions ── */
 .page-enter-active {
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
