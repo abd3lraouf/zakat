@@ -3,21 +3,15 @@ import { useCalculatorStore } from '~~/stores/calculator'
 import { ASSET_DEFS_GOLD, ASSET_DEFS_OTHER } from '~/utils/constants'
 
 const store = useCalculatorStore()
-const { t, locale } = useI18n()
+const { t } = useI18n()
+const { setPageSeo } = useSeoConfig()
+
+setPageSeo('seo.calculator.title', 'seo.calculator.description')
 
 const breadcrumbs = computed(() => [
   { label: t('nav.home'), to: '/', icon: 'i-lucide-home' },
   { label: t('nav.calculator') },
 ])
-
-useSeoMeta({
-  title: () => t('seo.calculator.title'),
-  description: () => t('seo.calculator.description'),
-  ogTitle: () => t('seo.calculator.title'),
-  ogDescription: () => t('seo.calculator.description'),
-  ogType: 'website',
-  ogLocale: () => locale.value === 'ar' ? 'ar_SA' : 'en_US',
-})
 
 function addCustomAsset() {
   store.customAssets.push({

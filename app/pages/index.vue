@@ -2,19 +2,12 @@
 import { useAuthStore } from '../../stores/auth'
 import { useGoogleAuth } from '~/composables/useGoogleAuth'
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const auth = useAuthStore()
 const { signIn } = useGoogleAuth()
+const { setPageSeo } = useSeoConfig()
 
-useSeoMeta({
-  title: () => t('seo.home.title'),
-  description: () => t('seo.home.description'),
-  ogTitle: () => t('seo.home.title'),
-  ogDescription: () => t('seo.home.description'),
-  ogType: 'website',
-  ogLocale: () => locale.value === 'ar' ? 'ar_SA' : 'en_US',
-  ogLocaleAlternate: () => locale.value === 'ar' ? ['en_US'] : ['ar_SA'],
-})
+setPageSeo('seo.home.title', 'seo.home.description')
 </script>
 
 <template>

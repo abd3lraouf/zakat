@@ -1,19 +1,13 @@
 <script setup lang="ts">
-const { t, locale } = useI18n()
+const { t } = useI18n()
+const { setPageSeo } = useSeoConfig()
+
+setPageSeo('seo.tracker.title', 'seo.tracker.description')
 
 const breadcrumbs = computed(() => [
   { label: t('nav.home'), to: '/', icon: 'i-lucide-home' },
   { label: t('nav.tracker') },
 ])
-
-useSeoMeta({
-  title: () => t('seo.tracker.title'),
-  description: () => t('seo.tracker.description'),
-  ogTitle: () => t('seo.tracker.title'),
-  ogDescription: () => t('seo.tracker.description'),
-  ogType: 'website',
-  ogLocale: () => locale.value === 'ar' ? 'ar_SA' : 'en_US',
-})
 </script>
 
 <template>
