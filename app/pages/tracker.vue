@@ -33,24 +33,13 @@ useSeoMeta({
   animation: viewIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes viewIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .section-header {
   margin-bottom: 28px;
 }
 
 .section-title {
   font-size: var(--text-xl);
-  color: var(--color-g-800);
+  color: var(--color-green-800);
   margin-bottom: 6px;
   font-family: var(--font-en-serif);
 }
@@ -60,14 +49,14 @@ useSeoMeta({
 .section-title::after {
   content: '\25C6';
   font-size: 8px;
-  color: var(--color-gold);
+  color: var(--color-gold-500);
   margin-inline-start: 10px;
   vertical-align: middle;
 }
 
 .section-sub {
   font-size: var(--text-sm);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   letter-spacing: var(--tracking-wide);
 }
 </style>

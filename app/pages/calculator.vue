@@ -35,27 +35,28 @@ function addCustomAsset() {
       <div class="calc-inputs">
         <CalculatorPriceInputs />
 
-        <div class="card mb-6">
-          <div class="card-header">
-            <h3>{{ t('calc.assetsTitle') }}</h3>
-            <button class="btn btn-gold btn-sm" @click="addCustomAsset">
-              + {{ t('calc.addAsset') }}
-            </button>
-          </div>
-          <div class="card-body card-body--flush">
-            <CalculatorAssetSection
-              :title="t('calc.sectionGold')"
-              :defs="ASSET_DEFS_GOLD"
-              state-group="assets"
-            />
-            <CalculatorAssetSection
-              :title="t('calc.sectionOther')"
-              :defs="ASSET_DEFS_OTHER"
-              state-group="assets"
-            />
-            <CalculatorCustomAssets />
-          </div>
-        </div>
+        <UCard class="mb-6">
+          <template #header>
+            <div class="flex items-center justify-between gap-3">
+              <h3 class="text-(--text-md) font-semibold text-(--color-stone-800)">{{ t('calc.assetsTitle') }}</h3>
+              <UButton variant="outline" size="xs" @click="addCustomAsset">
+                + {{ t('calc.addAsset') }}
+              </UButton>
+            </div>
+          </template>
+
+          <CalculatorAssetSection
+            :title="t('calc.sectionGold')"
+            :defs="ASSET_DEFS_GOLD"
+            state-group="assets"
+          />
+          <CalculatorAssetSection
+            :title="t('calc.sectionOther')"
+            :defs="ASSET_DEFS_OTHER"
+            state-group="assets"
+          />
+          <CalculatorCustomAssets />
+        </UCard>
 
         <CalculatorDeductionInputs />
       </div>
@@ -75,24 +76,13 @@ function addCustomAsset() {
   animation: viewIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes viewIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .section-header {
   margin-bottom: 28px;
 }
 
 .section-title {
   font-size: var(--text-xl);
-  color: var(--color-g-800);
+  color: var(--color-green-800);
   margin-bottom: 6px;
   font-family: var(--font-en-serif);
 }
@@ -102,18 +92,17 @@ function addCustomAsset() {
 .section-title::after {
   content: '\25C6';
   font-size: 8px;
-  color: var(--color-gold);
+  color: var(--color-gold-500);
   margin-inline-start: 10px;
   vertical-align: middle;
 }
 
 .section-sub {
   font-size: var(--text-sm);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   letter-spacing: var(--tracking-wide);
 }
 
-/* ── Two-column layout ── */
 .calc-layout {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -126,90 +115,7 @@ function addCustomAsset() {
   }
 }
 
-/* ── Card styles ── */
-.card {
-  background: white;
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-parchment-100);
-  overflow: hidden;
-}
-
-.card-header {
-  padding: 18px 24px;
-  background: var(--color-parchment-50);
-  border-bottom: 1px solid var(--color-parchment-100);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  position: relative;
-}
-.card-header::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 3px;
-  background: linear-gradient(180deg, var(--color-gold), var(--color-g-500));
-  border-radius: 0 2px 2px 0;
-}
-[dir="rtl"] .card-header::before {
-  border-radius: 2px 0 0 2px;
-}
-
-.card-header h3 {
-  font-size: var(--text-md);
-  color: var(--color-parchment-800);
-  font-weight: var(--weight-semi);
-}
-
-.card-body {
-  padding: 24px;
-}
-.card-body--flush {
-  padding: 0 24px;
-}
-
 .mb-6 {
   margin-bottom: 24px;
-}
-
-/* ── Button styles ── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 22px;
-  border-radius: var(--radius-sm);
-  border: none;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: 0.3px;
-  white-space: nowrap;
-}
-
-.btn-gold {
-  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
-  color: var(--color-g-800);
-  font-weight: 600;
-  border-radius: 999px;
-}
-.btn-gold:hover {
-  background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(198, 147, 10, 0.35);
-}
-.btn-gold:active {
-  transform: translateY(0) scale(0.97);
-}
-
-.btn-sm {
-  padding: 7px 14px;
-  font-size: 13px;
 }
 </style>

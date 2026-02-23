@@ -46,17 +46,6 @@ useSeoMeta({
   animation: viewIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes viewIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .profile-view {
   max-width: 600px;
 }
@@ -67,7 +56,7 @@ useSeoMeta({
 
 .section-title {
   font-size: var(--text-xl);
-  color: var(--color-g-800);
+  color: var(--color-green-800);
   margin-bottom: 6px;
   font-family: var(--font-en-serif);
 }
@@ -77,23 +66,22 @@ useSeoMeta({
 .section-title::after {
   content: '\25C6';
   font-size: 8px;
-  color: var(--color-gold);
+  color: var(--color-gold-500);
   margin-inline-start: 10px;
   vertical-align: middle;
 }
 
 .section-sub {
   font-size: var(--text-sm);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   letter-spacing: var(--tracking-wide);
 }
 
-/* Ornamental divider */
 .ornament-divider {
   display: flex;
   align-items: center;
   gap: 16px;
-  color: var(--color-gold);
+  color: var(--color-gold-500);
   font-size: 8px;
   margin: 24px 0;
 }
@@ -102,13 +90,13 @@ useSeoMeta({
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-parchment-200), transparent);
+  background: linear-gradient(90deg, transparent, var(--color-stone-300), transparent);
 }
 
-/* Staggered card entrance */
 .profile-cards {
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
 .card-animate {
@@ -116,13 +104,7 @@ useSeoMeta({
 }
 
 @keyframes cardSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
