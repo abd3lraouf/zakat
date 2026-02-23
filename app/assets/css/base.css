@@ -62,6 +62,7 @@ body::before {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
@@ -78,6 +79,24 @@ body::before {
 @keyframes viewOut {
   from { opacity: 1; transform: translateY(0); }
   to   { opacity: 0; transform: translateY(-20px); }
+}
+
+/* ── Page transitions ── */
+.page-enter-active {
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.page-leave-active {
+  transition: opacity 0.2s ease,
+              transform 0.2s ease;
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-12px);
 }
 
 @keyframes fadeUp {

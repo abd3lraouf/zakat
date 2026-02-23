@@ -37,7 +37,6 @@ useSeoMeta({
   padding: 32px 20px 64px;
   max-width: 1100px;
   margin: 0 auto;
-  animation: viewIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .page-breadcrumb {
