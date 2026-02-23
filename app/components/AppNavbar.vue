@@ -52,11 +52,11 @@ function isActive(path: string): boolean {
     </div>
 
     <!-- Spacer -->
-    <div class="nav-spacer" />
+    <div class="flex-1" />
 
     <!-- Actions -->
-    <div class="nav-actions">
-      <!-- Sync indicator (shown when connected to Drive) -->
+    <div class="flex items-center gap-2">
+      <!-- Sync indicator -->
       <SyncIndicator
         v-if="isConnected"
         :status="syncStatus"
@@ -82,32 +82,35 @@ function isActive(path: string): boolean {
         </button>
       </div>
 
-      <!-- User avatar (shown when authenticated) -->
+      <!-- User avatar (authenticated) -->
       <NuxtLink
         v-if="authStore.isAuthenticated"
         to="/profile"
-        class="user-avatar"
         :title="t('nav.settings')"
       >
-        <img
+        <UAvatar
           v-if="showImage"
           :src="avatarUrl!"
           :alt="authStore.user?.name || ''"
-          class="user-avatar-img"
-          referrerpolicy="no-referrer"
-          @error="onImgError"
+          size="sm"
+          class="ring-2 ring-transparent hover:ring-(--color-gold-400) transition-shadow"
         />
-        <span v-else class="user-avatar-initials">{{ userInitials }}</span>
+        <UAvatar
+          v-else
+          :text="userInitials"
+          size="sm"
+          class="ring-2 ring-transparent hover:ring-(--color-gold-400) transition-shadow"
+        />
       </NuxtLink>
 
-      <!-- Settings (shown when not authenticated) -->
+      <!-- Settings (guest) -->
       <NuxtLink
         v-else
         to="/profile"
         class="nav-settings-btn"
         :title="t('nav.settings')"
       >
-        <Icon name="lucide:settings" size="18" />
+        <UIcon name="i-lucide-settings" class="size-[18px]" />
       </NuxtLink>
     </div>
   </nav>
@@ -119,10 +122,10 @@ function isActive(path: string): boolean {
   top: 0;
   inset-inline: 0;
   height: var(--spacing-navbar-h);
-  background: rgba(0, 61, 31, 0.92);
+  background: rgba(31, 72, 55, 0.92);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid rgba(198, 147, 10, 0.15);
+  border-bottom: 1px solid rgba(184, 147, 58, 0.15);
   display: flex;
   align-items: center;
   padding: 0 24px;
@@ -144,14 +147,14 @@ function isActive(path: string): boolean {
   font-family: 'Aref Ruqaa', 'Amiri', serif;
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
-  color: var(--color-gold);
+  color: var(--color-gold-400);
   line-height: var(--leading-tight);
   flex-shrink: 0;
   transition: text-shadow 0.3s var(--ease-out);
 }
 
 .nav-brand:hover .nav-logo {
-  text-shadow: 0 0 20px rgba(198, 147, 10, 0.4);
+  text-shadow: 0 0 20px rgba(184, 147, 58, 0.4);
 }
 
 /* ── Desktop links ── */
@@ -180,20 +183,8 @@ function isActive(path: string): boolean {
 }
 
 .nav-link.active {
-  color: var(--color-gold);
-  background: rgba(198, 147, 10, 0.15);
-}
-
-/* ── Spacer ── */
-.nav-spacer {
-  flex: 1;
-}
-
-/* ── Actions ── */
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  color: var(--color-gold-400);
+  background: rgba(184, 147, 58, 0.15);
 }
 
 /* ── Language toggle ── */
@@ -228,45 +219,9 @@ function isActive(path: string): boolean {
 }
 
 .lang-btn.active {
-  background: var(--color-gold);
-  color: var(--color-g-800);
-  box-shadow: 0 2px 8px rgba(198, 147, 10, 0.3);
-}
-
-/* ── User avatar ── */
-.user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  text-decoration: none;
-  transition: box-shadow 0.2s;
-  overflow: hidden;
-}
-
-.user-avatar:hover {
-  box-shadow: 0 0 0 2px rgba(198, 147, 10, 0.4);
-}
-
-.user-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.user-avatar-initials {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--color-gold);
-  color: var(--color-g-800);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-bold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-en);
+  background: var(--color-gold-500);
+  color: var(--color-green-800);
+  box-shadow: 0 2px 8px rgba(184, 147, 58, 0.3);
 }
 
 /* ── Nav settings button (guest) ── */
