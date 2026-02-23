@@ -19,6 +19,12 @@ useSeoMeta({
 
 <template>
   <div class="landing-view">
+    <!-- Islamic geometric background -->
+    <div class="landing-bg" aria-hidden="true">
+      <div class="bg-pattern" />
+      <div class="bg-glow bg-glow-gold" />
+      <div class="bg-glow bg-glow-green" />
+    </div>
     <div class="landing-content">
       <!-- 1. Bismillah -->
       <div class="landing-bismillah" aria-label="Bismillah">
@@ -83,6 +89,72 @@ useSeoMeta({
   justify-content: center;
   min-height: calc(100dvh - var(--spacing-navbar-h));
   padding: 40px 20px 100px;
+  position: relative;
+}
+
+/* ── Islamic geometric background — covers full viewport ── */
+.landing-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Tiled Islamic geometric pattern */
+.bg-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image: url('/islamic-pattern.svg');
+  background-size: 288px 288px;
+  background-repeat: repeat;
+  animation: patternDrift 90s linear infinite;
+}
+.dark .bg-pattern {
+  opacity: 0.10;
+}
+
+/* Floating radial glows */
+.bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.bg-glow-gold {
+  width: 500px;
+  height: 500px;
+  top: -10%;
+  right: -5%;
+  background: radial-gradient(circle, rgba(196, 165, 74, 0.08) 0%, transparent 70%);
+  animation: glowFloat 20s ease-in-out infinite;
+}
+.dark .bg-glow-gold {
+  background: radial-gradient(circle, rgba(196, 165, 74, 0.08) 0%, transparent 70%);
+}
+
+.bg-glow-green {
+  width: 600px;
+  height: 600px;
+  bottom: -15%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(61, 139, 103, 0.06) 0%, transparent 70%);
+  animation: glowFloat 25s ease-in-out infinite reverse;
+}
+.dark .bg-glow-green {
+  background: radial-gradient(circle, rgba(61, 139, 103, 0.06) 0%, transparent 70%);
+}
+
+/* ── Background keyframes ── */
+@keyframes patternDrift {
+  from { background-position: 0 0; }
+  to { background-position: 288px 288px; }
+}
+
+@keyframes glowFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 15px) scale(0.95); }
 }
 
 .landing-content {
@@ -127,10 +199,16 @@ useSeoMeta({
   line-height: var(--leading-relaxed);
   margin-bottom: 12px;
 }
+.dark .verse-arabic {
+  color: var(--color-green-300);
+}
 
 .verse-arabic-2 {
   font-size: var(--text-lg);
   color: var(--color-green-700);
+}
+.dark .verse-arabic-2 {
+  color: var(--color-green-400);
 }
 
 .verse-translation {
@@ -165,6 +243,9 @@ useSeoMeta({
   margin-bottom: 32px;
   animation: fadeUp 0.6s 0.4s var(--ease-out) both;
 }
+.dark .landing-message {
+  color: var(--color-stone-300);
+}
 [dir="rtl"] .landing-message {
   font-family: var(--font-ar);
 }
@@ -190,6 +271,9 @@ useSeoMeta({
 }
 .cta-secondary:hover {
   color: var(--color-green-600);
+}
+.dark .cta-secondary:hover {
+  color: var(--color-green-400);
 }
 
 /* 5. Sign-in section */
@@ -217,6 +301,10 @@ useSeoMeta({
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--color-stone-300), transparent);
+}
+.dark .signin-divider::before,
+.dark .signin-divider::after {
+  background: linear-gradient(90deg, transparent, var(--color-stone-700), transparent);
 }
 .signin-divider span {
   white-space: nowrap;
@@ -255,5 +343,9 @@ useSeoMeta({
   flex: 1;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--color-stone-300), transparent);
+}
+.dark .ornament-divider::before,
+.dark .ornament-divider::after {
+  background: linear-gradient(90deg, transparent, var(--color-stone-700), transparent);
 }
 </style>

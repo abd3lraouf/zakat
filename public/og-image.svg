@@ -1,5 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect fill="#005229" width="1200" height="630"/>
-  <text x="600" y="280" text-anchor="middle" fill="#C6930A" font-size="72" font-family="serif">زكاتي</text>
-  <text x="600" y="370" text-anchor="middle" fill="#ffffff" font-size="36" font-family="sans-serif">Zakaty — Zakat Calculator</text>
+  <rect fill="#1A3D2C" width="1200" height="630"/>
+  <!-- Subtle geometric background pattern -->
+  <g opacity="0.06">
+    <path d="M200,315 L228,253 L252,253 L350,315 L252,377 L228,377 Z" fill="#C4A54A"/>
+    <path d="M1000,315 L1028,253 L1052,253 L1150,315 L1052,377 L1028,377 Z" fill="#C4A54A"/>
+  </g>
+  <!-- Center 8-pointed star -->
+  <g opacity="0.15">
+    <path d="M600,215 L628,273 L652,273 L710,315 L652,357 L628,357 L600,415 L572,357 L548,357 L490,315 L548,273 L572,273 Z" fill="#C4A54A"/>
+    <path d="M600,245 L670,315 L600,385 L530,315 Z" fill="#C4A54A"/>
+  </g>
+  <path d="M600,285 L630,315 L600,345 L570,315 Z" fill="#C4A54A"/>
+  <!-- Gold separator lines -->
+  <rect x="200" y="310" width="150" height="1" fill="#C4A54A" opacity="0.3"/>
+  <rect x="850" y="310" width="150" height="1" fill="#C4A54A" opacity="0.3"/>
 </svg>
