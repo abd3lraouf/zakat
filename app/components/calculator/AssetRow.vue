@@ -31,17 +31,17 @@ function onInput(event: Event) {
     <div class="form-label">
       <strong>{{ t(def.key) }}</strong>
     </div>
-    <input
+    <UInput
       type="number"
-      :value="modelValue || undefined"
-      min="0"
+      :model-value="modelValue || undefined"
+      :min="0"
       step="0.01"
       placeholder="0"
-      class="form-input"
-      @input="onInput"
+      class="form-input font-mono"
+      @update:model-value="emit('update:modelValue', Number($event) || 0)"
     />
-    <span class="input-unit">{{ def.unit }}</span>
-    <span class="input-value">{{ fmtEGP(computedValue, locale) }}</span>
+    <span class="text-xs text-(--color-stone-400) whitespace-nowrap tracking-widest uppercase">{{ def.unit }}</span>
+    <span class="text-sm font-semibold text-(--color-green-600) whitespace-nowrap min-w-[100px] text-end font-mono">{{ fmtEGP(computedValue, locale) }}</span>
   </div>
 </template>
 
@@ -52,7 +52,7 @@ function onInput(event: Event) {
   align-items: center;
   gap: 16px;
   padding: 14px 0;
-  border-bottom: 1px solid var(--color-parchment-100);
+  border-bottom: 1px solid var(--color-stone-200);
 }
 .form-row:last-child {
   border-bottom: none;
@@ -60,53 +60,18 @@ function onInput(event: Event) {
 
 .form-label {
   font-size: var(--text-sm);
-  color: var(--color-parchment-600);
+  color: var(--color-stone-600);
 }
 
 .form-label strong {
   display: block;
   font-weight: var(--weight-semi);
-  color: var(--color-parchment-800);
+  color: var(--color-stone-800);
   margin-bottom: 2px;
 }
 
 .form-input {
-  font-family: var(--font-mono);
-  font-size: var(--text-base);
-  padding: 11px 14px;
-  min-height: 44px;
-  border: 1.5px solid var(--color-parchment-200);
-  border-radius: var(--radius-sm);
-  background: white;
-  color: var(--color-parchment-800);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  width: 100%;
-}
-.form-input:focus {
-  border-color: var(--color-g-500);
-  box-shadow: var(--shadow-ring);
-}
-.form-input::placeholder {
-  color: var(--color-parchment-400);
-}
-
-.input-unit {
-  font-size: var(--text-xs);
-  color: var(--color-parchment-400);
-  white-space: nowrap;
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-}
-
-.input-value {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semi);
-  color: var(--color-g-600);
-  white-space: nowrap;
-  min-width: 100px;
-  text-align: end;
-  font-family: var(--font-mono);
+  max-width: 140px;
 }
 
 @media (max-width: 640px) {
@@ -114,8 +79,8 @@ function onInput(event: Event) {
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  .input-value {
-    text-align: start;
+  .form-input {
+    max-width: 100%;
   }
 }
 </style>

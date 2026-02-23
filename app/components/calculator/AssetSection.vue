@@ -27,8 +27,8 @@ function setValue(def: AssetDef, value: number) {
 </script>
 
 <template>
-  <div class="asset-section">
-    <div class="asset-section-title">{{ title }}</div>
+  <div class="mb-5">
+    <div class="section-title">{{ title }}</div>
     <CalculatorAssetRow
       v-for="def in defs"
       :key="def.id"
@@ -40,26 +40,22 @@ function setValue(def: AssetDef, value: number) {
 </template>
 
 <style scoped>
-.asset-section {
-  margin-bottom: 20px;
-}
-
-.asset-section-title {
+.section-title {
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-widest);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   padding: 12px 0 8px;
-  border-bottom: 1px solid var(--color-parchment-100);
+  border-bottom: 1px solid var(--color-stone-200);
   margin-bottom: 4px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.asset-section-title::after {
+.section-title::after {
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--color-parchment-100);
+  background: var(--color-stone-200);
 }
 </style>
