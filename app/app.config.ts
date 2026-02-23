@@ -4,6 +4,10 @@ export default defineAppConfig({
   driveFileName: 'zakat-app-data.json',
   appVersion: 1,
   ui: {
+    icons: {
+      light: 'i-lucide-sun',
+      dark: 'i-lucide-moon',
+    },
     colors: {
       primary: 'green',
       neutral: 'stone',

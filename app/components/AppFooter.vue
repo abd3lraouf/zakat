@@ -1,12 +1,5 @@
 <script setup lang="ts">
 const { t } = useI18n()
-const colorMode = useColorMode()
-
-const isDark = computed(() => colorMode.value === 'dark')
-
-function toggleTheme() {
-  colorMode.preference = isDark.value ? 'light' : 'dark'
-}
 
 const navLinks = [
   { to: '/calculator', labelKey: 'nav.calculator', icon: 'i-lucide-calculator' },
@@ -74,22 +67,7 @@ const socialLinks = [
 
           <!-- Theme toggle -->
           <div class="theme-section">
-            <button
-              class="theme-toggle"
-              :aria-label="isDark ? t('footer.lightMode') : t('footer.darkMode')"
-              :title="isDark ? t('footer.lightMode') : t('footer.darkMode')"
-              @click="toggleTheme"
-            >
-              <span class="theme-toggle-track" :class="{ dark: isDark }">
-                <span class="theme-toggle-thumb" :class="{ dark: isDark }">
-                  <UIcon
-                    :name="isDark ? 'i-lucide-moon' : 'i-lucide-sun'"
-                    class="size-3"
-                  />
-                </span>
-              </span>
-              <span class="theme-label">{{ isDark ? t('footer.darkMode') : t('footer.lightMode') }}</span>
-            </button>
+            <UColorModeSwitch size="sm" color="primary" />
           </div>
         </div>
       </div>
@@ -276,69 +254,11 @@ const socialLinks = [
   margin-top: 16px;
 }
 
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
 @media (max-width: 640px) {
   .theme-section {
     display: flex;
     justify-content: center;
   }
-}
-
-.theme-toggle-track {
-  position: relative;
-  width: 44px;
-  height: 24px;
-  border-radius: 999px;
-  background: var(--color-stone-200);
-  transition: background 0.3s var(--ease-out);
-  flex-shrink: 0;
-}
-
-.theme-toggle-track.dark {
-  background: var(--color-green-800);
-}
-
-.theme-toggle-thumb {
-  position: absolute;
-  top: 3px;
-  inset-inline-start: 3px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-gold-500);
-  transition: inset-inline-start 0.3s var(--ease-out), background 0.3s, color 0.3s;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-.theme-toggle-thumb.dark {
-  inset-inline-start: 23px;
-  background: var(--color-stone-900);
-  color: var(--color-gold-400);
-}
-
-.theme-label {
-  font-size: var(--text-xs);
-  color: var(--color-stone-400);
-  letter-spacing: var(--tracking-wide);
-  font-weight: var(--weight-medium);
-  transition: color 0.2s;
-}
-
-.theme-toggle:hover .theme-label {
-  color: var(--color-stone-600);
 }
 
 /* ── Bottom bar ── */
