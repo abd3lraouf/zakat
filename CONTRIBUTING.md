@@ -31,7 +31,7 @@ Tests use [Vitest](https://vitest.dev/) with JSDOM. Test files are in `tests/`:
 
 | File | Coverage |
 |------|----------|
-| `utils.test.js` | `safeNum`, `escapeHtml`, `fmtEGP`, `fmtPct` |
+| `utils.test.js` | `safeNum`, `escapeHtml`, `fmtCurrency`, `fmtPct` |
 | `i18n.test.js` | Translation coverage, `i18n.t()`, `setLang()` |
 | `calculator.test.js` | Zakat calculation, nisab, price sensitivity |
 | `tracker.test.js` | Payment CRUD, summary calculations |
