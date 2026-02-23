@@ -1,3 +1,5 @@
+import { getCurrency } from '~/utils/currencies'
+
 export function safeNum(val: unknown): number {
   const n = Number(val)
   return Number.isFinite(n) ? n : 0
@@ -12,12 +14,21 @@ export function escapeHtml(str: string | null | undefined): string {
     .replace(/'/g, '&#39;')
 }
 
-export function fmtEGP(val: unknown, lang: string = 'en'): string {
+export function fmtCurrency(val: unknown, lang: string = 'en', currencyCode: string = 'EGP'): string {
   const n = safeNum(val)
+  const info = getCurrency(currencyCode)
   if (lang === 'ar') {
-    return 'ج.م ' + n.toLocaleString('ar-EG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    return info.symbol + ' ' + n.toLocaleString('ar', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   }
-  return 'EGP ' + n.toLocaleString('en-EG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  return info.code + ' ' + n.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
+
+export function fmtUnit(unit: 'g' | 'currency', lang: string, currencyCode: string): string {
+  if (unit === 'g') {
+    return lang === 'ar' ? 'جم' : 'g'
+  }
+  const info = getCurrency(currencyCode)
+  return lang === 'ar' ? info.symbol : info.code
 }
 
 export function fmtPct(n: number, lang: string = 'en'): string {

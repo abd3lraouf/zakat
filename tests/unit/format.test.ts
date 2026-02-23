@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { safeNum, escapeHtml, fmtEGP, fmtPct } from '~/utils/format'
+import { safeNum, escapeHtml, fmtCurrency, fmtPct } from '~/utils/format'
 
 describe('safeNum', () => {
   it('returns number for valid input', () => {
@@ -31,19 +31,31 @@ describe('escapeHtml', () => {
   })
 })
 
-describe('fmtEGP', () => {
-  it('formats currency in English', () => {
-    const result = fmtEGP(1234.56, 'en')
+describe('fmtCurrency', () => {
+  it('formats currency in English with default EGP', () => {
+    const result = fmtCurrency(1234.56, 'en')
     expect(result).toContain('EGP')
     expect(result).toContain('1')
     expect(result).toContain('234')
   })
-  it('formats currency in Arabic', () => {
-    const result = fmtEGP(1234.56, 'ar')
+  it('formats currency in Arabic with default EGP', () => {
+    const result = fmtCurrency(1234.56, 'ar')
     expect(result).toContain('ج.م')
   })
   it('handles zero', () => {
-    expect(fmtEGP(0, 'en')).toContain('0.00')
+    expect(fmtCurrency(0, 'en')).toContain('0.00')
+  })
+  it('formats SAR currency', () => {
+    const result = fmtCurrency(100, 'en', 'SAR')
+    expect(result).toContain('SAR')
+  })
+  it('formats SAR in Arabic', () => {
+    const result = fmtCurrency(100, 'ar', 'SAR')
+    expect(result).toContain('ر.س')
+  })
+  it('falls back to EGP for unknown currency', () => {
+    const result = fmtCurrency(100, 'en', 'UNKNOWN')
+    expect(result).toContain('EGP')
   })
 })
 
