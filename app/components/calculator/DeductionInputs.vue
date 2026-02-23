@@ -7,7 +7,7 @@ const { t } = useI18n()
 <template>
   <UCard class="deduction-card">
     <template #header>
-      <h3 class="text-(--text-md) font-semibold text-(--color-stone-800)">{{ t('calc.deductTitle') }}</h3>
+      <h3 class="text-(--text-md) font-semibold text-(--color-stone-800) dark:text-(--color-stone-100)">{{ t('calc.deductTitle') }}</h3>
     </template>
 
     <CalculatorAssetSection
@@ -21,5 +21,8 @@ const { t } = useI18n()
 <style scoped>
 .deduction-card {
   background: var(--color-red-light);
+}
+.dark .deduction-card {
+  background: rgba(153, 27, 27, 0.15);
 }
 </style>

@@ -14,7 +14,7 @@ export default defineAppConfig({
     },
     card: {
       slots: {
-        root: 'rounded-xl shadow-sm border border-(--color-stone-200)',
+        root: 'rounded-xl shadow-sm border border-(--color-stone-200) dark:border-(--color-stone-800) dark:bg-(--color-stone-900)',
       },
     },
     button: {

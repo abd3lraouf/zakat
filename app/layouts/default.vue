@@ -19,9 +19,9 @@ const { syncConflict, cloudData, resolveUseCloud, resolveKeepLocal } = useDriveS
     <UModal v-model:open="syncConflict">
       <template #content>
         <div class="p-6 text-center">
-          <UIcon name="i-lucide-cloud" class="size-12 mb-3 opacity-80 text-(--color-stone-600)" />
-          <h3 class="text-lg font-bold text-(--color-stone-800) mb-2">{{ t('sync.conflictTitle') }}</h3>
-          <p class="text-base text-(--color-stone-500) leading-normal mb-2">{{ t('sync.conflictHint') }}</p>
+          <UIcon name="i-lucide-cloud" class="size-12 mb-3 opacity-80 text-(--color-stone-600) dark:text-(--color-stone-400)" />
+          <h3 class="text-lg font-bold text-(--color-stone-800) dark:text-(--color-stone-100) mb-2">{{ t('sync.conflictTitle') }}</h3>
+          <p class="text-base text-(--color-stone-500) dark:text-(--color-stone-400) leading-normal mb-2">{{ t('sync.conflictHint') }}</p>
           <p v-if="cloudData?.modifiedTime" class="text-xs text-(--color-stone-400) mb-6">
             {{ t('sync.cloudDataFrom') }} {{ new Date(cloudData.modifiedTime).toLocaleDateString() }}
           </p>

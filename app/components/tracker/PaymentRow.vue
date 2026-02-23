@@ -96,8 +96,14 @@ function onFieldInput(id: string, field: keyof Payment, event: Event) {
   border-bottom: 1px solid var(--color-stone-200);
   transition: background 0.15s;
 }
+.dark .payment-row {
+  border-bottom-color: var(--color-stone-800);
+}
 .payment-row:hover {
   background: var(--color-gold-50);
+}
+.dark .payment-row:hover {
+  background: var(--color-gold-950);
 }
 
 td {

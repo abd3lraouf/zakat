@@ -39,6 +39,10 @@ const navItems = [
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border-top: 1px solid rgba(184, 147, 58, 0.15);
+}
+.dark .bottom-nav {
+  background: rgba(20, 20, 18, 0.92);
+  border-top-color: rgba(184, 147, 58, 0.1);
   padding: 8px 20px;
   padding-bottom: max(8px, env(safe-area-inset-bottom));
   z-index: 90;

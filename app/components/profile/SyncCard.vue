@@ -65,7 +65,7 @@ function handleDisconnect() {
         </svg>
       </div>
       <div class="min-w-0">
-        <p class="text-(--text-md) font-semibold text-(--color-stone-800)">Google Drive</p>
+        <p class="text-(--text-md) font-semibold text-(--color-stone-800) dark:text-(--color-stone-100)">Google Drive</p>
         <p class="text-sm text-(--color-stone-400) truncate">{{ authStore.user?.email }}</p>
         <p v-if="lastSyncedFormatted" class="text-xs text-(--color-stone-400) mt-1.5 opacity-80">
           {{ t('profile.lastSynced') }} {{ lastSyncedFormatted }}
@@ -103,6 +103,9 @@ function handleDisconnect() {
   align-items: center;
   justify-content: center;
   background: var(--color-stone-100);
+}
+.dark .sync-logo-wrap {
+  background: var(--color-stone-800);
   border-radius: var(--radius-sm);
   padding: 10px;
 }

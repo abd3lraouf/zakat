@@ -59,19 +59,18 @@ function onKeydown(event: KeyboardEvent) {
 }
 
 .modal-box {
-  background: white;
+  background: var(--color-stone-50);
   border-radius: 16px;
-  border: 1px solid var(--color-parchment-100);
+  border: 1px solid var(--color-stone-200);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1), 0 24px 64px rgba(0, 0, 0, 0.16);
   width: 100%;
   max-width: 460px;
   padding: 32px;
 }
 
-@media (prefers-color-scheme: dark) {
-  .modal-box {
-    background: var(--color-parchment-50);
-  }
+.dark .modal-box {
+  background: var(--color-stone-900);
+  border-color: var(--color-stone-700);
 }
 
 /* Transition: overlay fade + modal scale */

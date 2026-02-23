@@ -52,10 +52,16 @@ function setValue(def: AssetDef, value: number) {
   align-items: center;
   gap: 8px;
 }
+.dark .section-title {
+  border-bottom-color: var(--color-stone-800);
+}
 .section-title::after {
   content: '';
   flex: 1;
   height: 1px;
   background: var(--color-stone-200);
+}
+.dark .section-title::after {
+  background: var(--color-stone-800);
 }
 </style>

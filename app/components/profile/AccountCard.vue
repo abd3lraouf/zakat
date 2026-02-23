@@ -37,7 +37,7 @@ const initials = computed(() => {
           class="ring-2 ring-(--color-gold-400)"
         />
         <div class="min-w-0">
-          <div class="text-lg font-semibold text-(--color-stone-800) font-[var(--font-en-serif)]">{{ authStore.user?.name }}</div>
+          <div class="text-lg font-semibold text-(--color-stone-800) dark:text-(--color-stone-100) font-[var(--font-en-serif)]">{{ authStore.user?.name }}</div>
           <div class="text-sm text-(--color-stone-400) truncate">{{ authStore.user?.email }}</div>
         </div>
       </div>
@@ -49,7 +49,7 @@ const initials = computed(() => {
     <!-- Signed Out -->
     <template v-else>
       <div class="mb-4">
-        <p class="text-(--text-md) font-semibold text-(--color-stone-800) mb-1">{{ t('profile.notSignedIn') }}</p>
+        <p class="text-(--text-md) font-semibold text-(--color-stone-800) dark:text-(--color-stone-100) mb-1">{{ t('profile.notSignedIn') }}</p>
         <p class="text-sm text-(--color-stone-400)">{{ t('profile.signInHint') }}</p>
       </div>
       <UButton block @click="signIn">

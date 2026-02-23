@@ -101,6 +101,12 @@ const socialLinks = [
   position: relative;
   z-index: 1;
   margin-top: 40px;
+  background: rgba(31, 72, 55, 0.92);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+.dark .app-footer {
+  background: rgba(20, 20, 18, 0.92);
 }
 
 .footer-border {
@@ -108,12 +114,11 @@ const socialLinks = [
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--color-gold-400) 30%,
-    var(--color-gold-300) 50%,
-    var(--color-gold-400) 70%,
+    rgba(184, 147, 58, 0.3) 30%,
+    rgba(184, 147, 58, 0.4) 50%,
+    rgba(184, 147, 58, 0.3) 70%,
     transparent 100%
   );
-  opacity: 0.3;
 }
 
 .footer-container {
@@ -159,7 +164,7 @@ const socialLinks = [
 
 .footer-tagline {
   font-size: var(--text-sm);
-  color: var(--color-stone-400);
+  color: rgba(255, 255, 255, 0.5);
   line-height: var(--leading-normal);
   margin: 10px 0 0;
   max-width: 240px;
@@ -175,7 +180,7 @@ const socialLinks = [
 .footer-heading {
   font-size: var(--text-xs);
   font-weight: var(--weight-semi);
-  color: var(--color-stone-400);
+  color: rgba(255, 255, 255, 0.45);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
   margin: 0 0 12px;
@@ -207,14 +212,14 @@ const socialLinks = [
   align-items: center;
   gap: 8px;
   font-size: var(--text-sm);
-  color: var(--color-stone-500);
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   padding: 4px 0;
   transition: color 0.2s, transform 0.15s var(--ease-out);
 }
 
 .footer-link:hover {
-  color: var(--color-green-600);
+  color: rgba(255, 255, 255, 0.95);
   transform: translateX(3px);
 }
 
@@ -236,13 +241,13 @@ const socialLinks = [
 }
 
 .social-btn {
-  color: var(--color-stone-500) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
   justify-content: flex-start !important;
   transition: color 0.2s !important;
 }
 
 .social-btn:hover {
-  color: var(--color-green-600) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
 }
 
 .social-label {
@@ -268,12 +273,8 @@ const socialLinks = [
 
 .footer-bottom-separator {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-stone-200), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   margin-bottom: 16px;
-}
-
-.dark .footer-bottom-separator {
-  background: linear-gradient(90deg, transparent, var(--color-stone-800), transparent);
 }
 
 .footer-bottom-row {
@@ -285,24 +286,25 @@ const socialLinks = [
 }
 
 .source-link {
-  color: var(--color-stone-400) !important;
+  color: rgba(255, 255, 255, 0.45) !important;
   font-size: var(--text-xs) !important;
   letter-spacing: var(--tracking-wide);
   text-decoration: none !important;
 }
 
 .source-link:hover {
-  color: var(--color-green-600) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .footer-dot {
-  color: var(--color-stone-300);
+  color: rgba(255, 255, 255, 0.25);
   font-size: var(--text-xs);
 }
 
 .footer-made {
   font-size: var(--text-xs);
-  color: var(--color-stone-300);
+  color: var(--color-gold-400);
   letter-spacing: var(--tracking-wider);
+  font-weight: var(--weight-medium);
 }
 </style>
