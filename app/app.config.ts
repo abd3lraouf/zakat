@@ -8,5 +8,15 @@ export default defineAppConfig({
       primary: 'green',
       neutral: 'stone',
     },
+    card: {
+      slots: {
+        root: 'rounded-xl shadow-sm border border-(--color-stone-200)',
+      },
+    },
+    button: {
+      defaultVariants: {
+        color: 'primary',
+      },
+    },
   },
 })
