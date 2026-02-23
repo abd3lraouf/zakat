@@ -48,7 +48,7 @@ export type PriceKey = keyof Prices
 export interface AssetDef {
   id: string
   key: string       // i18n translation key
-  unit: 'g' | 'EGP'
+  unit: 'g' | 'currency'
   stateKey: AssetKey | DeductionKey
   formula: (value: number, prices: Prices) => number
 }

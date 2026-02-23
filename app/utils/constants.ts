@@ -19,16 +19,16 @@ export const ASSET_DEFS_GOLD: AssetDef[] = [
 ]
 
 export const ASSET_DEFS_OTHER: AssetDef[] = [
-  { id: 'cash', key: 'calc.cash', unit: 'EGP', stateKey: 'cash', formula: v => v },
-  { id: 'inventory', key: 'calc.inventory', unit: 'EGP', stateKey: 'inventory', formula: v => v },
-  { id: 'receivables', key: 'calc.receivables', unit: 'EGP', stateKey: 'receivables', formula: v => v },
-  { id: 'investments', key: 'calc.investments', unit: 'EGP', stateKey: 'investments', formula: v => v },
-  { id: 'otherassets', key: 'calc.other', unit: 'EGP', stateKey: 'otherAssets', formula: v => v },
+  { id: 'cash', key: 'calc.cash', unit: 'currency', stateKey: 'cash', formula: v => v },
+  { id: 'inventory', key: 'calc.inventory', unit: 'currency', stateKey: 'inventory', formula: v => v },
+  { id: 'receivables', key: 'calc.receivables', unit: 'currency', stateKey: 'receivables', formula: v => v },
+  { id: 'investments', key: 'calc.investments', unit: 'currency', stateKey: 'investments', formula: v => v },
+  { id: 'otherassets', key: 'calc.other', unit: 'currency', stateKey: 'otherAssets', formula: v => v },
 ]
 
 export const DEDUCTION_DEFS: AssetDef[] = [
-  { id: 'immediatedebts', key: 'calc.debts', unit: 'EGP', stateKey: 'immediateDebts', formula: v => v },
-  { id: 'otherliabilities', key: 'calc.liabilities', unit: 'EGP', stateKey: 'otherLiabilities', formula: v => v },
+  { id: 'immediatedebts', key: 'calc.debts', unit: 'currency', stateKey: 'immediateDebts', formula: v => v },
+  { id: 'otherliabilities', key: 'calc.liabilities', unit: 'currency', stateKey: 'otherLiabilities', formula: v => v },
 ]
 
 export const CATEGORIES = [
