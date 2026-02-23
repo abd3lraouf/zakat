@@ -31,35 +31,35 @@ useSeoMeta({
       <div
         v-motion
         :initial="{ opacity: 0, y: 20 }"
-        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut' } }"
+        :enter="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut' } }"
       >
         <ProfileAppSettings />
       </div>
       <div
         v-motion
         :initial="{ opacity: 0, y: 20 }"
-        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 80 } }"
+        :enter="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 80 } }"
       >
         <ProfileAccountCard />
       </div>
       <div
         v-motion
         :initial="{ opacity: 0, y: 20 }"
-        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 160 } }"
+        :enter="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 160 } }"
       >
         <ProfileSyncCard />
       </div>
       <div
         v-motion
         :initial="{ opacity: 0, y: 20 }"
-        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 240 } }"
+        :enter="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 240 } }"
       >
         <ProfileDataManagement />
       </div>
       <div
         v-motion
         :initial="{ opacity: 0, y: 20 }"
-        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 320 } }"
+        :enter="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 320 } }"
       >
         <ProfileAboutCard />
       </div>

@@ -43,7 +43,7 @@ function addCustomAsset() {
         class="calc-inputs"
         v-motion
         :initial="{ opacity: 0, y: 24 }"
-        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut' } }"
+        :enter="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut' } }"
       >
         <CalculatorPriceInputs />
 
@@ -77,7 +77,7 @@ function addCustomAsset() {
       <CalculatorSummaryPanel
         v-motion
         :initial="{ opacity: 0, y: 24 }"
-        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 100 } }"
+        :enter="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 100 } }"
       />
     </div>
   </div>
