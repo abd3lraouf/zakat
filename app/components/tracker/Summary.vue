@@ -10,34 +10,31 @@ const { t, locale } = useI18n()
 
 <template>
   <div class="summary-cards">
-    <!-- Zakat Due (gold accent) -->
-    <div class="sum-card sum-card-gold">
+    <!-- Zakat Due -->
+    <UCard class="sum-card sum-card-gold">
       <div class="sum-label">{{ t('tracker.due') }}</div>
-      <div class="sum-value">{{ fmtEGP(calculator.zakatDue, locale) }}</div>
+      <div class="sum-value text-(--color-gold-600)">{{ fmtEGP(calculator.zakatDue, locale) }}</div>
       <div class="sum-sub">{{ t('tracker.fromCalc') }}</div>
-    </div>
+    </UCard>
 
-    <!-- Paid So Far (green accent) -->
-    <div class="sum-card sum-card-green">
+    <!-- Paid So Far -->
+    <UCard class="sum-card sum-card-green">
       <div class="sum-label">{{ t('tracker.paid') }}</div>
-      <div class="sum-value">{{ fmtEGP(tracker.totalPaid, locale) }}</div>
+      <div class="sum-value text-(--color-green-600)">{{ fmtEGP(tracker.totalPaid, locale) }}</div>
       <div class="progress-wrap">
         <div class="progress-bg">
-          <div
-            class="progress-fill"
-            :style="{ width: tracker.progress + '%' }"
-          />
+          <div class="progress-fill" :style="{ width: tracker.progress + '%' }" />
         </div>
       </div>
       <div class="sum-sub">{{ fmtPct(tracker.progress, locale) }}</div>
-    </div>
+    </UCard>
 
-    <!-- Remaining (red accent) -->
-    <div class="sum-card sum-card-red">
+    <!-- Remaining -->
+    <UCard class="sum-card sum-card-red">
       <div class="sum-label">{{ t('tracker.remaining') }}</div>
-      <div class="sum-value">{{ fmtEGP(tracker.remaining, locale) }}</div>
+      <div class="sum-value text-(--color-red)">{{ fmtEGP(tracker.remaining, locale) }}</div>
       <div class="sum-sub">{{ t('tracker.balance') }}</div>
-    </div>
+    </UCard>
   </div>
 </template>
 
@@ -49,22 +46,13 @@ const { t, locale } = useI18n()
   margin-bottom: 24px;
 }
 @media (max-width: 640px) {
-  .summary-cards {
-    grid-template-columns: 1fr;
-  }
+  .summary-cards { grid-template-columns: 1fr; }
 }
 @media (min-width: 641px) and (max-width: 900px) {
-  .summary-cards {
-    grid-template-columns: 1fr 1fr;
-  }
+  .summary-cards { grid-template-columns: 1fr 1fr; }
 }
 
 .sum-card {
-  background: white;
-  border: 1px solid var(--color-parchment-100);
-  border-radius: var(--radius-md);
-  padding: 20px 22px;
-  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -83,21 +71,15 @@ const { t, locale } = useI18n()
   bottom: 0;
   width: 3px;
 }
-.sum-card-gold::before {
-  background: var(--color-gold);
-}
-.sum-card-green::before {
-  background: var(--color-g-500);
-}
-.sum-card-red::before {
-  background: var(--color-red-soft);
-}
+.sum-card-gold::before { background: var(--color-gold-500); }
+.sum-card-green::before { background: var(--color-green-500); }
+.sum-card-red::before { background: var(--color-red); }
 
 .sum-label {
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-widest);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   margin-bottom: 8px;
 }
 
@@ -107,36 +89,25 @@ const { t, locale } = useI18n()
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
 }
-.sum-card-gold .sum-value {
-  color: #A47A08;
-}
-.sum-card-green .sum-value {
-  color: var(--color-g-600);
-}
-.sum-card-red .sum-value {
-  color: var(--color-red);
-}
 
 .sum-sub {
   font-size: var(--text-xs);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   margin-top: 6px;
 }
 
 /* Progress bar */
-.progress-wrap {
-  margin-top: 10px;
-}
+.progress-wrap { margin-top: 10px; }
 .progress-bg {
   height: 4px;
-  background: var(--color-parchment-100);
+  background: var(--color-stone-200);
   border-radius: 4px;
   overflow: hidden;
 }
 .progress-fill {
   height: 100%;
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--color-g-500), var(--color-gold));
+  background: linear-gradient(90deg, var(--color-green-500), var(--color-gold-500));
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
 }
@@ -144,30 +115,12 @@ const { t, locale } = useI18n()
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   animation: shimmer 2s infinite;
 }
 
 @keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(200%);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .sum-card {
-    background: var(--color-parchment-50);
-  }
-  .sum-card-gold .sum-value {
-    color: var(--color-gold);
-  }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
 }
 </style>
