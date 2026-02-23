@@ -31,3 +31,8 @@ _site/
 
 # Worktrees
 .worktrees/
+
+# AI assistants
+CLAUDE.md
+.agents/
+skills-lock.json

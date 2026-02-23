@@ -29,8 +29,9 @@ Then enable GitHub Pages: **Settings** > **Pages** > Source: **GitHub Actions**.
 ### How Deployment Works
 
 - Push to `main` triggers `.github/workflows/deploy.yml`
-- The workflow runs **tests first** — if any fail, deployment is blocked
-- Only `index.html` and `404.html` are deployed
+- The workflow installs dependencies with Bun, runs tests, builds with `nuxt build`, and deploys the `.output/public` directory
+- If tests fail, deployment is blocked
+- The build uses `NUXT_APP_BASE_URL` and `NITRO_PRESET=github_pages` for correct path handling
 - Manual deploys: **Actions** > **Deploy to GitHub Pages** > **Run workflow**
 
 ### Custom Domain (optional)
@@ -38,21 +39,14 @@ Then enable GitHub Pages: **Settings** > **Pages** > Source: **GitHub Actions**.
 1. **Settings** > **Pages** > **Custom domain** > enter your domain
 2. Add a `CNAME` DNS record pointing to `YOUR_USERNAME.github.io`
 3. Check **Enforce HTTPS**
-4. Update the deploy workflow to include a CNAME file:
-
-```yaml
-      - name: Prepare site files
-        run: |
-          mkdir _site
-          cp index.html 404.html _site/
-          echo "zakat.example.com" > _site/CNAME
-```
 
 ---
 
 ## 2. Google Drive Sync (Optional)
 
-The app works fully **without** Google Sign-In — data is saved in localStorage. Sign-in adds cross-device sync via Google Drive's AppData folder.
+The app works fully **without** Google Sign-In — all data is saved in localStorage. Sign-in adds cross-device sync via Google Drive's AppData folder.
+
+Google Sign-In is **button-triggered only** (on the landing page and navbar). It never auto-launches popups.
 
 ### Step 1 — Create a Google Cloud Project
 
@@ -81,31 +75,31 @@ The app works fully **without** Google Sign-In — data is saved in localStorage
 4. **Authorized JavaScript origins** — add:
    ```
    https://YOUR_USERNAME.github.io
-   http://localhost:8080
+   http://localhost:3000
    ```
-5. No redirect URIs needed (uses popup flow)
+5. No redirect URIs needed (uses popup token flow)
 6. Click **Create** > copy the **Client ID**
 
 ### Step 5 — Add Client ID to the App
 
-In `index.html`, find the CONFIG section and replace:
+In `app/app.config.ts`, replace the `googleClientId` value:
 
-```js
-GOOGLE_CLIENT_ID: 'YOUR_GOOGLE_CLIENT_ID',
-```
-
-with your actual Client ID:
-
-```js
-GOOGLE_CLIENT_ID: '123456789-abc.apps.googleusercontent.com',
+```ts
+export default defineAppConfig({
+  googleClientId: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
+  driveScope: 'https://www.googleapis.com/auth/drive.appdata',
+  driveFileName: 'zakat-app-data.json',
+  appVersion: 1,
+})
 ```
 
 Commit and push — Google Sync is now active.
 
 ### Testing Sign-In
 
-- With the placeholder `'YOUR_GOOGLE_CLIENT_ID'`, the app shows a warning and falls back to offline mode
-- Sign-in works locally at `http://localhost:8080` if that origin is in your OAuth credentials
+- Sign-in requires a valid Client ID and an authorized origin
+- Locally, use `http://localhost:3000` (the Nuxt dev server port)
+- The sign-in button appears on the landing page (for guests) and in the navbar
 
 ---
 
@@ -114,13 +108,15 @@ Commit and push — Google Sync is now active.
 ### CI — Pull Requests
 
 `.github/workflows/ci.yml` runs on every PR to `main`:
-- Bun + `bun install` + `bun test`
+- Bun setup + `bun install` + `bun run test` + `bun run build`
 
 ### Deploy — Push to main
 
 `.github/workflows/deploy.yml`:
-1. **Test job**: runs the full test suite
-2. **Deploy job** (depends on tests passing): uploads site files to GitHub Pages
+1. Installs dependencies with Bun
+2. Runs the full test suite
+3. Builds with `nuxt build` (using `github_pages` Nitro preset)
+4. Uploads `.output/public` to GitHub Pages
 
 ### Required Permissions
 
@@ -133,13 +129,27 @@ No repository secrets are needed.
 
 ---
 
-## 4. Security Notes
+## 4. Local Development
+
+```bash
+# Prerequisites: Bun (https://bun.sh)
+bun install             # Install dependencies
+bun run dev             # Dev server at http://localhost:3000
+bun run test            # Run tests
+bun run build           # Production build
+bun run preview         # Preview production build
+```
+
+---
+
+## 5. Security Notes
 
 | Item | Where | Notes |
 |------|-------|-------|
-| Google Client ID | `index.html` CONFIG | Not a secret — designed to be public. Security comes from authorized origins. |
+| Google Client ID | `app/app.config.ts` | Not a secret — designed to be public. Security comes from authorized origins. |
 | User data | Browser `localStorage` | Never leaves the device unless user opts into Drive sync |
-| Drive sync data | Google Drive AppData | Invisible to user, only accessible by this app |
+| Drive sync data | Google Drive AppData | Invisible to user in Drive, only accessible by this app |
+| Auth tokens | In-memory only | OAuth2 access tokens are held in a Vue ref, never persisted to storage |
 
 - Never commit actual API keys or service account credentials
 - The app has no backend — there are no server secrets to manage
