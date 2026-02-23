@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useCalculatorStore } from '~~/stores/calculator'
-import { fmtEGP } from '~/utils/format'
+import { usePreferencesStore } from '~~/stores/preferences'
+import { fmtCurrency, fmtUnit } from '~/utils/format'
 
 const store = useCalculatorStore()
 const { t, locale } = useI18n()
+const prefs = usePreferencesStore()
 
 function addCustom() {
   store.customAssets.push({
@@ -44,8 +46,8 @@ function onAmountInput(index: number, value: string | number) {
         class="font-mono max-w-[120px] max-sm:max-w-full"
         @update:model-value="onAmountInput(index, $event)"
       />
-      <span class="text-xs text-(--color-stone-400) whitespace-nowrap tracking-widest uppercase">EGP</span>
-      <span class="text-sm font-semibold text-(--color-green-600) whitespace-nowrap min-w-[100px] text-end font-mono">{{ fmtEGP(asset.amount, locale) }}</span>
+      <span class="text-xs text-(--color-stone-400) whitespace-nowrap tracking-widest uppercase">{{ fmtUnit('currency', locale, prefs.currency) }}</span>
+      <span class="text-sm font-semibold text-(--color-green-600) whitespace-nowrap min-w-[100px] text-end font-mono">{{ fmtCurrency(asset.amount, locale, prefs.currency) }}</span>
       <UButton
         variant="ghost"
         color="error"
@@ -70,11 +72,17 @@ function onAmountInput(index: number, value: string | number) {
   align-items: center;
   gap: 8px;
 }
+.dark .section-title {
+  border-bottom-color: var(--color-stone-800);
+}
 .section-title::after {
   content: '';
   flex: 1;
   height: 1px;
   background: var(--color-stone-200);
+}
+.dark .section-title::after {
+  background: var(--color-stone-800);
 }
 
 .custom-row {
@@ -84,6 +92,9 @@ function onAmountInput(index: number, value: string | number) {
   gap: 10px;
   padding: 10px 0;
   border-bottom: 1px solid var(--color-stone-200);
+}
+.dark .custom-row {
+  border-bottom-color: var(--color-stone-800);
   animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

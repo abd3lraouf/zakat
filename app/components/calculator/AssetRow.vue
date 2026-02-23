@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { AssetDef } from '~~/shared/types'
 import { useCalculatorStore } from '~~/stores/calculator'
-import { fmtEGP } from '~/utils/format'
+import { usePreferencesStore } from '~~/stores/preferences'
+import { fmtCurrency, fmtUnit } from '~/utils/format'
 
 const props = defineProps<{
   def: AssetDef
@@ -14,6 +15,7 @@ const emit = defineEmits<{
 
 const store = useCalculatorStore()
 const { t, locale } = useI18n()
+const prefs = usePreferencesStore()
 
 const computedValue = computed(() => {
   return props.def.formula(props.modelValue, store.prices)
@@ -40,8 +42,8 @@ function onInput(event: Event) {
       class="form-input font-mono"
       @update:model-value="emit('update:modelValue', Number($event) || 0)"
     />
-    <span class="text-xs text-(--color-stone-400) whitespace-nowrap tracking-widest uppercase">{{ def.unit }}</span>
-    <span class="text-sm font-semibold text-(--color-green-600) whitespace-nowrap min-w-[100px] text-end font-mono">{{ fmtEGP(computedValue, locale) }}</span>
+    <span class="text-xs text-(--color-stone-400) whitespace-nowrap tracking-widest uppercase">{{ fmtUnit(def.unit, locale, prefs.currency) }}</span>
+    <span class="text-sm font-semibold text-(--color-green-600) whitespace-nowrap min-w-[100px] text-end font-mono">{{ fmtCurrency(computedValue, locale, prefs.currency) }}</span>
   </div>
 </template>
 
@@ -54,6 +56,9 @@ function onInput(event: Event) {
   padding: 14px 0;
   border-bottom: 1px solid var(--color-stone-200);
 }
+.dark .form-row {
+  border-bottom-color: var(--color-stone-800);
+}
 .form-row:last-child {
   border-bottom: none;
 }
@@ -62,12 +67,18 @@ function onInput(event: Event) {
   font-size: var(--text-sm);
   color: var(--color-stone-600);
 }
+.dark .form-label {
+  color: var(--color-stone-400);
+}
 
 .form-label strong {
   display: block;
   font-weight: var(--weight-semi);
   color: var(--color-stone-800);
   margin-bottom: 2px;
+}
+.dark .form-label strong {
+  color: var(--color-stone-200);
 }
 
 .form-input {

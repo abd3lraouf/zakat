@@ -3,11 +3,13 @@ import type { AssetDef } from '~~/shared/types'
 import { useCalculatorStore } from '~~/stores/calculator'
 import { useTrackerStore } from '~~/stores/tracker'
 import { ASSET_DEFS_GOLD, ASSET_DEFS_OTHER } from '~/utils/constants'
-import { fmtEGP, fmtPct } from '~/utils/format'
+import { usePreferencesStore } from '~~/stores/preferences'
+import { fmtCurrency, fmtPct } from '~/utils/format'
 
 const store = useCalculatorStore()
 const trackerStore = useTrackerStore()
 const { t, locale } = useI18n()
+const prefs = usePreferencesStore()
 
 const allAssetDefs = [...ASSET_DEFS_GOLD, ...ASSET_DEFS_OTHER]
 
@@ -60,34 +62,34 @@ const hasAnyValue = computed(() => {
       <div class="summary-lines">
         <div v-for="def in activeAssets" :key="def.id" class="sum-line">
           <span class="sum-line-label">{{ t(def.key) }}</span>
-          <span class="sum-line-value positive">{{ fmtEGP(assetEgpValue(def), locale) }}</span>
+          <span class="sum-line-value positive">{{ fmtCurrency(assetEgpValue(def), locale, prefs.currency) }}</span>
         </div>
 
         <div v-for="asset in activeCustom" :key="asset.id" class="sum-line">
           <span class="sum-line-label">{{ asset.label || t('calc.customLabel') }}</span>
-          <span class="sum-line-value positive">{{ fmtEGP(asset.amount, locale) }}</span>
+          <span class="sum-line-value positive">{{ fmtCurrency(asset.amount, locale, prefs.currency) }}</span>
         </div>
 
         <div class="summary-divider" />
 
         <div class="sum-line total">
           <span class="sum-line-label">{{ t('calc.grossAssets') }}</span>
-          <span class="sum-line-value">{{ fmtEGP(store.grossAssets, locale) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(store.grossAssets, locale, prefs.currency) }}</span>
         </div>
 
         <div v-for="ded in activeDeductions" :key="ded.label" class="sum-line">
           <span class="sum-line-label">{{ ded.label }}</span>
-          <span class="sum-line-value negative">&minus; {{ fmtEGP(ded.value, locale) }}</span>
+          <span class="sum-line-value negative">&minus; {{ fmtCurrency(ded.value, locale, prefs.currency) }}</span>
         </div>
 
         <div v-if="store.totalDeductions > 0" class="sum-line total">
           <span class="sum-line-label">{{ t('calc.totalDeductions') }}</span>
-          <span class="sum-line-value negative">&minus; {{ fmtEGP(store.totalDeductions, locale) }}</span>
+          <span class="sum-line-value negative">&minus; {{ fmtCurrency(store.totalDeductions, locale, prefs.currency) }}</span>
         </div>
 
         <div class="sum-line total">
           <span class="sum-line-label">{{ t('calc.netWealth') }}</span>
-          <span class="sum-line-value">{{ fmtEGP(store.netWealth, locale) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(store.netWealth, locale, prefs.currency) }}</span>
         </div>
       </div>
 
@@ -95,15 +97,15 @@ const hasAnyValue = computed(() => {
       <div class="summary-lines nisab-section">
         <div class="sum-line">
           <span class="sum-line-label">{{ t('calc.nisabGold') }}</span>
-          <span class="sum-line-value">{{ fmtEGP(store.nisabGold, locale) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(store.nisabGold, locale, prefs.currency) }}</span>
         </div>
         <div class="sum-line">
           <span class="sum-line-label">{{ t('calc.nisabSilver') }}</span>
-          <span class="sum-line-value">{{ fmtEGP(store.nisabSilver, locale) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(store.nisabSilver, locale, prefs.currency) }}</span>
         </div>
         <div class="sum-line">
           <span class="sum-line-label">{{ t('calc.nisabThreshold') }}</span>
-          <span class="sum-line-value">{{ fmtEGP(store.nisabThreshold, locale) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(store.nisabThreshold, locale, prefs.currency) }}</span>
         </div>
       </div>
 
@@ -123,18 +125,18 @@ const hasAnyValue = computed(() => {
       <!-- Zakat Due result -->
       <div class="zakat-result">
         <div class="zakat-result-label">{{ t('calc.zakatDue') }}</div>
-        <div class="zakat-result-value">{{ fmtEGP(store.zakatDue, locale) }}</div>
+        <div class="zakat-result-value">{{ fmtCurrency(store.zakatDue, locale, prefs.currency) }}</div>
       </div>
 
       <!-- Payment progress from tracker -->
       <div v-if="store.zakatDue > 0" class="calc-payment-progress">
         <div class="sum-line">
           <span class="sum-line-label">{{ t('tracker.paid') }}</span>
-          <span class="sum-line-value positive">{{ fmtEGP(trackerStore.totalPaid, locale) }}</span>
+          <span class="sum-line-value positive">{{ fmtCurrency(trackerStore.totalPaid, locale, prefs.currency) }}</span>
         </div>
         <div class="sum-line">
           <span class="sum-line-label">{{ t('tracker.remaining') }}</span>
-          <span class="sum-line-value">{{ fmtEGP(trackerStore.remaining, locale) }}</span>
+          <span class="sum-line-value">{{ fmtCurrency(trackerStore.remaining, locale, prefs.currency) }}</span>
         </div>
         <div class="progress-wrap">
           <div class="progress-bg">

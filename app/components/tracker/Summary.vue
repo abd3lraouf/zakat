@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { useTrackerStore } from '~~/stores/tracker'
 import { useCalculatorStore } from '~~/stores/calculator'
-import { fmtEGP, fmtPct } from '~/utils/format'
+import { usePreferencesStore } from '~~/stores/preferences'
+import { fmtCurrency, fmtPct } from '~/utils/format'
 
 const tracker = useTrackerStore()
 const calculator = useCalculatorStore()
 const { t, locale } = useI18n()
+const prefs = usePreferencesStore()
 </script>
 
 <template>
@@ -13,14 +15,14 @@ const { t, locale } = useI18n()
     <!-- Zakat Due -->
     <UCard class="sum-card sum-card-gold">
       <div class="sum-label">{{ t('tracker.due') }}</div>
-      <div class="sum-value text-(--color-gold-600)">{{ fmtEGP(calculator.zakatDue, locale) }}</div>
+      <div class="sum-value text-(--color-gold-600)">{{ fmtCurrency(calculator.zakatDue, locale, prefs.currency) }}</div>
       <div class="sum-sub">{{ t('tracker.fromCalc') }}</div>
     </UCard>
 
     <!-- Paid So Far -->
     <UCard class="sum-card sum-card-green">
       <div class="sum-label">{{ t('tracker.paid') }}</div>
-      <div class="sum-value text-(--color-green-600)">{{ fmtEGP(tracker.totalPaid, locale) }}</div>
+      <div class="sum-value text-(--color-green-600)">{{ fmtCurrency(tracker.totalPaid, locale, prefs.currency) }}</div>
       <div class="progress-wrap">
         <div class="progress-bg">
           <div class="progress-fill" :style="{ width: tracker.progress + '%' }" />
@@ -32,7 +34,7 @@ const { t, locale } = useI18n()
     <!-- Remaining -->
     <UCard class="sum-card sum-card-red">
       <div class="sum-label">{{ t('tracker.remaining') }}</div>
-      <div class="sum-value text-(--color-red)">{{ fmtEGP(tracker.remaining, locale) }}</div>
+      <div class="sum-value text-(--color-red)">{{ fmtCurrency(tracker.remaining, locale, prefs.currency) }}</div>
       <div class="sum-sub">{{ t('tracker.balance') }}</div>
     </UCard>
   </div>
@@ -103,6 +105,9 @@ const { t, locale } = useI18n()
   background: var(--color-stone-200);
   border-radius: 4px;
   overflow: hidden;
+}
+.dark .progress-bg {
+  background: var(--color-stone-700);
 }
 .progress-fill {
   height: 100%;
