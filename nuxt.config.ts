@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/google-fonts',
     '@nuxtjs/seo',
+    '@vueuse/motion/nuxt',
   ],
 
   site: {
@@ -31,14 +32,22 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: {},
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/site.webmanifest' },
+      ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#005229' },
-        { property: 'og:image', content: 'https://abd3lraouf.github.io/zakat/og-image.svg' },
+        { name: 'color-scheme', content: 'light dark' },
+        { name: 'theme-color', content: '#1F4837', media: '(prefers-color-scheme: light)' },
+        { name: 'theme-color', content: '#1C1A17', media: '(prefers-color-scheme: dark)' },
+        { property: 'og:image', content: 'https://abd3lraouf.github.io/zakat/og-image.png' },
         { property: 'og:image:width', content: '1200' },
         { property: 'og:image:height', content: '630' },
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:image', content: 'https://abd3lraouf.github.io/zakat/og-image.svg' },
+        { name: 'twitter:image', content: 'https://abd3lraouf.github.io/zakat/og-image.png' },
       ],
     },
   },
