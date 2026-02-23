@@ -6,16 +6,28 @@ import type { SyncStatus } from '~~/shared/types'
 import { DEBOUNCE_SYNC } from '~/utils/constants'
 
 // Module-level refs shared across all consumers
-const syncStatus = ref<SyncStatus>('synced')
+const syncStatus = ref<SyncStatus>('offline')
 const driveFileId = ref<string | null>(null)
 const syncTimer = ref<ReturnType<typeof setTimeout> | null>(null)
 const syncConflict = ref(false)
 const cloudData = ref<any>(null)
+const lastSyncedAt = ref<string | null>(null)
+let watchersInitialized = false
+
+// Restore last synced timestamp from localStorage on load
+try {
+  const rawMeta = localStorage.getItem('zakat_sync_meta')
+  if (rawMeta) {
+    const meta = JSON.parse(rawMeta)
+    if (meta.lastModified) lastSyncedAt.value = meta.lastModified
+  }
+} catch { /* ignore */ }
 
 export function useDriveSync() {
   const auth = useGoogleAuth()
   const config = useAppConfig()
   const { showToast } = useAppToast()
+  const { t } = useI18n()
 
   // ---------------------------------------------------------------------------
   // Export / Import helpers
@@ -136,6 +148,7 @@ export function useDriveSync() {
   // ---------------------------------------------------------------------------
 
   async function checkDriveData(): Promise<void> {
+    syncStatus.value = 'syncing'
     try {
       const fileName = config.driveFileName as string
       const searchRes = await driveRequest<{ files: { id: string; modifiedTime: string }[] }>(
@@ -209,12 +222,12 @@ export function useDriveSync() {
       if (data) {
         applyImportData(data)
         saveSyncMeta()
-        showToast('Cloud data loaded', 'success')
+        showToast(t('sync.cloudLoaded'), 'success')
       }
       syncStatus.value = 'synced'
     } catch {
       syncStatus.value = 'error'
-      showToast('Sync failed', 'error')
+      showToast(t('sync.failed'), 'error')
     }
   }
 
@@ -225,7 +238,7 @@ export function useDriveSync() {
       await uploadToDrive()
       saveSyncMeta()
       syncStatus.value = 'synced'
-      showToast('Local data uploaded', 'success')
+      showToast(t('sync.uploaded'), 'success')
     } catch {
       syncStatus.value = 'error'
     }
@@ -251,17 +264,22 @@ export function useDriveSync() {
   }
 
   function forceSync(): void {
+    if (!auth.accessToken.value) {
+      // No token — trigger sign-in flow (which will sync after auth)
+      auth.signIn()
+      return
+    }
     if (syncTimer.value) clearTimeout(syncTimer.value)
     syncStatus.value = 'syncing'
     uploadToDrive()
       .then(() => {
         saveSyncMeta()
         syncStatus.value = 'synced'
-        showToast('Synced to Drive', 'success')
+        showToast(t('profile.syncSuccess'), 'success')
       })
       .catch(() => {
         syncStatus.value = 'error'
-        showToast('Sync failed', 'error')
+        showToast(t('sync.failed'), 'error')
       })
   }
 
@@ -271,26 +289,40 @@ export function useDriveSync() {
 
   function saveSyncMeta(): void {
     try {
+      const now = new Date().toISOString()
       localStorage.setItem(
         'zakat_sync_meta',
-        JSON.stringify({ lastModified: new Date().toISOString() }),
+        JSON.stringify({ lastModified: now }),
       )
+      lastSyncedAt.value = now
     } catch {
       // ignore storage errors
     }
   }
 
   // ---------------------------------------------------------------------------
-  // Watch stores for changes and auto-schedule sync
+  // Watch for access token and store changes (registered once)
   // ---------------------------------------------------------------------------
 
-  watch(
-    [() => useCalculatorStore().$state, () => useTrackerStore().$state],
-    () => {
-      if (auth.accessToken.value) scheduleSync()
-    },
-    { deep: true },
-  )
+  if (!watchersInitialized) {
+    watchersInitialized = true
+
+    // Trigger Drive data check when user signs in or token is restored
+    watch(() => auth.accessToken.value, async (newToken) => {
+      if (newToken) {
+        await checkDriveData()
+      }
+    }, { immediate: true })
+
+    // Auto-schedule sync on store changes
+    watch(
+      [() => useCalculatorStore().$state, () => useTrackerStore().$state],
+      () => {
+        if (auth.accessToken.value) scheduleSync()
+      },
+      { deep: true },
+    )
+  }
 
   // ---------------------------------------------------------------------------
   // Return public API
@@ -299,6 +331,7 @@ export function useDriveSync() {
   return {
     syncStatus: readonly(syncStatus),
     driveFileId: readonly(driveFileId),
+    lastSyncedAt: readonly(lastSyncedAt),
     syncConflict,
     cloudData,
     forceSync,
