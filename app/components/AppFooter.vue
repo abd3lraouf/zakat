@@ -48,21 +48,18 @@ const socialLinks = [
         <div class="footer-connect-col">
           <h3 class="footer-heading">{{ t('footer.connect') }}</h3>
           <div class="footer-socials">
-            <UButton
+            <a
               v-for="social in socialLinks"
               :key="social.href"
-              :to="social.href"
+              :href="social.href"
               target="_blank"
               rel="noopener noreferrer"
-              variant="ghost"
-              color="neutral"
-              size="xs"
               :aria-label="t(social.labelKey)"
-              class="social-btn"
+              class="social-link"
             >
               <UIcon :name="social.icon" class="size-4" />
               <span class="social-label">{{ t(social.labelKey) }}</span>
-            </UButton>
+            </a>
           </div>
 
           <!-- Theme toggle -->
@@ -76,18 +73,15 @@ const socialLinks = [
       <div class="footer-bottom">
         <div class="footer-bottom-separator" aria-hidden="true" />
         <div class="footer-bottom-row">
-          <UButton
-            to="https://github.com/abd3lraouf/zakat"
+          <a
+            href="https://github.com/abd3lraouf/zakat"
             target="_blank"
             rel="noopener noreferrer"
-            variant="link"
-            color="neutral"
-            size="xs"
             class="source-link"
           >
             <UIcon name="i-lucide-heart" class="size-3" />
             {{ t('footer.openSource') }}
-          </UButton>
+          </a>
           <span class="footer-dot" aria-hidden="true">&middot;</span>
           <span class="footer-made">{{ t('footer.madeFor') }}</span>
         </div>
@@ -164,7 +158,7 @@ const socialLinks = [
 
 .footer-tagline {
   font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.7);
   line-height: var(--leading-normal);
   margin: 10px 0 0;
   max-width: 240px;
@@ -180,7 +174,7 @@ const socialLinks = [
 .footer-heading {
   font-size: var(--text-xs);
   font-weight: var(--weight-semi);
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.65);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
   margin: 0 0 12px;
@@ -212,7 +206,7 @@ const socialLinks = [
   align-items: center;
   gap: 8px;
   font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
   padding: 4px 0;
   transition: color 0.2s, transform 0.15s var(--ease-out);
@@ -240,14 +234,18 @@ const socialLinks = [
   }
 }
 
-.social-btn {
-  color: rgba(255, 255, 255, 0.6) !important;
-  justify-content: flex-start !important;
-  transition: color 0.2s !important;
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  padding: 4px 0;
+  transition: color 0.2s;
 }
 
-.social-btn:hover {
-  color: rgba(255, 255, 255, 0.95) !important;
+.social-link:hover {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .social-label {
@@ -286,18 +284,22 @@ const socialLinks = [
 }
 
 .source-link {
-  color: rgba(255, 255, 255, 0.45) !important;
-  font-size: var(--text-xs) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: var(--text-xs);
   letter-spacing: var(--tracking-wide);
-  text-decoration: none !important;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
 .source-link:hover {
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .footer-dot {
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.4);
   font-size: var(--text-xs);
 }
 

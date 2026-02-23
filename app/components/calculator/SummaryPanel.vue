@@ -164,6 +164,11 @@ const animatedRemaining = useAnimatedNumber(computed(() => trackerStore.remainin
           {{ t('calc.goTracker') }}
         </UButton>
       </div>
+      <!-- Disclaimer -->
+      <div class="calc-disclaimer">
+        <UIcon name="i-lucide-info" class="size-3.5 shrink-0 mt-px" />
+        <p>{{ t('calc.disclaimer') }}</p>
+      </div>
     </template>
   </div>
 </template>
@@ -363,6 +368,21 @@ const animatedRemaining = useAnimatedNumber(computed(() => trackerStore.remainin
 @keyframes shimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(200%); }
+}
+
+/* ── Disclaimer ── */
+.calc-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 24px 20px;
+  padding: 12px;
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  line-height: var(--leading-normal);
 }
 
 @media (max-width: 900px) {

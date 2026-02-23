@@ -121,8 +121,11 @@ function addCustomAsset() {
 
 .section-sub {
   font-size: var(--text-sm);
-  color: var(--color-stone-400);
+  color: var(--color-stone-500);
   letter-spacing: var(--tracking-wide);
+}
+.dark .section-sub {
+  color: var(--color-stone-400);
 }
 
 .calc-layout {

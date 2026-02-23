@@ -24,9 +24,13 @@ const { t } = useI18n()
           github.com/abd3lraouf/zakat
         </a>
       </div>
-      <div class="flex flex-col items-start gap-1 py-3 last:pb-0 text-sm">
+      <div class="flex flex-col items-start gap-1 py-3 text-sm">
         <span class="text-(--color-stone-500) font-medium">{{ t('profile.privacy') }}</span>
         <span class="text-xs text-(--color-stone-400) leading-snug">{{ t('profile.privacyDesc') }}</span>
+      </div>
+      <div class="flex flex-col items-start gap-1 py-3 last:pb-0 text-sm">
+        <span class="text-(--color-stone-500) font-medium">{{ t('profile.disclaimer') }}</span>
+        <span class="text-xs text-(--color-stone-400) leading-snug">{{ t('profile.disclaimerDesc') }}</span>
       </div>
     </div>
   </UCard>
