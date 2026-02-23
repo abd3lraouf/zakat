@@ -61,11 +61,12 @@ const animatedRemaining = useAnimatedNumber(computed(() => tracker.remaining))
 .sum-card {
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .sum-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-gold-lg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(184, 147, 58, 0.1);
 }
 
 /* Left accent stripe */
