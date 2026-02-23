@@ -13,75 +13,64 @@ const labelKey: Record<SyncStatus, string> = {
   error: 'sync.error',
   offline: 'sync.offline',
 }
+
+const colorMap: Record<SyncStatus, string> = {
+  synced: 'success',
+  syncing: 'warning',
+  error: 'error',
+  offline: 'neutral',
+}
 </script>
 
 <template>
-  <div
+  <UBadge
+    :color="(colorMap[status] as any)"
+    variant="subtle"
+    size="sm"
     class="sync-indicator"
-    :class="status"
     aria-live="polite"
   >
-    <div class="sync-dot" />
+    <span class="sync-dot" :class="status" />
     <span class="sync-label">{{ t(labelKey[status]) }}</span>
-  </div>
+  </UBadge>
 </template>
 
 <style scoped>
 .sync-indicator {
-  display: flex;
-  align-items: center;
   gap: 6px;
-  font-size: var(--text-xs);
-  color: rgba(255, 255, 255, 0.75);
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
   cursor: default;
-  transition: all 0.2s;
 }
 
 .sync-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--color-parchment-400);
-  transition: all 0.2s;
   flex-shrink: 0;
+  transition: all 0.2s;
 }
 
-/* Status: synced */
-.sync-indicator.synced .sync-dot {
-  background: #2BA868;
+.sync-dot.synced {
+  background: var(--color-green-500);
 }
 
-/* Status: syncing */
-.sync-indicator.syncing .sync-dot {
-  background: var(--color-gold);
+.sync-dot.syncing {
+  background: var(--color-gold-500);
   animation: pulse 1s infinite;
 }
 
-/* Status: error */
-.sync-indicator.error .sync-dot {
-  background: var(--color-red-soft);
+.sync-dot.error {
+  background: var(--color-red);
 }
 
-/* Status: offline */
-.sync-indicator.offline .sync-dot {
-  background: var(--color-parchment-400);
+.sync-dot.offline {
+  background: var(--color-stone-400);
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(0.8);
-  }
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
 }
 
-/* Hide label text on mobile to save space */
 @media (max-width: 640px) {
   .sync-label {
     display: none;

@@ -24,26 +24,23 @@ onUnmounted(() => {
     <div
       v-if="isOffline"
       class="offline-banner"
-      role="alert"
-      aria-live="assertive"
     >
-      <Icon name="lucide:wifi-off" size="16" aria-hidden="true" />
-      {{ t('sync.offline') }} &mdash; {{ t('offline.saved') }}
+      <UAlert
+        :title="`${t('sync.offline')} — ${t('offline.saved')}`"
+        color="warning"
+        icon="i-lucide-wifi-off"
+        variant="solid"
+      />
     </div>
   </Transition>
 </template>
 
 <style scoped>
 .offline-banner {
-  background: var(--color-warning);
-  color: #fff;
   position: fixed;
   top: var(--spacing-navbar-h);
   inset-inline: 0;
   z-index: 90;
-  padding: 8px 20px;
-  text-align: center;
-  font-size: var(--text-sm);
 }
 
 .banner-enter-active {
