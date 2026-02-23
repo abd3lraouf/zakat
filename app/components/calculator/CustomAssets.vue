@@ -17,67 +17,64 @@ function removeCustom(id: string) {
   store.customAssets = store.customAssets.filter(a => a.id !== id)
 }
 
-function onAmountInput(index: number, event: Event) {
-  const target = event.target as HTMLInputElement
-  const val = target.valueAsNumber
+function onAmountInput(index: number, value: string | number) {
+  const val = Number(value)
   store.customAssets[index].amount = Number.isFinite(val) ? val : 0
 }
 </script>
 
 <template>
-  <div v-if="store.customAssets.length > 0" class="asset-section">
-    <div class="asset-section-title">{{ t('calc.sectionCustom') }}</div>
+  <div v-if="store.customAssets.length > 0" class="mb-5">
+    <div class="section-title">{{ t('calc.sectionCustom') }}</div>
     <div
       v-for="(asset, index) in store.customAssets"
       :key="asset.id"
       class="custom-row"
     >
-      <input
+      <UInput
         v-model="asset.label"
-        type="text"
-        class="custom-label-input"
         :placeholder="t('calc.customLabel')"
       />
-      <input
+      <UInput
         type="number"
-        :value="asset.amount || undefined"
-        min="0"
+        :model-value="asset.amount || undefined"
+        :min="0"
         step="0.01"
         placeholder="0"
-        class="custom-amount-input"
-        @input="onAmountInput(index, $event)"
+        class="font-mono max-w-[120px] max-sm:max-w-full"
+        @update:model-value="onAmountInput(index, $event)"
       />
-      <span class="input-unit">EGP</span>
-      <span class="input-value">{{ fmtEGP(asset.amount, locale) }}</span>
-      <button class="btn-del-row" @click="removeCustom(asset.id)">
-        <Icon name="lucide:trash-2" size="16" />
-      </button>
+      <span class="text-xs text-(--color-stone-400) whitespace-nowrap tracking-widest uppercase">EGP</span>
+      <span class="text-sm font-semibold text-(--color-green-600) whitespace-nowrap min-w-[100px] text-end font-mono">{{ fmtEGP(asset.amount, locale) }}</span>
+      <UButton
+        variant="ghost"
+        color="error"
+        icon="i-lucide-trash-2"
+        size="sm"
+        @click="removeCustom(asset.id)"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
-.asset-section {
-  margin-bottom: 20px;
-}
-
-.asset-section-title {
+.section-title {
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-widest);
-  color: var(--color-parchment-400);
+  color: var(--color-stone-400);
   padding: 12px 0 8px;
-  border-bottom: 1px solid var(--color-parchment-100);
+  border-bottom: 1px solid var(--color-stone-200);
   margin-bottom: 4px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
-.asset-section-title::after {
+.section-title::after {
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--color-parchment-100);
+  background: var(--color-stone-200);
 }
 
 .custom-row {
@@ -86,95 +83,19 @@ function onAmountInput(index: number, event: Event) {
   align-items: center;
   gap: 10px;
   padding: 10px 0;
-  border-bottom: 1px solid var(--color-parchment-100);
+  border-bottom: 1px solid var(--color-stone-200);
   animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.custom-label-input,
-.custom-amount-input {
-  font-size: var(--text-base);
-  padding: 11px 14px;
-  min-height: 44px;
-  border: 1.5px solid var(--color-parchment-200);
-  border-radius: var(--radius-sm);
-  background: white;
-  color: var(--color-parchment-800);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  width: 100%;
-}
-.custom-label-input:focus,
-.custom-amount-input:focus {
-  border-color: var(--color-g-500);
-  box-shadow: var(--shadow-ring);
-}
-.custom-label-input::placeholder,
-.custom-amount-input::placeholder {
-  color: var(--color-parchment-400);
-}
-
-.custom-amount-input {
-  font-family: var(--font-mono);
-  max-width: 120px;
-}
-
-.input-unit {
-  font-size: var(--text-xs);
-  color: var(--color-parchment-400);
-  white-space: nowrap;
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-}
-
-.input-value {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semi);
-  color: var(--color-g-600);
-  white-space: nowrap;
-  min-width: 100px;
-  text-align: end;
-  font-family: var(--font-mono);
-}
-
-.btn-del-row {
-  width: 44px;
-  height: 44px;
-  border-radius: 6px;
-  border: none;
-  background: transparent;
-  color: var(--color-parchment-400);
-  cursor: pointer;
-  font-size: var(--text-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.btn-del-row:hover {
-  background: var(--color-red-light);
-  color: var(--color-red);
-}
-
 @keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-    max-height: 0;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    max-height: 80px;
-  }
+  from { opacity: 0; transform: translateY(-10px); max-height: 0; }
+  to { opacity: 1; transform: translateY(0); max-height: 80px; }
 }
 
 @media (max-width: 640px) {
   .custom-row {
     grid-template-columns: 1fr;
     gap: 8px;
-  }
-  .custom-amount-input {
-    max-width: 100%;
   }
 }
 </style>
