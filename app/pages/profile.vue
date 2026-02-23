@@ -28,19 +28,39 @@ useSeoMeta({
     <div class="ornament-divider" aria-hidden="true">&#9830;</div>
 
     <div class="profile-cards">
-      <div class="card-animate" style="--i: 0">
+      <div
+        v-motion
+        :initial="{ opacity: 0, y: 20 }"
+        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut' } }"
+      >
         <ProfileAppSettings />
       </div>
-      <div class="card-animate" style="--i: 1">
+      <div
+        v-motion
+        :initial="{ opacity: 0, y: 20 }"
+        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 80 } }"
+      >
         <ProfileAccountCard />
       </div>
-      <div class="card-animate" style="--i: 2">
+      <div
+        v-motion
+        :initial="{ opacity: 0, y: 20 }"
+        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 160 } }"
+      >
         <ProfileSyncCard />
       </div>
-      <div class="card-animate" style="--i: 3">
+      <div
+        v-motion
+        :initial="{ opacity: 0, y: 20 }"
+        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 240 } }"
+      >
         <ProfileDataManagement />
       </div>
-      <div class="card-animate" style="--i: 4">
+      <div
+        v-motion
+        :initial="{ opacity: 0, y: 20 }"
+        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 320 } }"
+      >
         <ProfileAboutCard />
       </div>
     </div>
@@ -117,14 +137,5 @@ useSeoMeta({
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.card-animate {
-  animation: cardSlideUp 0.4s calc(var(--i) * 0.08s) var(--ease-out) both;
-}
-
-@keyframes cardSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 </style>

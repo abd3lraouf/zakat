@@ -25,9 +25,21 @@ useSeoMeta({
       <p class="section-sub">{{ t('tracker.subtitle') }}</p>
     </div>
 
-    <TrackerPaidBanner />
-    <TrackerSummary />
-    <TrackerPaymentTable />
+    <TrackerPaidBanner
+      v-motion
+      :initial="{ opacity: 0, y: 24 }"
+      :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut' } }"
+    />
+    <TrackerSummary
+      v-motion
+      :initial="{ opacity: 0, y: 24 }"
+      :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 80 } }"
+    />
+    <TrackerPaymentTable
+      v-motion
+      :initial="{ opacity: 0, y: 24 }"
+      :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 160 } }"
+    />
   </div>
 </template>
 

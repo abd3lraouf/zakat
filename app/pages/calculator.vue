@@ -39,7 +39,12 @@ function addCustomAsset() {
 
     <div class="calc-layout">
       <!-- Left column: inputs -->
-      <div class="calc-inputs">
+      <div
+        class="calc-inputs"
+        v-motion
+        :initial="{ opacity: 0, y: 24 }"
+        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut' } }"
+      >
         <CalculatorPriceInputs />
 
         <UCard class="mb-6">
@@ -69,7 +74,11 @@ function addCustomAsset() {
       </div>
 
       <!-- Right column: summary -->
-      <CalculatorSummaryPanel />
+      <CalculatorSummaryPanel
+        v-motion
+        :initial="{ opacity: 0, y: 24 }"
+        :visible-once="{ opacity: 1, y: 0, transition: { duration: 400, ease: 'easeOut', delay: 100 } }"
+      />
     </div>
   </div>
 </template>
