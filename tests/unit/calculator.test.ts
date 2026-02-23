@@ -83,10 +83,10 @@ describe('calculator store', () => {
 
   it('nisab uses minimum of gold and silver nisab', () => {
     const store = useCalculatorStore()
-    // Gold nisab: 87.48 * 4625 = 404,595
-    // Silver nisab: 612.36 * 48.50 = 29,699.46
+    // Gold nisab: 85 * 4625 = 393,125
+    // Silver nisab: 595 * 48.50 = 28,857.50
     // Min = silver nisab
-    expect(store.nisabThreshold).toBeCloseTo(29699.46)
+    expect(store.nisabThreshold).toBeCloseTo(28857.50)
   })
 
   it('nisabMet is true when netWealth >= nisab', () => {

@@ -1,7 +1,7 @@
 import type { AssetDef, Prices } from '~~/shared/types'
 
-export const NISAB_GOLD_GRAMS = 87.48
-export const NISAB_SILVER_GRAMS = 612.36
+export const NISAB_GOLD_GRAMS = 85
+export const NISAB_SILVER_GRAMS = 595
 export const ZAKAT_RATE = 0.025
 export const DEBOUNCE_SAVE = 500
 export const DEBOUNCE_SYNC = 3000
