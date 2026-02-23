@@ -35,6 +35,11 @@ const navItems = [
   position: fixed;
   bottom: 0;
   inset-inline: 0;
+  z-index: 90;
+  padding: 8px 20px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  gap: 4px;
+  justify-content: space-around;
   background: rgba(31, 72, 55, 0.92);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -43,11 +48,6 @@ const navItems = [
 .dark .bottom-nav {
   background: rgba(20, 20, 18, 0.92);
   border-top-color: rgba(184, 147, 58, 0.1);
-  padding: 8px 20px;
-  padding-bottom: max(8px, env(safe-area-inset-bottom));
-  z-index: 90;
-  gap: 4px;
-  justify-content: space-around;
 }
 
 @media (max-width: 640px) {
