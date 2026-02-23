@@ -18,14 +18,14 @@ const animatedRemaining = useAnimatedNumber(computed(() => tracker.remaining))
   <div class="summary-cards">
     <!-- Zakat Due -->
     <UCard class="sum-card sum-card-gold">
-      <div class="sum-label">{{ t('tracker.due') }}</div>
+      <div class="sum-label"><span class="sum-dot sum-dot-gold" /> {{ t('tracker.due') }}</div>
       <div class="sum-value text-(--color-gold-600)">{{ fmtCurrency(animatedDue.value, locale, prefs.currency) }}</div>
       <div class="sum-sub">{{ t('tracker.fromCalc') }}</div>
     </UCard>
 
     <!-- Paid So Far -->
     <UCard class="sum-card sum-card-green">
-      <div class="sum-label">{{ t('tracker.paid') }}</div>
+      <div class="sum-label"><span class="sum-dot sum-dot-green" /> {{ t('tracker.paid') }}</div>
       <div class="sum-value text-(--color-green-600)">{{ fmtCurrency(animatedPaid.value, locale, prefs.currency) }}</div>
       <div class="progress-wrap">
         <div class="progress-bg">
@@ -37,7 +37,7 @@ const animatedRemaining = useAnimatedNumber(computed(() => tracker.remaining))
 
     <!-- Remaining -->
     <UCard class="sum-card sum-card-red">
-      <div class="sum-label">{{ t('tracker.remaining') }}</div>
+      <div class="sum-label"><span class="sum-dot sum-dot-red" /> {{ t('tracker.remaining') }}</div>
       <div class="sum-value text-(--color-red)">{{ fmtCurrency(animatedRemaining.value, locale, prefs.currency) }}</div>
       <div class="sum-sub">{{ t('tracker.balance') }}</div>
     </UCard>
@@ -69,26 +69,46 @@ const animatedRemaining = useAnimatedNumber(computed(() => tracker.remaining))
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(184, 147, 58, 0.1);
 }
 
-/* Left accent stripe */
-.sum-card::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
+/* Subtle tinted backgrounds */
+.sum-card-gold {
+  background: color-mix(in srgb, var(--color-gold-100) 40%, transparent) !important;
 }
-.sum-card-gold::before { background: var(--color-gold-500); }
-.sum-card-green::before { background: var(--color-green-500); }
-.sum-card-red::before { background: var(--color-red); }
+.dark .sum-card-gold {
+  background: color-mix(in srgb, var(--color-gold-950) 30%, transparent) !important;
+}
+.sum-card-green {
+  background: color-mix(in srgb, var(--color-green-100) 40%, transparent) !important;
+}
+.dark .sum-card-green {
+  background: color-mix(in srgb, var(--color-green-950) 30%, transparent) !important;
+}
+.sum-card-red {
+  background: color-mix(in srgb, var(--color-red-100) 40%, transparent) !important;
+}
+.dark .sum-card-red {
+  background: color-mix(in srgb, var(--color-red-950) 30%, transparent) !important;
+}
 
 .sum-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: var(--tracking-widest);
   color: var(--color-stone-400);
   margin-bottom: 8px;
 }
+
+.sum-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sum-dot-gold { background: var(--color-gold-500); }
+.sum-dot-green { background: var(--color-green-500); }
+.sum-dot-red { background: var(--color-red); }
 
 .sum-value {
   font-family: var(--font-en-serif);
