@@ -4,6 +4,7 @@ import { useGoogleAuth } from '~/composables/useGoogleAuth'
 import { useAppToast } from '~/composables/useToast'
 import type { SyncStatus } from '~~/shared/types'
 import { DEBOUNCE_SYNC } from '~/utils/constants'
+import { usePreferencesStore } from '~~/stores/preferences'
 
 // Module-level refs shared across all consumers
 const syncStatus = ref<SyncStatus>('offline')
@@ -48,6 +49,9 @@ export function useDriveSync() {
       tracker: {
         payments: tracker.payments.map(p => ({ ...p })),
       },
+      preferences: {
+        currency: usePreferencesStore().currency,
+      },
     }
   }
 
@@ -68,6 +72,12 @@ export function useDriveSync() {
     if (data.tracker && typeof data.tracker === 'object') {
       if (Array.isArray(data.tracker.payments))
         tracker.payments = data.tracker.payments
+    }
+    if (data.preferences && typeof data.preferences === 'object') {
+      const prefs = usePreferencesStore()
+      if (data.preferences.currency && typeof data.preferences.currency === 'string') {
+        prefs.currency = data.preferences.currency
+      }
     }
   }
 

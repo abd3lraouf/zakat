@@ -2,11 +2,13 @@
 import { useCalculatorStore } from '~~/stores/calculator'
 import { useTrackerStore } from '~~/stores/tracker'
 import { useAuthStore } from '~~/stores/auth'
+import { usePreferencesStore } from '~~/stores/preferences'
 
 const { t } = useI18n()
 const calcStore = useCalculatorStore()
 const trackerStore = useTrackerStore()
 const authStore = useAuthStore()
+const prefsStore = usePreferencesStore()
 const { showToast } = useAppToast()
 
 const showClearModal = ref(false)
@@ -23,6 +25,9 @@ function doExport() {
     },
     tracker: {
       payments: trackerStore.payments,
+    },
+    preferences: {
+      currency: prefsStore.currency,
     },
   }
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
@@ -63,6 +68,10 @@ function doImport() {
         trackerStore.payments = data.tracker.payments
       }
 
+      if (data.preferences?.currency) {
+        prefsStore.currency = data.preferences.currency
+      }
+
       showToast(t('import.success'), 'success')
     } catch {
       showToast(t('import.error'), 'error')
@@ -74,6 +83,7 @@ function doImport() {
 function confirmClear() {
   calcStore.reset()
   trackerStore.clearAll()
+  prefsStore.$reset()
   authStore.clearUser()
   localStorage.clear()
   showClearModal.value = false
@@ -87,10 +97,10 @@ function confirmClear() {
       <span class="text-xs font-semibold text-(--color-stone-500) uppercase tracking-widest">{{ t('profile.data') }}</span>
     </template>
 
-    <div class="flex flex-col divide-y divide-(--color-stone-200)">
+    <div class="flex flex-col divide-y divide-(--color-stone-200) dark:divide-(--color-stone-800)">
       <div class="flex items-center justify-between gap-4 py-4 first:pt-0">
         <div class="min-w-0">
-          <div class="text-base font-semibold text-(--color-stone-800)">{{ t('export.button') }}</div>
+          <div class="text-base font-semibold text-(--color-stone-800) dark:text-(--color-stone-200)">{{ t('export.button') }}</div>
           <div class="text-xs text-(--color-stone-400)">{{ t('profile.exportDesc') }}</div>
         </div>
         <UButton variant="outline" color="neutral" @click="doExport">
@@ -100,7 +110,7 @@ function confirmClear() {
 
       <div class="flex items-center justify-between gap-4 py-4">
         <div class="min-w-0">
-          <div class="text-base font-semibold text-(--color-stone-800)">{{ t('import.button') }}</div>
+          <div class="text-base font-semibold text-(--color-stone-800) dark:text-(--color-stone-200)">{{ t('import.button') }}</div>
           <div class="text-xs text-(--color-stone-400)">{{ t('profile.importDesc') }}</div>
         </div>
         <UButton variant="outline" color="neutral" @click="doImport">
@@ -110,7 +120,7 @@ function confirmClear() {
 
       <div class="flex items-center justify-between gap-4 py-4 last:pb-0">
         <div class="min-w-0">
-          <div class="text-base font-semibold text-(--color-stone-800)">{{ t('profile.clearAll') }}</div>
+          <div class="text-base font-semibold text-(--color-stone-800) dark:text-(--color-stone-200)">{{ t('profile.clearAll') }}</div>
           <div class="text-xs text-(--color-stone-400)">{{ t('profile.clearAllDesc') }}</div>
         </div>
         <UButton variant="outline" color="error" @click="showClearModal = true">
@@ -123,8 +133,8 @@ function confirmClear() {
     <UModal v-model:open="showClearModal">
       <template #content>
         <div class="p-6 text-center">
-          <h3 class="text-lg font-bold text-(--color-stone-800) mb-3">{{ t('profile.clearAll') }}</h3>
-          <p class="text-base text-(--color-stone-500) leading-normal mb-6">{{ t('profile.clearAllConfirm') }}</p>
+          <h3 class="text-lg font-bold text-(--color-stone-800) dark:text-(--color-stone-100) mb-3">{{ t('profile.clearAll') }}</h3>
+          <p class="text-base text-(--color-stone-500) dark:text-(--color-stone-400) leading-normal mb-6">{{ t('profile.clearAllConfirm') }}</p>
           <div class="flex gap-3 justify-center">
             <UButton variant="outline" color="neutral" @click="showClearModal = false">
               {{ t('common.cancel') }}
