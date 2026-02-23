@@ -17,14 +17,11 @@ const currencyOptions = computed(() => {
   }
 
   return [
-    {
-      label: t('profile.currencyMiddleEast'),
-      items: MIDDLE_EAST_CODES.map(toOption),
-    },
-    {
-      label: t('profile.currencyInternational'),
-      items: INTERNATIONAL_CODES.map(toOption),
-    },
+    { type: 'label' as const, label: t('profile.currencyMiddleEast') },
+    ...MIDDLE_EAST_CODES.map(toOption),
+    { type: 'separator' as const },
+    { type: 'label' as const, label: t('profile.currencyInternational') },
+    ...INTERNATIONAL_CODES.map(toOption),
   ]
 })
 </script>
