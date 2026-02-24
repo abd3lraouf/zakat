@@ -1,5 +1,7 @@
 # Zakat App
 
+![Zakat App Cover](art/cover.jpeg)
+
 A bilingual (Arabic/English) web app to calculate Zakat and track payments — with optional Google Drive sync.
 
 **[Live App](https://abd3lraouf.github.io/zakat/)** | **[Setup Guide](docs/SETUP.md)**
